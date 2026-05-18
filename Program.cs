@@ -1,12 +1,12 @@
-﻿
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AgriTraceAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---------------- RAILWAY PORT FIX ----------------
+// ---------------- PORT RAILWAY ----------------
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
 builder.WebHost.ConfigureKestrel(options =>
@@ -14,16 +14,16 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ListenAnyIP(int.Parse(port));
 });
 
-// ---------------- SERVICES ----------------
+// ---------------- DB ----------------
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
-// Controllers
+// ---------------- CONTROLLERS ----------------
 builder.Services.AddControllers();
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// CORS
+// ---------------- CORS ----------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-// Auth (désactivé pour test simple)
+// ---------------- AUTH (toujours simple pour l’instant) ----------------
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -47,13 +47,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+// ---------------- SWAGGER ----------------
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // ---------------- PIPELINE ----------------
-
 app.UseCors("AllowAll");
 
-// Swagger ACTIVÉ
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -62,8 +64,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// TEST ENDPOINT (IMPORTANT)
-app.MapGet("/", () => Results.Ok("API OK + Controllers + Swagger 🚀"));
+app.MapGet("/", () => "API OK + DB READY 🚀");
 
 app.Run();
 
