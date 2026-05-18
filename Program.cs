@@ -18,6 +18,8 @@ builder.WebHost.ConfigureKestrel(options =>
 
 // ---------------- SERVICES ----------------
 
+
+
 // DB PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -60,6 +62,18 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("DB Migration error: " + ex.Message);
+    }
+}
 // ---------------- PIPELINE ----------------
 
 app.UseCors("AllowAll");

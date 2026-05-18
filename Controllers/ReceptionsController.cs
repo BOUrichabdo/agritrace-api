@@ -14,6 +14,8 @@ namespace TracAgriApi.Controllers
         {
             _service = service;
         }
+
+
         // creation d'une reception a partir d'un DTO de creation
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateReceptionDto dto)

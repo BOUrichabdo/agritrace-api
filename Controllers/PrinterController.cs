@@ -62,7 +62,6 @@ namespace TracAgriApi.Controllers
         }
 
 
-
         [HttpGet("palette/{id}")]
         public async Task<IActionResult> PrintPalette(int id)
         {

@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace TracAgriApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +16,12 @@ namespace TracAgriApi.Migrations
                 name: "Agriculteurs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adresse = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nom = table.Column<string>(type: "text", nullable: false),
+                    Adresse = table.Column<string>(type: "text", nullable: false),
+                    Telephone = table.Column<string>(type: "text", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,10 +32,10 @@ namespace TracAgriApi.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Intitule = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Intitule = table.Column<string>(type: "text", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,21 +46,21 @@ namespace TracAgriApi.Migrations
                 name: "Societes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NomCommercial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MatriculeFiscal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ICE = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adresse = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ville = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Plan = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Devise = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nom = table.Column<string>(type: "text", nullable: false),
+                    NomCommercial = table.Column<string>(type: "text", nullable: false),
+                    MatriculeFiscal = table.Column<string>(type: "text", nullable: false),
+                    ICE = table.Column<string>(type: "text", nullable: false),
+                    Adresse = table.Column<string>(type: "text", nullable: false),
+                    Ville = table.Column<string>(type: "text", nullable: false),
+                    Telephone = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Plan = table.Column<string>(type: "text", nullable: false),
+                    Devise = table.Column<string>(type: "text", nullable: false),
+                    DateCreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,11 +71,11 @@ namespace TracAgriApi.Migrations
                 name: "Fermes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomFerme = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AgriculteurId = table.Column<int>(type: "int", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NomFerme = table.Column<string>(type: "text", nullable: false),
+                    AgriculteurId = table.Column<int>(type: "integer", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,11 +92,11 @@ namespace TracAgriApi.Migrations
                 name: "Varietes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Intitule = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategorieId = table.Column<int>(type: "int", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Intitule = table.Column<string>(type: "text", nullable: false),
+                    CategorieId = table.Column<int>(type: "integer", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,13 +113,13 @@ namespace TracAgriApi.Migrations
                 name: "Utilisateurs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MotDePasse = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nom = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    MotDePasse = table.Column<string>(type: "text", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,11 +136,11 @@ namespace TracAgriApi.Migrations
                 name: "Parcelles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomParcelle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FermeId = table.Column<int>(type: "int", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NomParcelle = table.Column<string>(type: "text", nullable: false),
+                    FermeId = table.Column<int>(type: "integer", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,12 +157,12 @@ namespace TracAgriApi.Migrations
                 name: "Produites",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParcelleId = table.Column<int>(type: "int", nullable: false),
-                    VarieteId = table.Column<int>(type: "int", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nom = table.Column<string>(type: "text", nullable: false),
+                    ParcelleId = table.Column<int>(type: "integer", nullable: false),
+                    VarieteId = table.Column<int>(type: "integer", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -184,18 +185,18 @@ namespace TracAgriApi.Migrations
                 name: "EtiquetteFermes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CodeEtiquette = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AgriculteurId = table.Column<int>(type: "int", nullable: false),
-                    FermeId = table.Column<int>(type: "int", nullable: false),
-                    ParcelleId = table.Column<int>(type: "int", nullable: false),
-                    ProduitId = table.Column<int>(type: "int", nullable: false),
-                    VarieteId = table.Column<int>(type: "int", nullable: false),
-                    DateGeneration = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Receptionne = table.Column<bool>(type: "bit", nullable: false),
-                    DateReception = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CodeEtiquette = table.Column<string>(type: "text", nullable: false),
+                    AgriculteurId = table.Column<int>(type: "integer", nullable: false),
+                    FermeId = table.Column<int>(type: "integer", nullable: false),
+                    ParcelleId = table.Column<int>(type: "integer", nullable: false),
+                    ProduitId = table.Column<int>(type: "integer", nullable: false),
+                    VarieteId = table.Column<int>(type: "integer", nullable: false),
+                    DateGeneration = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Receptionne = table.Column<bool>(type: "boolean", nullable: false),
+                    DateReception = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,18 +232,18 @@ namespace TracAgriApi.Migrations
                 name: "Receptions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EtiquetteFermeId = table.Column<int>(type: "int", nullable: false),
-                    PoidsBrut = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Temperature = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
-                    EtatProduit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TypeProduit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Observation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PaletteId = table.Column<int>(type: "int", nullable: true),
-                    DateReception = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false),
-                    Utilisateur = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    EtiquetteFermeId = table.Column<int>(type: "integer", nullable: false),
+                    PoidsBrut = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    Temperature = table.Column<decimal>(type: "numeric(5,2)", precision: 5, scale: 2, nullable: false),
+                    EtatProduit = table.Column<string>(type: "text", nullable: false),
+                    TypeProduit = table.Column<string>(type: "text", nullable: false),
+                    Observation = table.Column<string>(type: "text", nullable: false),
+                    PaletteId = table.Column<int>(type: "integer", nullable: true),
+                    DateReception = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false),
+                    Utilisateur = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,18 +259,18 @@ namespace TracAgriApi.Migrations
                 name: "Palettes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CodePalette = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProduitId = table.Column<int>(type: "int", nullable: false),
-                    PoidsBrut = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    QuantiteDisponible = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    EtatPalette = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StatutStock = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Emplacement = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceptionId = table.Column<int>(type: "int", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CodePalette = table.Column<string>(type: "text", nullable: false),
+                    ProduitId = table.Column<int>(type: "integer", nullable: false),
+                    PoidsBrut = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    QuantiteDisponible = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    EtatPalette = table.Column<string>(type: "text", nullable: false),
+                    StatutStock = table.Column<string>(type: "text", nullable: true),
+                    DateCreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Emplacement = table.Column<string>(type: "text", nullable: false),
+                    ReceptionId = table.Column<int>(type: "integer", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -290,14 +291,14 @@ namespace TracAgriApi.Migrations
                 name: "SortieStocks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReceptionId = table.Column<int>(type: "int", nullable: false),
-                    QuantiteSortie = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    DateSortie = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Utilisateur = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SocieteId = table.Column<int>(type: "int", nullable: false),
-                    Observation = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ReceptionId = table.Column<int>(type: "integer", nullable: false),
+                    QuantiteSortie = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    DateSortie = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Utilisateur = table.Column<string>(type: "text", nullable: false),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false),
+                    Observation = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -314,16 +315,16 @@ namespace TracAgriApi.Migrations
                 name: "Stocks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReceptionId = table.Column<int>(type: "int", nullable: false),
-                    ProduitId = table.Column<int>(type: "int", nullable: false),
-                    VarieteId = table.Column<int>(type: "int", nullable: false),
-                    QuantiteDisponible = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    DateEntree = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Emplacement = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SocieteId = table.Column<int>(type: "int", nullable: false),
-                    EtatStock = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ReceptionId = table.Column<int>(type: "integer", nullable: false),
+                    ProduitId = table.Column<int>(type: "integer", nullable: false),
+                    VarieteId = table.Column<int>(type: "integer", nullable: false),
+                    QuantiteDisponible = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    DateEntree = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Emplacement = table.Column<string>(type: "text", nullable: true),
+                    SocieteId = table.Column<int>(type: "integer", nullable: false),
+                    EtatStock = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

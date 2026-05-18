@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TracAgriApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e86f0751858e527036d9c66d7a801f027279d5b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b8708bc43d0e202f75a370c2672dae96a2d94f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("TracAgriApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TracAgriApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
