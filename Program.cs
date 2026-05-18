@@ -74,22 +74,21 @@ QuestPDF.Settings.License = LicenseType.Community;
 // ---------------- APP ----------------
 var app = builder.Build();
 
-app.UseCors("AllowAll");
+// ---------------- PIPELINE ----------------
 
-// Swagger always ON (important Railway)
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Swagger (OK en prod Railway)
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.MapControllers();
 
-// test endpoint (IMPORTANT DEBUG)
-//app.MapGet("/", () => "AgriTrace API is running 🚀");
-
-// 👇 AJOUTE ICI
-app.MapGet("/", () => Results.Ok("API AgriTrace is running"));
+// 🔥 HEALTH CHECK IMPORTANT (Railway)
+app.MapGet("/", () => Results.Ok("API AgriTrace is running 🚀"));
 
 app.Run();
 
