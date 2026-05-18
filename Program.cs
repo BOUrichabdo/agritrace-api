@@ -9,6 +9,14 @@ using TracAgriApi.Servises;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ---------------- PORT RAILWAY FIX ----------------
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(int.Parse(port));
+});
+
 // ---------------- SERVICES ----------------
 
 builder.Services.AddControllers()
@@ -55,7 +63,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Services métiers
+// Services métier
 builder.Services.AddScoped<IReceptionService, ReceptionService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<QrService>();
@@ -63,14 +71,12 @@ builder.Services.AddScoped<PdfService>();
 
 QuestPDF.Settings.License = LicenseType.Community;
 
-// ---------------- BUILD ----------------
+// ---------------- APP ----------------
 var app = builder.Build();
-
-// ---------------- PIPELINE ----------------
 
 app.UseCors("AllowAll");
 
-// ⚠️ Swagger TOUJOURS actif (important pour test Railway)
+// Swagger always ON (important Railway)
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -78,6 +84,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// test endpoint (IMPORTANT DEBUG)
+app.MapGet("/", () => "AgriTrace API is running 🚀");
 
 app.Run();
 
