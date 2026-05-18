@@ -10,12 +10,10 @@ using TracAgriApi.Servises;
 var builder = WebApplication.CreateBuilder(args);
 
 // ---------------- PORT RAILWAY FIX ----------------
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(int.Parse(port));
-});
+// 🔥 FIX RAILWAY SIMPLE & STABLE
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // ---------------- SERVICES ----------------
 
