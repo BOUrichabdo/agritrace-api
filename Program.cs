@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔥 RAILWAY PORT FIX
+// ---------------- RAILWAY PORT FIX ----------------
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
 builder.WebHost.ConfigureKestrel(options =>
@@ -12,8 +14,16 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ListenAnyIP(int.Parse(port));
 });
 
+// ---------------- SERVICES ----------------
+
+// Controllers
 builder.Services.AddControllers();
 
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -22,6 +32,7 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
+// Auth (désactivé pour test simple)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -38,17 +49,88 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// ---------------- PIPELINE ----------------
+
 app.UseCors("AllowAll");
+
+// Swagger ACTIVÉ
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-// 🔥 HEALTH CHECK
-app.MapGet("/", () => "API OK");
+// TEST ENDPOINT (IMPORTANT)
+app.MapGet("/", () => Results.Ok("API OK + Controllers + Swagger 🚀"));
 
 app.Run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.IdentityModel.Tokens;
+//using System.Text;
+
+//var builder = WebApplication.CreateBuilder(args);
+
+//// 🔥 RAILWAY PORT FIX
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ListenAnyIP(int.Parse(port));
+//});
+
+//builder.Services.AddControllers();
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//        p => p.AllowAnyOrigin()
+//              .AllowAnyHeader()
+//              .AllowAnyMethod());
+//});
+
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//.AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = false,
+//        ValidateAudience = false,
+//        ValidateLifetime = false,
+//        ValidateIssuerSigningKey = false
+//    };
+//});
+
+//builder.Services.AddAuthorization();
+
+//var app = builder.Build();
+
+//app.UseCors("AllowAll");
+
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+//// 🔥 HEALTH CHECK
+//app.MapGet("/", () => "API OK");
+
+//app.Run();
 
 
 
