@@ -1,5 +1,4 @@
-﻿
-using AgriTraceAPI.Data;
+﻿using AgriTraceAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,11 +9,6 @@ using TracAgriApi.Servises;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region 🚀 RAILWAY PORT FIX
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-#endregion
-
 // ---------------- SERVICES ----------------
 
 builder.Services.AddControllers()
@@ -23,11 +17,12 @@ builder.Services.AddControllers()
             System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
     );
 
+// DB
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// ---------------- JWT AUTH ----------------
+// JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -47,22 +42,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// ---------------- CORS ----------------
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
-        policy =>
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-    );
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
 });
 
-// ---------------- SWAGGER ----------------
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ---------------- CUSTOM SERVICES ----------------
+// Services métiers
 builder.Services.AddScoped<IReceptionService, ReceptionService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<QrService>();
@@ -70,26 +63,23 @@ builder.Services.AddScoped<PdfService>();
 
 QuestPDF.Settings.License = LicenseType.Community;
 
-// ---------------- BUILD APP ----------------
+// ---------------- BUILD ----------------
 var app = builder.Build();
 
 // ---------------- PIPELINE ----------------
+
 app.UseCors("AllowAll");
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// ⚠️ Swagger TOUJOURS actif (important pour test Railway)
+app.UseSwagger();
+app.UseSwaggerUI();
 
-// ⚠️ IMPORTANT ORDER
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
 
 
 
