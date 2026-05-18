@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TracAgriApi.DTOs;
 using TracAgriApi.Servises;
 
@@ -9,11 +8,13 @@ namespace TracAgriApi.Controllers
     [ApiController]
     public class ReceptionsController : ControllerBase
     {
+        // contrat interface Reception service pour deleguer la logique metier a une classe de service
         private readonly IReceptionService _service;
         public ReceptionsController(IReceptionService service)
         {
             _service = service;
         }
+        // creation d'une reception a partir d'un DTO de creation
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateReceptionDto dto)
         {

@@ -207,3 +207,4 @@ D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.deps.json
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.runtimeconfig.json
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.genruntimeconfig.cache
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\ref\TracAgriApi.dll
+D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.sourcelink.json
