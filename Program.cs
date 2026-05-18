@@ -86,7 +86,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 // test endpoint (IMPORTANT DEBUG)
-app.MapGet("/", () => "AgriTrace API is running 🚀");
+//app.MapGet("/", () => "AgriTrace API is running 🚀");
+
+// 👇 AJOUTE ICI
+app.MapGet("/", () => Results.Ok("API AgriTrace is running"));
 
 app.Run();
 
