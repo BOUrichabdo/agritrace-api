@@ -111,11 +111,20 @@ using (var scope = app.Services.CreateScope())
 app.UseCors("AllowAll");
 
 app.UseSwagger();
+
+
+// FORCER HTTPS DANS SWAGGER UI
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "AgriTrace API V1");
     c.RoutePrefix = "swagger";
+
+    // 🔥 AJOUTER CETTE LIGNE
+    c.ConfigObject.AdditionalItems.Add("requestInterceptor", "(req) => { req.url = req.url.replace('http://', 'https://'); return req; }");
 });
+
+
+
 
 app.UseHttpsRedirection();
 
