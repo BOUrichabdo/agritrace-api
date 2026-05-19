@@ -28,9 +28,9 @@ namespace TracAgriApi.Controllers
         public async Task<ActionResult<EtiquetteFermeDto>> Generer(
             CreateEtiquetteFermeDto dto)
         {
-            // 🔢 code unique par code produit
-            //string code =
-            //    $"ETQ-{dto.ProduitId}";
+             //🔢 code unique par code produit
+            string code =
+                $"ETQ-{dto.ProduitId}";
 
             var etiquette = new EtiquetteFerme
             {
@@ -91,8 +91,9 @@ namespace TracAgriApi.Controllers
                 })
 
                 .FirstAsync();
-                        
+
             return Ok(result);
+
         }
 
 
