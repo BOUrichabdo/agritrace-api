@@ -57,6 +57,8 @@ D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Microsoft.OpenApi.dll
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Mono.TextTemplating.dll
+D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Npgsql.dll
+D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\QuestPDF.dll
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\SkiaSharp.dll
 D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
@@ -201,12 +203,10 @@ D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.build.json
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.development.json
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgri.10735082.Up2Date
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.dll
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\refint\TracAgriApi.dll
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.pdb
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.genruntimeconfig.cache
 D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\ref\TracAgriApi.dll
-D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Npgsql.dll
-D:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
-D:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

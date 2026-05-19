@@ -19,18 +19,16 @@ namespace TracAgriApi.Controllers
             //_pdfService = pdfService;
 
         }
-
         // ===========================
         // GENERER ETIQUETTE
         // ===========================
-
         [HttpPost("generer")]
         public async Task<ActionResult<EtiquetteFermeDto>> Generer(
             CreateEtiquetteFermeDto dto)
         {
-             //🔢 code unique par code produit
-            string code =
-                $"ETQ-{dto.ProduitId}";
+            // 🔢 code unique par code produit
+            //string code =
+            //    $"ETQ-{dto.ProduitId}";
 
             var etiquette = new EtiquetteFerme
             {
@@ -91,14 +89,9 @@ namespace TracAgriApi.Controllers
                 })
 
                 .FirstAsync();
-
+                        
             return Ok(result);
-
         }
-
-
-
-
         [HttpGet("bycode/{code}")]
         public async Task<ActionResult<EtiquetteFermeDto>> GetByCode(string code)
         {
