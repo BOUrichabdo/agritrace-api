@@ -20,8 +20,24 @@ namespace AgriTraceAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+
+            try
+            {
+
+
+            
             var data = await _context.Agriculteurs.ToListAsync();
             return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    error = ex.Message,
+                    innerError = ex.InnerException?.Message,
+                    stackTrace = ex.StackTrace
+                });
+            }
         }
         // GET by id
         [HttpGet("{id}")]

@@ -7,8 +7,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
 // ---------------- RAILWAY PORT ----------------
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
@@ -17,61 +15,47 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ListenAnyIP(int.Parse(port));
 });
 
-
-
 // ---------------- DATABASE ----------------
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-
-
 // ---------------- CONTROLLERS ----------------
-// 🔥 IMPORTANT FIX Swagger + JSON cycles
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler =
-            ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
-
-
 
 // ---------------- CORS ----------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy =>
-        {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
-
-
 
 // ---------------- AUTH (TEST MODE) ----------------
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = false
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = false
+        };
+    });
 
 builder.Services.AddAuthorization();
 
-
-
-// ---------------- SWAGGER (IMPORTANT FIX) ----------------
+// ---------------- SWAGGER ----------------
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new()
@@ -81,14 +65,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-
-
-
-
 var app = builder.Build();
-
-
 
 // ---------------- AUTO MIGRATION ----------------
 using (var scope = app.Services.CreateScope())
@@ -104,14 +81,27 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
-
-// ---------------- PIPELINE ORDER (VERY IMPORTANT) ----------------
+// ---------------- PIPELINE ORDER (CORRIGÉ) ----------------
 
 app.UseCors("AllowAll");
 
-app.UseSwagger();
+// ✅ FORCER HTTPS DANS SWAGGER (un seul appel, bien configuré)
+app.UseSwagger(c =>
+{
+    c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+    {
+        // Détecter HTTPS via Railway ou forcer HTTPS
+        var scheme = httpReq.Headers.ContainsKey("X-Forwarded-Proto")
+            ? httpReq.Headers["X-Forwarded-Proto"][0]
+            : "https";
+        var host = httpReq.Host.Value;
 
+        swaggerDoc.Servers = new List<Microsoft.OpenApi.Models.OpenApiServer>
+        {
+            new Microsoft.OpenApi.Models.OpenApiServer { Url = $"{scheme}://{host}" }
+        };
+    });
+});
 
 app.UseSwaggerUI(c =>
 {
@@ -119,25 +109,186 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-
-
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
-
 
 // ---------------- TEST ROUTES ----------------
 app.MapGet("/", () => Results.Ok("API OK + DB READY 🚀"));
 app.MapGet("/ping", () => "pong");
 
-
-
 app.Run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.IdentityModel.Tokens;
+//using System.Text;
+//using AgriTraceAPI.Data;
+//using System.Text.Json.Serialization;
+
+//var builder = WebApplication.CreateBuilder(args);
+
+
+
+//// ---------------- RAILWAY PORT ----------------
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ListenAnyIP(int.Parse(port));
+//});
+
+
+
+//// ---------------- DATABASE ----------------
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+//});
+
+
+
+//// ---------------- CONTROLLERS ----------------
+//// 🔥 IMPORTANT FIX Swagger + JSON cycles
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler =
+//            ReferenceHandler.IgnoreCycles;
+//    });
+
+
+
+//// ---------------- CORS ----------------
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//        policy =>
+//        {
+//            policy.AllowAnyOrigin()
+//                  .AllowAnyHeader()
+//                  .AllowAnyMethod();
+//        });
+//});
+
+
+
+//// ---------------- AUTH (TEST MODE) ----------------
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//.AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = false,
+//        ValidateAudience = false,
+//        ValidateLifetime = false,
+//        ValidateIssuerSigningKey = false
+//    };
+//});
+
+//builder.Services.AddAuthorization();
+
+
+
+//// ---------------- SWAGGER (IMPORTANT FIX) ----------------
+//builder.Services.AddEndpointsApiExplorer();
+
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new()
+//    {
+//        Title = "AgriTrace API",
+//        Version = "v1"
+//    });
+//});
+
+
+
+
+
+
+//var app = builder.Build();
+
+
+
+//// ---------------- AUTO MIGRATION ----------------
+//using (var scope = app.Services.CreateScope())
+//{
+//    try
+//    {
+//        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//        db.Database.Migrate();
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine("DB Migration error: " + ex.Message);
+//    }
+//}
+
+
+
+//// ---------------- PIPELINE ORDER (VERY IMPORTANT) ----------------
+
+//app.UseCors("AllowAll");
+
+//app.UseSwagger();
+
+
+//// FORCER HTTPS DANS SWAGGER
+//app.UseSwagger(c =>
+//{
+//    c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+//    {
+//        // Détecter si on est en HTTPS via Railway
+//        var scheme = "https";  // Force HTTPS
+//        var host = httpReq.Host.Value;
+
+//        swaggerDoc.Servers = new List<Microsoft.OpenApi.Models.OpenApiServer>
+//        {
+//            new Microsoft.OpenApi.Models.OpenApiServer { Url = $"{scheme}://{host}" }
+//        };
+//    });
+//});
+
+//app.UseSwaggerUI(c =>
+//{
+//    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AgriTrace API V1");
+//    c.RoutePrefix = "swagger";
+//});
+
+
+
+
+//app.UseHttpsRedirection();
+
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+
+
+//// ---------------- TEST ROUTES ----------------
+//app.MapGet("/", () => Results.Ok("API OK + DB READY 🚀"));
+//app.MapGet("/ping", () => "pong");
+
+
+
+//app.Run();
 
 
 
