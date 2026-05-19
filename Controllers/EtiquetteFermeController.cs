@@ -41,7 +41,8 @@ namespace TracAgriApi.Controllers
                 ProduitId = dto.ProduitId,
                 VarieteId = dto.VarieteId,
                 DateGeneration = DateTime.Now,
-                Receptionne = false
+                Receptionne = false,
+                SocieteId = 1
             };
 
             _context.EtiquetteFermes.Add(etiquette);
