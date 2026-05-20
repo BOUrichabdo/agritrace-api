@@ -85,6 +85,9 @@ namespace TracAgriApi.Controllers
                     message = "Erreur lors de la génération de l'étiquette",
                     error = ex.Message,
                     innerError = ex.InnerException?.Message
+
+
+
                 });
             }
         }
@@ -92,42 +95,42 @@ namespace TracAgriApi.Controllers
         // ===========================
         // GET BY CODE (CORRIGÉ)
         // ===========================
-        [HttpGet("bycode/{code}")]
-        public async Task<ActionResult<EtiquetteFermeDto>> GetByCode(string code)
-        {
-            var etiquette = await _context.EtiquetteFermes
-                .Where(e => e.CodeEtiquette == code)
-                .Select(e => new EtiquetteFermeDto
-                {
-                    Id = e.Id,
-                    CodeEtiquette = e.CodeEtiquette,
+        //[HttpGet("bycode/{code}")]
+        //public async Task<ActionResult<EtiquetteFermeDto>> GetByCode(string code)
+        //{
+        //    var etiquette = await _context.EtiquetteFermes
+        //        .Where(e => e.CodeEtiquette == code)
+        //        .Select(e => new EtiquetteFermeDto
+        //        {
+        //            Id = e.Id,
+        //            CodeEtiquette = e.CodeEtiquette,
 
-                    AgriculteurId = e.AgriculteurId,
-                    AgriculteurNom = e.Agriculteur != null ? e.Agriculteur.Nom : "Non renseigné",
+        //            AgriculteurId = e.AgriculteurId,
+        //            AgriculteurNom = e.Agriculteur != null ? e.Agriculteur.Nom : "Non renseigné",
 
-                    FermeId = e.FermeId,
-                    FermeNom = e.Ferme != null ? e.Ferme.NomFerme : "Non renseigné",
+        //            FermeId = e.FermeId,
+        //            FermeNom = e.Ferme != null ? e.Ferme.NomFerme : "Non renseigné",
 
-                    ParcelleId = e.ParcelleId,
-                    ParcelleNom = e.Parcelle != null ? e.Parcelle.NomParcelle : "Non renseigné",
+        //            ParcelleId = e.ParcelleId,
+        //            ParcelleNom = e.Parcelle != null ? e.Parcelle.NomParcelle : "Non renseigné",
 
-                    ProduitId = e.ProduitId,
-                    ProduitNom = e.Produit != null ? e.Produit.Nom : "Non renseigné",
+        //            ProduitId = e.ProduitId,
+        //            ProduitNom = e.Produit != null ? e.Produit.Nom : "Non renseigné",
 
-                    VarieteId = e.VarieteId,
-                    VarieteNom = e.Variete != null ? e.Variete.Intitule : "Non renseigné",
+        //            VarieteId = e.VarieteId,
+        //            VarieteNom = e.Variete != null ? e.Variete.Intitule : "Non renseigné",
 
-                    DateGeneration = e.DateGeneration,
-                    Receptionne = e.Receptionne,
-                    DateReception = e.DateReception
-                })
-                .FirstOrDefaultAsync();
+        //            DateGeneration = e.DateGeneration,
+        //            Receptionne = e.Receptionne,
+        //            DateReception = e.DateReception
+        //        })
+        //        .FirstOrDefaultAsync();
 
-            if (etiquette == null)
-                return NotFound(new { message = "Étiquette introuvable" });
+        //    if (etiquette == null)
+        //        return NotFound(new { message = "Étiquette introuvable" });
 
-            return Ok(etiquette);
-        }
+        //    return Ok(etiquette);
+        //}
     }
 }
 
