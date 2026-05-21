@@ -73,6 +73,10 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+
+builder.Services.AddScoped<QrService>();
+builder.Services.AddScoped<PdfService>();
+
 // ---------------- AUTO MIGRATION ----------------
 using (var scope = app.Services.CreateScope())
 {
@@ -116,8 +120,7 @@ app.UseSwaggerUI(c =>
 });
 
 
-builder.Services.AddScoped<QrService>();
-builder.Services.AddScoped<PdfService>();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
