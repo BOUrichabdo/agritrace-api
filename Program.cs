@@ -1,4 +1,5 @@
-﻿using AgriTraceAPI.Data;
+﻿
+using AgriTraceAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,15 +8,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using TracAgriApi.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 QuestPDF.Settings.License = LicenseType.Community;
 
-
 // ---------------- RAILWAY PORT ----------------
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(int.Parse(port));
@@ -71,11 +69,15 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-var app = builder.Build();
-
-
+// ==========================================
+// ✅ ENREGISTREMENT DES SERVICES (AVANT Build)
+// ==========================================
 builder.Services.AddScoped<QrService>();
 builder.Services.AddScoped<PdfService>();
+
+// ==========================================
+var app = builder.Build();  // ← Build() APRÈS tous les AddScoped
+// ==========================================
 
 // ---------------- AUTO MIGRATION ----------------
 using (var scope = app.Services.CreateScope())
@@ -91,16 +93,13 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// ---------------- PIPELINE ORDER (CORRIGÉ) ----------------
-
+// ---------------- PIPELINE ----------------
 app.UseCors("AllowAll");
 
-// ✅ FORCER HTTPS DANS SWAGGER (un seul appel, bien configuré)
 app.UseSwagger(c =>
 {
     c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
     {
-        // Détecter HTTPS via Railway ou forcer HTTPS
         var scheme = httpReq.Headers.ContainsKey("X-Forwarded-Proto")
             ? httpReq.Headers["X-Forwarded-Proto"][0]
             : "https";
@@ -119,8 +118,6 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -131,6 +128,154 @@ app.MapGet("/", () => Results.Ok("API OK + DB READY 🚀"));
 app.MapGet("/ping", () => "pong");
 
 app.Run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//using AgriTraceAPI.Data;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.IdentityModel.Tokens;
+//using QuestPDF.Infrastructure;
+//using System.Text;
+//using System.Text.Json.Serialization;
+//using TracAgriApi.Services;
+
+
+//var builder = WebApplication.CreateBuilder(args);
+
+//QuestPDF.Settings.License = LicenseType.Community;
+
+
+//// ---------------- RAILWAY PORT ----------------
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ListenAnyIP(int.Parse(port));
+//});
+
+//// ---------------- DATABASE ----------------
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+//});
+
+//// ---------------- CONTROLLERS ----------------
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+//    });
+
+//// ---------------- CORS ----------------
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", policy =>
+//    {
+//        policy.AllowAnyOrigin()
+//              .AllowAnyHeader()
+//              .AllowAnyMethod();
+//    });
+//});
+
+//// ---------------- AUTH (TEST MODE) ----------------
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = false,
+//            ValidateAudience = false,
+//            ValidateLifetime = false,
+//            ValidateIssuerSigningKey = false
+//        };
+//    });
+
+//builder.Services.AddAuthorization();
+
+//// ---------------- SWAGGER ----------------
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new()
+//    {
+//        Title = "AgriTrace API",
+//        Version = "v1"
+//    });
+//});
+
+//var app = builder.Build();
+
+
+//builder.Services.AddScoped<QrService>();
+//builder.Services.AddScoped<PdfService>();
+
+//// ---------------- AUTO MIGRATION ----------------
+//using (var scope = app.Services.CreateScope())
+//{
+//    try
+//    {
+//        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//        db.Database.Migrate();
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine("DB Migration error: " + ex.Message);
+//    }
+//}
+
+//// ---------------- PIPELINE ORDER (CORRIGÉ) ----------------
+
+//app.UseCors("AllowAll");
+
+//// ✅ FORCER HTTPS DANS SWAGGER (un seul appel, bien configuré)
+//app.UseSwagger(c =>
+//{
+//    c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+//    {
+//        // Détecter HTTPS via Railway ou forcer HTTPS
+//        var scheme = httpReq.Headers.ContainsKey("X-Forwarded-Proto")
+//            ? httpReq.Headers["X-Forwarded-Proto"][0]
+//            : "https";
+//        var host = httpReq.Host.Value;
+
+//        swaggerDoc.Servers = new List<Microsoft.OpenApi.Models.OpenApiServer>
+//        {
+//            new Microsoft.OpenApi.Models.OpenApiServer { Url = $"{scheme}://{host}" }
+//        };
+//    });
+//});
+
+//app.UseSwaggerUI(c =>
+//{
+//    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AgriTrace API V1");
+//    c.RoutePrefix = "swagger";
+//});
+
+
+
+//app.UseHttpsRedirection();
+//app.UseAuthentication();
+//app.UseAuthorization();
+//app.MapControllers();
+
+//// ---------------- TEST ROUTES ----------------
+//app.MapGet("/", () => Results.Ok("API OK + DB READY 🚀"));
+//app.MapGet("/ping", () => "pong");
+
+//app.Run();
 
 
 
