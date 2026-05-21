@@ -116,8 +116,6 @@ namespace AgriTraceAPI.Data
             modelBuilder.Entity<SortieStock>()
                 .Property(s => s.QuantiteSortie)
                 .HasPrecision(18, 2);
-
-
         }
         // les entity sets (tables)
         public DbSet<Agriculteur> Agriculteurs { get; set; }
@@ -129,13 +127,9 @@ namespace AgriTraceAPI.Data
         public DbSet<EtiquetteFerme> EtiquetteFermes { get; set; }
         public DbSet<Reception> Receptions { get; set; }
         public DbSet<Palette> Palettes { get; set; }
-
         public DbSet<Stock> Stocks { get; set; }
-
         public DbSet<SortieStock> SortieStocks { get; set; }
-
         public DbSet<Utilisateur> Utilisateurs { get; set; }
-
         public DbSet<Societe> Societes { get; set; }
     }
 }

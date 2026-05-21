@@ -31,18 +31,15 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Adresse")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Nom")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Telephone")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -59,7 +56,6 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Intitule")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")
@@ -82,7 +78,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("CodeEtiquette")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateGeneration")
@@ -136,7 +131,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("NomFerme")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")
@@ -158,18 +152,15 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CodePalette")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Emplacement")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("EtatPalette")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal>("PoidsBrut")
@@ -214,7 +205,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("NomParcelle")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")
@@ -236,7 +226,6 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nom")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ParcelleId")
@@ -269,14 +258,12 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("EtatProduit")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("EtiquetteFermeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Observation")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("PaletteId")
@@ -294,11 +281,9 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("numeric(5,2)");
 
                     b.Property<string>("TypeProduit")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Utilisateur")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -317,52 +302,42 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Adresse")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Devise")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ICE")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<string>("MatriculeFiscal")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Nom")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NomCommercial")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Plan")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Telephone")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Ville")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -382,7 +357,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Observation")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal>("QuantiteSortie")
@@ -396,7 +370,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Utilisateur")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -421,7 +394,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("EtatStock")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ProduitId")
@@ -460,19 +432,15 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("MotDePasse")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Nom")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")
@@ -497,7 +465,6 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Intitule")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("SocieteId")

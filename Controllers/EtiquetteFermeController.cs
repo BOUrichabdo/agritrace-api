@@ -17,9 +17,6 @@ namespace TracAgriApi.Controllers
             _context = context;
         }
 
-        // ===========================
-        // GENERER ETIQUETTE (CORRIGÉ)
-        // ===========================
         [HttpPost("generer")]
         public async Task<ActionResult<EtiquetteFermeDto>> Generer(CreateEtiquetteFermeDto dto)
         {
@@ -42,55 +39,85 @@ namespace TracAgriApi.Controllers
                 _context.EtiquetteFermes.Add(etiquette);
                 await _context.SaveChangesAsync();
 
-                // 2. Récupérer avec les relations (VERSION SÉCURISÉE)
-                var result = await _context.EtiquetteFermes
-                    .Where(e => e.Id == etiquette.Id)
-                    .Select(e => new EtiquetteFermeDto
-                    {
-                        Id = e.Id,
-                        CodeEtiquette = e.CodeEtiquette,
+                // 2. Recharger avec les relations (Include)
+                var etiquetteChargee = await _context.EtiquetteFermes
+                    .Include(e => e.Agriculteur)
+                    .Include(e => e.Ferme)
+                    .Include(e => e.Parcelle)
+                    .Include(e => e.Produit)
+                    .Include(e => e.Variete)
+                    .FirstOrDefaultAsync(e => e.Id == etiquette.Id);
 
-                        AgriculteurId = e.AgriculteurId,
-                        // ✅ VÉRIFICATION NULL
-                        AgriculteurNom = e.Agriculteur != null ? e.Agriculteur.Nom : "Non renseigné",
+                if (etiquetteChargee == null)
+                    return NotFound(new { message = "Étiquette non trouvée" });
 
-                        FermeId = e.FermeId,
-                        FermeNom = e.Ferme != null ? e.Ferme.NomFerme : "Non renseigné",
-
-                        ParcelleId = e.ParcelleId,
-                        ParcelleNom = e.Parcelle != null ? e.Parcelle.NomParcelle : "Non renseigné",
-
-                        ProduitId = e.ProduitId,
-                        ProduitNom = e.Produit != null ? e.Produit.Nom : "Non renseigné",
-
-                        VarieteId = e.VarieteId,
-                        VarieteNom = e.Variete != null ? e.Variete.Intitule : "Non renseigné",
-
-                        DateGeneration = e.DateGeneration,
-                        Receptionne = e.Receptionne,
-                        DateReception = e.DateReception
-                    })
-                    .FirstOrDefaultAsync();
-
-                if (result == null)
-                    return NotFound(new { message = "Erreur lors de la génération" });
+                // 3. Mapper vers DTO
+                var result = new EtiquetteFermeDto
+                {
+                    Id = etiquetteChargee.Id,
+                    CodeEtiquette = etiquetteChargee.CodeEtiquette,
+                    AgriculteurId = etiquetteChargee.AgriculteurId,
+                    AgriculteurNom = etiquetteChargee.Agriculteur?.Nom ?? "Non renseigné",
+                    FermeId = etiquetteChargee.FermeId,
+                    FermeNom = etiquetteChargee.Ferme?.NomFerme ?? "Non renseigné",
+                    ParcelleId = etiquetteChargee.ParcelleId,
+                    ParcelleNom = etiquetteChargee.Parcelle?.NomParcelle ?? "Non renseigné",
+                    ProduitId = etiquetteChargee.ProduitId,
+                    ProduitNom = etiquetteChargee.Produit?.Nom ?? "Non renseigné",
+                    VarieteId = etiquetteChargee.VarieteId,
+                    VarieteNom = etiquetteChargee.Variete?.Intitule ?? "Non renseigné",
+                    DateGeneration = etiquetteChargee.DateGeneration,
+                    Receptionne = etiquetteChargee.Receptionne,
+                    DateReception = etiquetteChargee.DateReception
+                };
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                // Capture l'erreur exacte pour debug
                 return StatusCode(500, new
                 {
-                    message = "Erreur lors de la génération de l'étiquette",
+                    message = "Erreur lors de la génération",
                     error = ex.Message,
                     innerError = ex.InnerException?.Message
-
-
-
                 });
             }
         }
 
+        [HttpGet("bycode/{code}")]
+        public async Task<ActionResult<EtiquetteFermeDto>> GetByCode(string code)
+        {
+            var etiquette = await _context.EtiquetteFermes
+                .Include(e => e.Agriculteur)
+                .Include(e => e.Ferme)
+                .Include(e => e.Parcelle)
+                .Include(e => e.Produit)
+                .Include(e => e.Variete)
+                .FirstOrDefaultAsync(e => e.CodeEtiquette == code);
+
+            if (etiquette == null)
+                return NotFound(new { message = "Étiquette introuvable" });
+
+            var result = new EtiquetteFermeDto
+            {
+                Id = etiquette.Id,
+                CodeEtiquette = etiquette.CodeEtiquette,
+                AgriculteurId = etiquette.AgriculteurId,
+                AgriculteurNom = etiquette.Agriculteur?.Nom ?? "Non renseigné",
+                FermeId = etiquette.FermeId,
+                FermeNom = etiquette.Ferme?.NomFerme ?? "Non renseigné",
+                ParcelleId = etiquette.ParcelleId,
+                ParcelleNom = etiquette.Parcelle?.NomParcelle ?? "Non renseigné",
+                ProduitId = etiquette.ProduitId,
+                ProduitNom = etiquette.Produit?.Nom ?? "Non renseigné",
+                VarieteId = etiquette.VarieteId,
+                VarieteNom = etiquette.Variete?.Intitule ?? "Non renseigné",
+                DateGeneration = etiquette.DateGeneration,
+                Receptionne = etiquette.Receptionne,
+                DateReception = etiquette.DateReception
+            };
+
+            return Ok(result);
+        }
     }
 }
