@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AgriTraceAPI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using AgriTraceAPI.Data;
-using System.Text.Json.Serialization;
 using QuestPDF.Infrastructure;
+using System.Text;
+using System.Text.Json.Serialization;
+using TracAgriApi.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -114,6 +115,9 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
+
+builder.Services.AddScoped<QrService>();
+builder.Services.AddScoped<PdfService>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
