@@ -31,7 +31,7 @@ namespace TracAgriApi.Controllers
                     ParcelleId = dto.ParcelleId,
                     ProduitId = dto.ProduitId,
                     VarieteId = dto.VarieteId,
-                    DateGeneration = DateTime.Now,
+                    DateGeneration = DateTime.UtcNow,
                     Receptionne = false,
                     SocieteId = 1
                 };
