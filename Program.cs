@@ -4,8 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AgriTraceAPI.Data;
 using System.Text.Json.Serialization;
+using QuestPDF.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+QuestPDF.Settings.License = LicenseType.Community;
+
 
 // ---------------- RAILWAY PORT ----------------
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";

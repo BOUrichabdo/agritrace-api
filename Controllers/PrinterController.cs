@@ -29,6 +29,8 @@ namespace TracAgriApi.Controllers
         {
             try
             {
+                Console.WriteLine($"=== PRINT PDF START ID: {id} ===");
+
                 var etiquette = await _context.EtiquetteFermes
                     .Include(e => e.Agriculteur)
                     .Include(e => e.Ferme)
@@ -40,7 +42,6 @@ namespace TracAgriApi.Controllers
                     {
                         Id = e.Id,
                         CodeEtiquette = e.CodeEtiquette,
-                        // ✅ Vérification null (sans !)
                         AgriculteurNom = e.Agriculteur != null ? e.Agriculteur.Nom : "Non renseigné",
                         FermeNom = e.Ferme != null ? e.Ferme.NomFerme : "Non renseigné",
                         ParcelleNom = e.Parcelle != null ? e.Parcelle.NomParcelle : "Non renseigné",
@@ -51,22 +52,21 @@ namespace TracAgriApi.Controllers
                     .FirstOrDefaultAsync();
 
                 if (etiquette == null)
+                {
+                    Console.WriteLine($"Erreur: Étiquette ID {id} non trouvée");
                     return NotFound(new { message = $"Étiquette ID {id} non trouvée" });
+                }
 
-                // ✅ Vérifier que le service QR existe
-                if (_qrService == null)
-                    return StatusCode(500, new { message = "Service QR non disponible" });
+                Console.WriteLine($"Étiquette trouvée: {etiquette.CodeEtiquette}");
 
                 // Générer QR
                 var qrBytes = _qrService.Generate(etiquette.CodeEtiquette);
                 etiquette.QrCode = qrBytes;
-
-                // ✅ Vérifier que le service PDF existe
-                if (_pdfService == null)
-                    return StatusCode(500, new { message = "Service PDF non disponible" });
+                Console.WriteLine($"QR généré: {qrBytes?.Length ?? 0} bytes");
 
                 // Générer PDF
                 var pdf = _pdfService.Generate(etiquette);
+                Console.WriteLine($"PDF généré: {pdf?.Length ?? 0} bytes");
 
                 if (pdf == null || pdf.Length == 0)
                     return StatusCode(500, new { message = "Génération PDF vide" });
@@ -75,6 +75,8 @@ namespace TracAgriApi.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"ERREUR: {ex.Message}");
+                Console.WriteLine($"INNER: {ex.InnerException?.Message}");
                 return StatusCode(500, new
                 {
                     message = "Erreur lors de la génération du PDF",
