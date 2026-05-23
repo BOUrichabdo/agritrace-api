@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TracAgriApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+465ed77f3aaa2538238c566252965b4e9f577613")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94578efa5ee46f9810cef2d53c5af069a780e503")]
 [assembly: System.Reflection.AssemblyProductAttribute("TracAgriApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TracAgriApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -21,8 +21,6 @@ namespace TracAgriApi.Controllers
         }
 
 
-        // creation d'une reception a partir d'un DTO de creation
-        [HttpPost]
         // ReceptionsController.cs - Ajoutez du logging
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateReceptionDto dto)
