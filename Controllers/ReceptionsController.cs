@@ -23,22 +23,37 @@ namespace TracAgriApi.Controllers
 
         // creation d'une reception a partir d'un DTO de creation
         [HttpPost]
+        // ReceptionsController.cs - Ajoutez du logging
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateReceptionDto dto)
         {
             try
             {
+                Console.WriteLine($"=== DEBUG: CreateReception ===");
+                Console.WriteLine($"EtiquetteFermeId: {dto.EtiquetteFermeId}");
+                Console.WriteLine($"PoidsBrut: {dto.PoidsBrut}");
+                Console.WriteLine($"Temperature: {dto.Temperature}");
+                Console.WriteLine($"EtatProduit: {dto.EtatProduit}");
+                Console.WriteLine($"TypeProduit: {dto.TypeProduit}");
+
                 var result = await _service.CreateReceptionAsync(dto);
+
+                Console.WriteLine($"Succès: PaletteId={result.PaletteId}");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(new
+                Console.WriteLine($"ERREUR: {ex.Message}");
+                Console.WriteLine($"STACK: {ex.StackTrace}");
+
+                return StatusCode(500, new
                 {
-                    message = ex.Message
+                    message = ex.Message,
+                    details = ex.InnerException?.Message,
+                    stack = ex.StackTrace
                 });
             }
         }
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllReceptions()
