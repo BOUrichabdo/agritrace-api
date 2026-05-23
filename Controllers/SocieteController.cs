@@ -20,9 +20,7 @@ public class SocieteController : ControllerBase
     {
         try
         {
-            Console.WriteLine("=== CREATE SOCIETE ===");
-
-            // 1. Créer la société - INCLURE IsActive
+            // 1. Créer la société AVEC IsActive et DateCreation
             var societe = new Societe
             {
                 Nom = dto.Nom,
@@ -35,16 +33,14 @@ public class SocieteController : ControllerBase
                 Email = dto.Email ?? "",
                 Plan = dto.Plan ?? "Free",
                 Devise = dto.Devise ?? "MAD",
-                IsActive = true,  // ✅ AJOUTER CETTE LIGNE
-                DateCreation = DateTime.UtcNow  // ✅ AJOUTER AUSSI DateCreation
+                IsActive = true,  // OBLIGATOIRE
+                DateCreation = DateTime.UtcNow  // OBLIGATOIRE
             };
 
             _context.Societes.Add(societe);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"✅ Société créée ID: {societe.Id}");
-
-            // 2. Créer l'utilisateur admin
+            // 2. Créer l'admin AVEC IsActive et DateCreation
             var admin = new Utilisateur
             {
                 Nom = dto.AdminNom,
@@ -52,14 +48,12 @@ public class SocieteController : ControllerBase
                 MotDePasse = dto.AdminPassword,
                 Role = "Admin",
                 SocieteId = societe.Id,
-                IsActive = true,  // ✅ AJOUTER CETTE LIGNE
-                DateCreation = DateTime.UtcNow  // ✅ AJOUTER DateCreation
+                IsActive = true,  // OBLIGATOIRE
+                DateCreation = DateTime.UtcNow  // OBLIGATOIRE
             };
 
             _context.Utilisateurs.Add(admin);
             await _context.SaveChangesAsync();
-
-            Console.WriteLine($"✅ Admin créé ID: {admin.Id}");
 
             return Ok(new
             {
@@ -71,8 +65,6 @@ public class SocieteController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ ERREUR: {ex.Message}");
-            Console.WriteLine($"INNER: {ex.InnerException?.Message}");
             return StatusCode(500, new
             {
                 success = false,
