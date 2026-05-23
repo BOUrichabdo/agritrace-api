@@ -120,19 +120,54 @@ namespace AgriTraceAPI.Data
 
             //__________socite
 
+            // Configuration pour Utilisateur
+            modelBuilder.Entity<Utilisateur>(entity =>
+            {
+                entity.ToTable("Utilisateurs");
+                entity.HasKey(u => u.Id);
+                entity.Property(u => u.Nom).IsRequired().HasMaxLength(200);
+                entity.Property(u => u.Email).IsRequired().HasMaxLength(200);
+                entity.Property(u => u.MotDePasse).IsRequired();
+                entity.Property(u => u.Role).HasMaxLength(50);
+
+                // ✅ Spécifier le nom exact de la colonne pour PostgreSQL
+                entity.Property(u => u.DateCreation)
+                    .HasColumnName("DateCreation")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(u => u.IsActive)
+                    .HasDefaultValue(true);
+
+                // Relation avec Societe
+                entity.HasOne(u => u.Societe)
+                    .WithMany(s => s.Utilisateurs)
+                    .HasForeignKey(u => u.SocieteId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Configuration pour Societe
             modelBuilder.Entity<Societe>(entity =>
             {
+                entity.ToTable("Societes");
                 entity.HasKey(s => s.Id);
                 entity.Property(s => s.Nom).IsRequired().HasMaxLength(200);
                 entity.Property(s => s.Email).HasMaxLength(200);
                 entity.Property(s => s.Telephone).HasMaxLength(50);
 
-                // Relations
-                entity.HasMany(s => s.Utilisateurs)
-                    .WithOne(u => u.Societe)
-                    .HasForeignKey(u => u.SocieteId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(s => s.DateCreation)
+                    .HasColumnName("DateCreation")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(s => s.IsActive)
+                    .HasDefaultValue(true);
             });
+
+
+
+
+
+
+
         }
         // les entity sets (tables)
         public DbSet<Agriculteur> Agriculteurs { get; set; }

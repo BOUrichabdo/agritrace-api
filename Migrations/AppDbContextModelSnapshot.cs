@@ -321,7 +321,10 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreation")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DateCreation")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Devise")
                         .IsRequired()
@@ -337,7 +340,9 @@ namespace TracAgriApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("MatriculeFiscal")
                         .IsRequired()
@@ -367,7 +372,7 @@ namespace TracAgriApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Societes");
+                    b.ToTable("Societes", (string)null);
                 });
 
             modelBuilder.Entity("TracAgriApi.Models.SortieStock", b =>
@@ -460,14 +465,20 @@ namespace TracAgriApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreation")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DateCreation")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("MotDePasse")
                         .IsRequired()
@@ -475,11 +486,13 @@ namespace TracAgriApi.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("SocieteId")
                         .HasColumnType("integer");
@@ -488,7 +501,7 @@ namespace TracAgriApi.Migrations
 
                     b.HasIndex("SocieteId");
 
-                    b.ToTable("Utilisateurs");
+                    b.ToTable("Utilisateurs", (string)null);
                 });
 
             modelBuilder.Entity("TracAgriApi.Models.Variete", b =>
