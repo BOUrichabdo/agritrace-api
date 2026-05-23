@@ -67,7 +67,7 @@ public class SocieteController : ControllerBase
 
                 Role = "Admin",
                 SocieteId = societe.Id,
-                DateCreation = DateTime.UtcNow,
+                //DateCreation = DateTime.UtcNow,
                 IsActive = true
             };
 
