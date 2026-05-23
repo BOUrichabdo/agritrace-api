@@ -10,6 +10,7 @@ using QuestPDF.Infrastructure;
 using System.Text;
 using System.Text.Json.Serialization;
 using TracAgriApi.Services;
+using TracAgriApi.Servises;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,8 @@ builder.Services.AddSwaggerGen(c =>
 // ==========================================
 builder.Services.AddScoped<QrService>();
 builder.Services.AddScoped<PdfService>();
+builder.Services.AddScoped<IReceptionService, ReceptionService>();
+
 
 // ==========================================
 var app = builder.Build();  // ← Build() APRÈS tous les AddScoped
