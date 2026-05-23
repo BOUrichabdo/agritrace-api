@@ -67,7 +67,7 @@ namespace TracAgriApi.Services
                 QuantiteDisponible = dto.PoidsBrut,
                 EtatPalette = dto.EtatProduit,
                 StatutStock = "EN_STOCK",
-                DateCreation = DateTime.Now,
+                DateCreation = DateTime.UtcNow,
                 Emplacement = "RECEPTION",
                 ReceptionId = reception.Id
             };

@@ -15,5 +15,8 @@
         public string Observation { get; set; } = string.Empty;
 
         public string Utilisateur { get; set; } = string.Empty;
+
+        //public int Idsociete { get; set; };
+
     }
 }
