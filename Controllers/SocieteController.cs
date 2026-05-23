@@ -21,20 +21,8 @@ public class SocieteController : ControllerBase
         try
         {
             Console.WriteLine("=== CREATE SOCIETE ===");
-            Console.WriteLine($"Nom: {dto.Nom}");
-            Console.WriteLine($"Email: {dto.Email}");
-            Console.WriteLine($"AdminEmail: {dto.AdminEmail}");
 
-            // Vérifier si l'email existe déjà
-            var existingUser = await _context.Utilisateurs
-                .FirstOrDefaultAsync(u => u.Email == dto.AdminEmail);
-
-            if (existingUser != null)
-            {
-                return BadRequest(new { message = "Cet email est déjà utilisé" });
-            }
-
-            // 1. Créer la société
+            // 1. Créer la société - INCLURE IsActive
             var societe = new Societe
             {
                 Nom = dto.Nom,
@@ -47,34 +35,31 @@ public class SocieteController : ControllerBase
                 Email = dto.Email ?? "",
                 Plan = dto.Plan ?? "Free",
                 Devise = dto.Devise ?? "MAD",
-                DateCreation = DateTime.UtcNow,
-                IsActive = true
+                IsActive = true,  // ✅ AJOUTER CETTE LIGNE
+                DateCreation = DateTime.UtcNow  // ✅ AJOUTER AUSSI DateCreation
             };
 
             _context.Societes.Add(societe);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"✅ Société créée avec ID: {societe.Id}");
+            Console.WriteLine($"✅ Société créée ID: {societe.Id}");
 
             // 2. Créer l'utilisateur admin
             var admin = new Utilisateur
             {
                 Nom = dto.AdminNom,
                 Email = dto.AdminEmail,
-                //MotDePasse = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword), // Hash du mot de passe
-
-                MotDePasse = dto.AdminPassword, // Hash du mot de passe
-
+                MotDePasse = dto.AdminPassword,
                 Role = "Admin",
                 SocieteId = societe.Id,
-                //DateCreation = DateTime.UtcNow,
-                IsActive = true
+                IsActive = true,  // ✅ AJOUTER CETTE LIGNE
+                DateCreation = DateTime.UtcNow  // ✅ AJOUTER DateCreation
             };
 
             _context.Utilisateurs.Add(admin);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"✅ Admin créé avec ID: {admin.Id}");
+            Console.WriteLine($"✅ Admin créé ID: {admin.Id}");
 
             return Ok(new
             {
@@ -87,8 +72,7 @@ public class SocieteController : ControllerBase
         catch (Exception ex)
         {
             Console.WriteLine($"❌ ERREUR: {ex.Message}");
-            Console.WriteLine($"STACK: {ex.StackTrace}");
-
+            Console.WriteLine($"INNER: {ex.InnerException?.Message}");
             return StatusCode(500, new
             {
                 success = false,
