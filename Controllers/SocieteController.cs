@@ -15,12 +15,13 @@ public class SocieteController : ControllerBase
         _context = context;
     }
 
+    // TracAgriApi/Controllers/SocieteController.cs
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateSocieteDto dto)
     {
         try
         {
-            // 1. Créer la société AVEC IsActive et DateCreation
+            // Création de la société avec TOUTES les propriétés
             var societe = new Societe
             {
                 Nom = dto.Nom,
@@ -33,14 +34,14 @@ public class SocieteController : ControllerBase
                 Email = dto.Email ?? "",
                 Plan = dto.Plan ?? "Free",
                 Devise = dto.Devise ?? "MAD",
-                IsActive = true,  // OBLIGATOIRE
-                DateCreation = DateTime.UtcNow  // OBLIGATOIRE
+                IsActive = true,  // ⚠️ IMPORTANT - Valeur explicite
+                DateCreation = DateTime.UtcNow  // ⚠️ IMPORTANT
             };
 
             _context.Societes.Add(societe);
             await _context.SaveChangesAsync();
 
-            // 2. Créer l'admin AVEC IsActive et DateCreation
+            // Création de l'admin
             var admin = new Utilisateur
             {
                 Nom = dto.AdminNom,
@@ -48,29 +49,18 @@ public class SocieteController : ControllerBase
                 MotDePasse = dto.AdminPassword,
                 Role = "Admin",
                 SocieteId = societe.Id,
-                IsActive = true,  // OBLIGATOIRE
-                DateCreation = DateTime.UtcNow  // OBLIGATOIRE
+                IsActive = true,  // ⚠️ IMPORTANT
+                DateCreation = DateTime.UtcNow  // ⚠️ IMPORTANT
             };
 
             _context.Utilisateurs.Add(admin);
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                success = true,
-                message = "Société créée avec succès",
-                societeId = societe.Id,
-                userId = admin.Id
-            });
+            return Ok(new { success = true, message = "Société créée", societeId = societe.Id, userId = admin.Id });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new
-            {
-                success = false,
-                message = ex.Message,
-                innerMessage = ex.InnerException?.Message
-            });
+            return StatusCode(500, new { success = false, message = ex.Message, innerMessage = ex.InnerException?.Message });
         }
     }
 
