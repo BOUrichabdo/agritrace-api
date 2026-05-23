@@ -1,5 +1,6 @@
 ﻿using AgriTraceAPI.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TracAgriApi.DTOs;
 using TracAgriApi.Models;
 
@@ -15,57 +16,98 @@ public class SocieteController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateSocieteDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateSocieteDto dto)
     {
-        // =========================
-        // CREATE SOCIETE
-        // =========================
-
-        var societe = new Societe
+        try
         {
-            Nom = dto.Nom,
-            NomCommercial = dto.NomCommercial,
-            MatriculeFiscal = dto.MatriculeFiscal,
-            ICE = dto.ICE,
-            Adresse = dto.Adresse,
-            Ville = dto.Ville,
-            Telephone = dto.Telephone,
-            Email = dto.Email,
-            Plan = dto.Plan,
-            Devise = dto.Devise,
-            DateCreation = DateTime.Now,
-            IsActive = true, 
-            
-        };
+            Console.WriteLine("=== CREATE SOCIETE ===");
+            Console.WriteLine($"Nom: {dto.Nom}");
+            Console.WriteLine($"Email: {dto.Email}");
+            Console.WriteLine($"AdminEmail: {dto.AdminEmail}");
 
-        _context.Societes.Add(societe);
+            // Vérifier si l'email existe déjà
+            var existingUser = await _context.Utilisateurs
+                .FirstOrDefaultAsync(u => u.Email == dto.AdminEmail);
 
-        await _context.SaveChangesAsync();
+            if (existingUser != null)
+            {
+                return BadRequest(new { message = "Cet email est déjà utilisé" });
+            }
 
-        // =========================
-        // CREATE ADMIN USER
-        // =========================
+            // 1. Créer la société
+            var societe = new Societe
+            {
+                Nom = dto.Nom,
+                NomCommercial = dto.NomCommercial ?? dto.Nom,
+                MatriculeFiscal = dto.MatriculeFiscal ?? "",
+                ICE = dto.ICE ?? "",
+                Adresse = dto.Adresse ?? "",
+                Ville = dto.Ville ?? "",
+                Telephone = dto.Telephone ?? "",
+                Email = dto.Email ?? "",
+                Plan = dto.Plan ?? "Free",
+                Devise = dto.Devise ?? "MAD",
+                DateCreation = DateTime.UtcNow,
+                IsActive = true
+            };
 
-        var admin = new Utilisateur
+            _context.Societes.Add(societe);
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine($"✅ Société créée avec ID: {societe.Id}");
+
+            // 2. Créer l'utilisateur admin
+            var admin = new Utilisateur
+            {
+                Nom = dto.AdminNom,
+                Email = dto.AdminEmail,
+                //MotDePasse = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword), // Hash du mot de passe
+
+                MotDePasse = dto.AdminPassword, // Hash du mot de passe
+
+                Role = "Admin",
+                SocieteId = societe.Id,
+                DateCreation = DateTime.UtcNow,
+                IsActive = true
+            };
+
+            _context.Utilisateurs.Add(admin);
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine($"✅ Admin créé avec ID: {admin.Id}");
+
+            return Ok(new
+            {
+                success = true,
+                message = "Société créée avec succès",
+                societeId = societe.Id,
+                userId = admin.Id
+            });
+        }
+        catch (Exception ex)
         {
-            Nom = dto.AdminNom,
+            Console.WriteLine($"❌ ERREUR: {ex.Message}");
+            Console.WriteLine($"STACK: {ex.StackTrace}");
 
-            Email = dto.AdminEmail,
+            return StatusCode(500, new
+            {
+                success = false,
+                message = ex.Message,
+                innerMessage = ex.InnerException?.Message
+            });
+        }
+    }
 
-            MotDePasse = dto.AdminPassword,
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var societe = await _context.Societes
+            .Include(s => s.Utilisateurs)
+            .FirstOrDefaultAsync(s => s.Id == id);
 
-            Role = "Admin",
+        if (societe == null)
+            return NotFound(new { message = "Société non trouvée" });
 
-            SocieteId = societe.Id
-        };
-
-        _context.Utilisateurs.Add(admin);
-
-        await _context.SaveChangesAsync();
-
-        return Ok(new
-        {
-            message = "Société créée avec succès"
-        });
+        return Ok(societe);
     }
 }

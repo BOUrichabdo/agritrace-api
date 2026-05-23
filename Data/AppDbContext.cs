@@ -116,6 +116,23 @@ namespace AgriTraceAPI.Data
             modelBuilder.Entity<SortieStock>()
                 .Property(s => s.QuantiteSortie)
                 .HasPrecision(18, 2);
+
+
+            //__________socite
+
+            modelBuilder.Entity<Societe>(entity =>
+            {
+                entity.HasKey(s => s.Id);
+                entity.Property(s => s.Nom).IsRequired().HasMaxLength(200);
+                entity.Property(s => s.Email).HasMaxLength(200);
+                entity.Property(s => s.Telephone).HasMaxLength(50);
+
+                // Relations
+                entity.HasMany(s => s.Utilisateurs)
+                    .WithOne(u => u.Societe)
+                    .HasForeignKey(u => u.SocieteId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
         }
         // les entity sets (tables)
         public DbSet<Agriculteur> Agriculteurs { get; set; }

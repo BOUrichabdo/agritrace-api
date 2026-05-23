@@ -18,5 +18,9 @@
 
         //public int Idsociete { get; set; };
 
+        // ✅ AJOUTER SocieteId
+        public int SocieteId { get; set; } = 1; // Valeur par défaut
+
+
     }
 }

@@ -121,6 +121,27 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"ERREUR GLOBALE: {ex.Message}");
+        Console.WriteLine($"STACK: {ex.StackTrace}");
+
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsJsonAsync(new
+        {
+            message = ex.Message,
+            innerMessage = ex.InnerException?.Message,
+            stack = ex.StackTrace
+        });
+    }
+});
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

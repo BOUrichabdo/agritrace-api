@@ -48,19 +48,18 @@ namespace TracAgriApi.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nom = table.Column<string>(type: "text", nullable: false),
+                    Nom = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     NomCommercial = table.Column<string>(type: "text", nullable: false),
                     MatriculeFiscal = table.Column<string>(type: "text", nullable: false),
                     ICE = table.Column<string>(type: "text", nullable: false),
                     Adresse = table.Column<string>(type: "text", nullable: false),
                     Ville = table.Column<string>(type: "text", nullable: false),
-                    Telephone = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
+                    Telephone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Plan = table.Column<string>(type: "text", nullable: false),
                     Devise = table.Column<string>(type: "text", nullable: false),
                     DateCreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    SocieteId = table.Column<int>(type: "integer", nullable: false)
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,7 +118,9 @@ namespace TracAgriApi.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     MotDePasse = table.Column<string>(type: "text", nullable: false),
                     Role = table.Column<string>(type: "text", nullable: false),
-                    SocieteId = table.Column<int>(type: "integer", nullable: false)
+                    SocieteId = table.Column<int>(type: "integer", nullable: false),
+                    DateCreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -14,10 +14,9 @@ namespace TracAgriApi.Services
             _context = context;
         }
         // ReceptionService.cs - Version corrigée pour PostgreSQL
+        // ReceptionService.cs - Version corrigée
         public async Task<ReceptionResponseDto> CreateReceptionAsync(CreateReceptionDto dto)
         {
-
-            // transaction pour cree reception 
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
@@ -30,20 +29,20 @@ namespace TracAgriApi.Services
                     .FirstOrDefaultAsync(x => x.Id == dto.EtiquetteFermeId);
 
                 if (etiquette == null)
-                    throw new Exception("Etiquette introuvable");
+                    throw new Exception($"Etiquette {dto.EtiquetteFermeId} introuvable");
 
-                // 2. créer réception
+                // 2. créer réception - ✅ AVEC SocieteId
                 var reception = new Reception
                 {
                     EtiquetteFermeId = dto.EtiquetteFermeId,
-                    PoidsBrut = decimal.Round(dto.PoidsBrut, 2), // Arrondir pour PostgreSQL
-                    Temperature = decimal.Round(dto.Temperature, 2),
+                    PoidsBrut = Math.Round(dto.PoidsBrut, 2),
+                    Temperature = Math.Round(dto.Temperature, 2),
                     EtatProduit = dto.EtatProduit,
                     TypeProduit = dto.TypeProduit,
                     Observation = dto.Observation ?? string.Empty,
                     Utilisateur = dto.Utilisateur ?? "admin",
                     DateReception = DateTime.UtcNow,
-                    SocieteId = 1 // À ajuster selon votre logique
+                    SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1 // ✅ Valeur par défaut
                 };
 
                 _context.Receptions.Add(reception);
@@ -55,7 +54,7 @@ namespace TracAgriApi.Services
                     ReceptionId = reception.Id,
                     ProduitId = etiquette.ProduitId,
                     VarieteId = etiquette.VarieteId,
-                    QuantiteDisponible = decimal.Round(reception.PoidsBrut, 2),
+                    QuantiteDisponible = Math.Round(reception.PoidsBrut, 2),
                     DateEntree = DateTime.UtcNow,
                     EtatStock = "Disponible"
                 };
@@ -68,8 +67,8 @@ namespace TracAgriApi.Services
                 {
                     CodePalette = $"PAL-{DateTime.Now:yyyyMMddHHmmss}",
                     ProduitId = etiquette.ProduitId,
-                    PoidsBrut = decimal.Round(dto.PoidsBrut, 2),
-                    QuantiteDisponible = decimal.Round(dto.PoidsBrut, 2),
+                    PoidsBrut = Math.Round(dto.PoidsBrut, 2),
+                    QuantiteDisponible = Math.Round(dto.PoidsBrut, 2),
                     EtatPalette = dto.EtatProduit,
                     StatutStock = "EN_STOCK",
                     DateCreation = DateTime.UtcNow,
@@ -95,15 +94,23 @@ namespace TracAgriApi.Services
                     PoidsBrut = palette.PoidsBrut,
                     QuantiteDisponible = palette.QuantiteDisponible,
                     DateReception = reception.DateReception,
+                    Temperature = reception.Temperature,
+                    Etat = reception.EtatProduit,
+                    Type = reception.TypeProduit,
+                    Observation = reception.Observation,
                     Produit = etiquette.Produit?.Nom ?? string.Empty,
                     Agriculteur = etiquette.Agriculteur?.Nom ?? string.Empty,
+                    Ferme = etiquette.Ferme?.NomFerme ?? string.Empty,
+                    Variete = etiquette.Variete?.Intitule ?? string.Empty,
                     CodeQR = etiquette.CodeEtiquette ?? string.Empty
                 };
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                throw new Exception($"Erreur lors de la création: {ex.Message}", ex);
+                Console.WriteLine($"ERREUR CreateReception: {ex.Message}");
+                Console.WriteLine($"INNER: {ex.InnerException?.Message}");
+                throw;
             }
         }
     }

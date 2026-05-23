@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TracAgriApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260523001053_InitialCreatePostgreSQL")]
+    [Migration("20260523161843_InitialCreatePostgreSQL")]
     partial class InitialCreatePostgreSQL
     {
         /// <inheritdoc />
@@ -332,7 +332,8 @@ namespace TracAgriApi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("ICE")
                         .IsRequired()
@@ -347,7 +348,8 @@ namespace TracAgriApi.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("NomCommercial")
                         .IsRequired()
@@ -357,12 +359,10 @@ namespace TracAgriApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("SocieteId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Telephone")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Ville")
                         .IsRequired()
@@ -462,9 +462,15 @@ namespace TracAgriApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateCreation")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("MotDePasse")
                         .IsRequired()

@@ -1,4 +1,5 @@
-﻿namespace TracAgriApi.Models
+﻿// Models/Societe.cs
+namespace TracAgriApi.Models
 {
     public class Societe
     {
@@ -25,12 +26,12 @@
 
         public string Devise { get; set; } = "MAD";
 
-        public DateTime DateCreation { get; set; } = DateTime.Now;
+        public DateTime DateCreation { get; set; } = DateTime.UtcNow;
 
         public bool IsActive { get; set; } = true;
 
-        public int SocieteId { get; set; }
-
+        // ❌ SUPPRIMER cette ligne - cause l'erreur
+        // public int SocieteId { get; set; }
 
         public List<Utilisateur>? Utilisateurs { get; set; }
     }
