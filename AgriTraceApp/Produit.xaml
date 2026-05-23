@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.Produit"
+             Title="Produit">
+    <!-- ROOT -->
+    <Grid RowDefinitions="Auto,Auto,Auto,*"
+      Padding="15"
+      RowSpacing="10">
+
+        <!-- 🟢 HEADER -->
+        <Label Text="📦 Produits"
+           FontSize="22"
+           FontAttributes="Bold"
+           Grid.Row="0"/>
+
+        <!-- ➕ FORMULAIRE AJOUT -->
+        <Border Grid.Row="1"
+            Stroke="#E0E0E0"
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 15"
+            Padding="15">
+
+            <VerticalStackLayout Spacing="10">
+
+                <!-- 🥦 NOM PRODUIT -->
+                <Entry Placeholder="Nom produit" TextChanged="TXT_PRODUIT_TextChanged"
+                   x:Name="TXT_PRODUIT"/>
+
+                <Label x:Name="ProduitError"
+                   TextColor="Red"
+                   IsVisible="False"/>
+
+                <!-- 🌾 PARCELLE -->
+                <Picker Title="🌾 Choisir Parcelle"
+                    x:Name="CMBPARCELLE"
+                    ItemDisplayBinding="{Binding NomParcelle}" />
+
+                <Label x:Name="ParcelleError"
+                   TextColor="Red"
+                   IsVisible="False"/>
+
+                <!-- 🌱 VARIETE -->
+                <Picker Title="🌱 Choisir Variété" SelectedIndexChanged="CMBVARIETE_SelectedIndexChanged"
+                    x:Name="CMBVARIETE"
+                    ItemDisplayBinding="{Binding Intitule}" />
+
+                <Label x:Name="VarieteError"
+                   TextColor="Red"
+                   IsVisible="False"/>
+
+                <!-- 📦 CATEGORIE AUTO -->
+                <Entry Placeholder="Catégorie" TextChanged="TXT_CATEGORIE_TextChanged"
+                   x:Name="TXT_CATEGORIE"
+                   IsReadOnly="True"
+                   BackgroundColor="#F3F3F3"/>
+
+                <!-- ✅ BUTTON -->
+                <Button Text="Ajouter produit"
+                    x:Name="VALIDER"
+                    Clicked="VALIDER_Clicked"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"/>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+        <!-- 🔎 RECHERCHE -->
+        <Border Grid.Row="2"
+            Stroke="#E0E0E0"
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 12"
+            Padding="10">
+
+            <VerticalStackLayout Spacing="10">
+
+                <Label Text="🔎 Recherche"
+                   FontAttributes="Bold"/>
+
+                <Entry x:Name="SearchEntry"
+                   Placeholder="Rechercher un produit..."
+                   TextChanged="SearchEntry_TextChanged"/>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+        <!-- 📋 LISTE -->
+        <CollectionView x:Name="ProduitList"
+                    Grid.Row="3">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <SwipeView>
+
+                        <!-- ✏️ MODIFIER -->
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Modifier"
+                                       BackgroundColor="Orange"
+                                       CommandParameter="{Binding .}"
+                                       Invoked="SwipeItem_Invoked"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <!-- 🗑 SUPPRIMER -->
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Supprimer"
+                                       BackgroundColor="Red"
+                                       CommandParameter="{Binding .}"
+                                       Invoked="SwipeItem_Invoked_1"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+
+                        <!-- CARD -->
+                        <Border Stroke="#E0E0E0"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="12"
+                            Margin="0,5">
+
+                            <VerticalStackLayout Spacing="5">
+
+                                <!-- ICON -->
+                                <Label Text="📦"
+                                   FontSize="30"
+                                   HorizontalOptions="Center"/>
+
+                                <!-- NOM PRODUIT -->
+                                <Label Text="{Binding Nom}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   HorizontalOptions="Center"/>
+
+                                <!-- PARCELLE -->
+                                <Label Text="{Binding ParcelleNom}"
+                                   TextColor="Gray"
+                                   FontSize="12"
+                                   HorizontalOptions="Center"/>
+
+                                <!-- VARIETE -->
+                                <Label Text="{Binding VarieteNom}"
+                                   TextColor="Gray"
+                                   FontSize="12"
+                                   HorizontalOptions="Center"/>
+
+                                <!-- CATEGORIE -->
+                                <Label Text="{Binding CategorieNom}"
+                                   TextColor="DarkGreen"
+                                   FontAttributes="Bold"
+                                   FontSize="12"
+                                   HorizontalOptions="Center"/>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

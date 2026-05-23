@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.Societe"
+             BackgroundColor="#F5F6FA">
+
+    <Grid RowDefinitions="180,*">
+
+        <!-- ========================= -->
+        <!-- HEADER MODERNE -->
+        <!-- ========================= -->
+
+        <Border Grid.Row="0"
+                Background="#1E3A8A"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 0,0,40,40">
+
+            <VerticalStackLayout Padding="25,50,25,20"
+                                 Spacing="6">
+
+                <Label Text="🏢 Créer votre société"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+
+                <Label Text="Configurez votre entreprise SaaS en quelques étapes"
+                       FontSize="14"
+                       TextColor="#DBEAFE"/>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+        <!-- ========================= -->
+        <!-- FORM -->
+        <!-- ========================= -->
+
+        <ScrollView Grid.Row="1">
+
+            <VerticalStackLayout Padding="20"
+                                 Spacing="18">
+
+                <!-- CARD IDENTITE -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 25"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="📌 Identité entreprise"
+                               FontAttributes="Bold"
+                               FontSize="18"/>
+
+                        <Entry x:Name="TXT_NOM"
+                               Placeholder="Nom de la société"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_NOM_COMMERCIAL"
+                               Placeholder="Nom commercial"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_ICE"
+                               Placeholder="ICE (Identifiant entreprise)"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_MATRICULE"
+                               Placeholder="Matricule fiscal"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- CARD CONTACT -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 25"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="📍 Informations de contact"
+                               FontAttributes="Bold"
+                               FontSize="18"/>
+
+                        <Entry x:Name="TXT_ADRESSE"
+                               Placeholder="Adresse complète"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_VILLE"
+                               Placeholder="Ville"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_TELEPHONE"
+                               Placeholder="Téléphone"
+                               Keyboard="Telephone"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_EMAIL"
+                               Placeholder="Email entreprise"
+                               Keyboard="Email"
+                               BackgroundColor="#F3F4F6"
+                               HeightRequest="55"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- CARD SAAS INFO -->
+                <Border BackgroundColor="White"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 25"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label Text="⚙️ Configuration SaaS"
+                               FontAttributes="Bold"
+                               FontSize="18"/>
+
+                        <Picker x:Name="CMB_PLAN"
+                                Title="Plan SaaS">
+
+                            <Picker.Items>
+                                <x:String>Free</x:String>
+                                <x:String>Starter</x:String>
+                                <x:String>Pro</x:String>
+                                <x:String>Enterprise</x:String>
+                            </Picker.Items>
+
+                        </Picker>
+
+                        <Picker x:Name="CMB_DEVISE"
+                                Title="Devise">
+
+                            <Picker.Items>
+                                <x:String>MAD</x:String>
+                                <x:String>EUR</x:String>
+                                <x:String>USD</x:String>
+                            </Picker.Items>
+
+                        </Picker>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+                <Border BackgroundColor="White"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 25"
+        Padding="18">
+
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="👤 Compte administrateur"
+               FontAttributes="Bold"
+               FontSize="18"/>
+
+                        <Entry x:Name="TXT_ADMIN_NOM"
+               Placeholder="Nom utilisateur"
+               BackgroundColor="#F3F4F6"
+               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_ADMIN_EMAIL"
+               Placeholder="Email administrateur"
+               Keyboard="Email"
+               BackgroundColor="#F3F4F6"
+               HeightRequest="55"/>
+
+                        <Entry x:Name="TXT_ADMIN_PASSWORD"
+               Placeholder="Mot de passe"
+               IsPassword="True"
+               BackgroundColor="#F3F4F6"
+               HeightRequest="55"/>
+
+
+                        <Entry x:Name="TXT_ADMIN_CONFIRMATION"
+Placeholder="Confirmer Mot de passe"
+IsPassword="True"
+BackgroundColor="#F3F4F6"
+HeightRequest="55"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- BUTTON -->
+                <Button Text="🚀 Créer la société"
+                        HeightRequest="60"
+                        CornerRadius="20"
+                        BackgroundColor="#1E3A8A"
+                        TextColor="White"
+                        FontAttributes="Bold" x:Name="BTNVALIDER"
+                        Clicked="BTNVALIDER_Clicked_1"/>
+
+                <BoxView HeightRequest="20"/>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracAgriApi", "TracAgriApi\TracAgriApi.csproj", "{644E91A0-0F13-42B2-ADC4-1A24033B73D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{2E360497-0E71-4B1C-B284-17736D0F6302}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{644E91A0-0F13-42B2-ADC4-1A24033B73D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{644E91A0-0F13-42B2-ADC4-1A24033B73D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{644E91A0-0F13-42B2-ADC4-1A24033B73D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{644E91A0-0F13-42B2-ADC4-1A24033B73D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E360497-0E71-4B1C-B284-17736D0F6302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E360497-0E71-4B1C-B284-17736D0F6302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E360497-0E71-4B1C-B284-17736D0F6302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E360497-0E71-4B1C-B284-17736D0F6302}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7F561E9-2882-420A-80C6-D083874914E0}
+	EndGlobalSection
+EndGlobal

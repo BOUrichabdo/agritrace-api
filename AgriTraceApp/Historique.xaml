@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             x:Class="AgriTraceApp.Historique"
+             Title="Historique des Réceptions"
+             BackgroundColor="#F5F7FA">
+
+    <Grid RowDefinitions="auto,auto,auto,*,auto"
+          Padding="12">
+
+        <!-- HEADER - TITRE UNIQUEMENT -->
+        <Grid Grid.Row="0"
+              Margin="0,0,0,16">
+            <Label Text="📋 Historique des Réceptions"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#1F2937"
+                   VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- PARTIE FILTRAGE (2 colonnes côte à côte) -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="12"
+              Margin="0,0,0,16">
+
+            <!-- Filtre par date -->
+            <material:DatePickerField x:Name="FiltreDate" Grid.Column="1"
+                                      Title="Date de réception"
+                                      BackgroundColor="White"
+                                      MinimumDate="2024/01/01"
+                                      MaximumDate="2025/12/31"/>
+
+            <!-- Filtre par produit -->
+            <material:PickerField x:Name="FiltreProduit"
+                                  Title="Produit"
+                                  BackgroundColor="White"/>
+
+
+        </Grid>
+
+        <!-- TABLEAU + PAGINATION -->
+        <Grid Grid.Row="3"
+              RowDefinitions="auto,*,auto">
+
+            <!-- En-tête du tableau -->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="0.7*,1.2*,1*,0.8*,0.8*,0.6*"
+                  BackgroundColor="#2196F3"
+                  Padding="12,10"
+                  ColumnSpacing="4"
+                  >
+
+                <Label Text="Code QR"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13"/>
+                <Label Text="Agriculteur"
+                       Grid.Column="1"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13"/>
+                <Label Text="Produit"
+                       Grid.Column="2"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13"/>
+                <Label Text="Poids (Kg)"
+                       Grid.Column="3"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13"/>
+                <Label Text="État"
+                       Grid.Column="4"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13"/>
+                <Label Text="Actions"
+                       Grid.Column="5"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13"
+                       HorizontalTextAlignment="Center"/>
+            </Grid>
+
+            <!-- ScrollView pour le contenu du tableau -->
+            <ScrollView Grid.Row="1"
+                        BackgroundColor="White">
+                <StackLayout>
+                    <!-- Liste dynamique des réceptions -->
+                    <StackLayout x:Name="ReceptionsList" Spacing="0"/>
+
+                    <!-- Message si aucune donnée -->
+                    <Label x:Name="LblEmptyMessage"
+                           Text="Aucune réception trouvée"
+                           FontSize="14"
+                           TextColor="#9CA3AF"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False"
+                           Margin="0,50"/>
+                </StackLayout>
+            </ScrollView>
+
+            <!-- PAGINATION - Version avec numéro de page entre les boutons -->
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="auto,auto,auto"
+                  Padding="0,12,0,12"
+                  BackgroundColor="#F5F7FA"
+                  HorizontalOptions="Center">
+
+                <!-- Bouton Précédent -->
+                <Button x:Name="BtnPrecedent"
+                        Text="◀"
+                        BackgroundColor="#E5E7EB"
+                        TextColor="#374151"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        WidthRequest="45"
+                        HeightRequest="36"
+                        CornerRadius="8"
+                        IsEnabled="False"
+                        Grid.Column="0"/>
+
+                <!-- Zone centrale : Numéro de page actuelle et pagination -->
+                <HorizontalStackLayout Grid.Column="1"
+                                       Spacing="12"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Margin="12,0,12,0">
+
+                    <!-- Indicateur de page (texte principal) -->
+                    <Label x:Name="LblPageActuelle"
+                           Text="Page 1"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2196F3"
+                           VerticalOptions="Center"/>
+
+                    <Label Text="sur"
+                           FontSize="12"
+                           TextColor="#6B7280"
+                           VerticalOptions="Center"/>
+
+                    <Label x:Name="LblTotalPages"
+                           Text="1"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           VerticalOptions="Center"/>
+
+                </HorizontalStackLayout>
+
+                <!-- Bouton Suivant -->
+                <Button x:Name="BtnSuivant"
+                        Text="▶"
+                        BackgroundColor="#E5E7EB"
+                        TextColor="#374151"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        WidthRequest="45"
+                        HeightRequest="36"
+                        CornerRadius="8"
+                        Grid.Column="2"/>
+            </Grid>
+        </Grid>
+
+        <!-- Indicateur de chargement -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           Grid.Row="3"
+                           IsRunning="False"
+                           IsVisible="False"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.SORTIE"
+             Title="SORTIE">
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ========================= -->
+        <!-- HEADER -->
+        <!-- ========================= -->
+
+        <Grid HeightRequest="180">
+
+            <!-- Background -->
+            <Border Background="#7C2D12"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 0,0,35,35">
+
+                <Grid>
+                    <BoxView Opacity="0.07"
+                         Color="White"/>
+                </Grid>
+
+            </Border>
+
+            <!-- CONTENT -->
+            <VerticalStackLayout Padding="25,55,25,20"
+                             Spacing="8">
+
+                <Label Text="📤 Sortie Palette"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   TextColor="White"/>
+
+                <Label Text="Scanner palette stock et préparer l’expédition"
+                   FontSize="14"
+                   TextColor="#FED7AA"/>
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <!-- ========================= -->
+        <!-- CONTENT -->
+        <!-- ========================= -->
+
+        <ScrollView Grid.Row="1"
+                VerticalScrollBarVisibility="Never">
+
+            <VerticalStackLayout Padding="18"
+                             Spacing="18">
+
+                <!-- ========================= -->
+                <!-- SCAN PALETTE -->
+                <!-- ========================= -->
+
+                <Border BackgroundColor="White"
+                    Padding="20"
+                    StrokeThickness="0"
+                    Shadow="{Shadow Brush=Black,Opacity=0.08,Radius=10}"
+                    StrokeShape="RoundRectangle 25">
+
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="📷 Scanner Palette"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#111827"/>
+
+                        <Entry x:Name="TXT_CODE_PALETTE"
+                           Placeholder="Scanner ou saisir code palette"
+                           HeightRequest="55"
+                           BackgroundColor="#F3F4F6"
+                           TextColor="Black"
+                           PlaceholderColor="#9CA3AF"/>
+
+                        <Button Text="📸 Scanner Palette"
+                                x:Name="BTNSCANNEPALETTE"
+                                Clicked="BTNSCANNEPALETTE_Clicked"
+                            HeightRequest="55"
+                            CornerRadius="18"
+                            BackgroundColor="#EA580C"
+                            TextColor="White"
+                            FontAttributes="Bold"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- ========================= -->
+                <!-- INFOS PALETTE -->
+                <!-- ========================= -->
+
+                <Border BackgroundColor="White"
+                    Padding="20"
+                    StrokeThickness="0"
+                    Shadow="{Shadow Brush=Black,Opacity=0.08,Radius=10}"
+                    StrokeShape="RoundRectangle 25">
+
+                    <VerticalStackLayout Spacing="14">
+
+                        <Label Text="📦 Informations Palette"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#111827"/>
+
+                        <!-- Palette -->
+                        <Grid ColumnDefinitions="35,*">
+
+                            <Label Text="🏷️"
+                               FontSize="20"/>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2">
+
+                                <Label Text="Code Palette"
+                                   FontSize="12"
+                                   TextColor="#6B7280"/>
+
+                                <Label x:Name="LBL_PALETTE"
+                                   Text="PLT-0001"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#111827"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                        <!-- Produit -->
+                        <Grid ColumnDefinitions="35,*">
+
+                            <Label Text="📦"
+                               FontSize="20"/>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2">
+
+                                <Label Text="Produit"
+                                   FontSize="12"
+                                   TextColor="#6B7280"/>
+
+                                <Label x:Name="LBL_PRODUIT"
+                                   Text="Tomate"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#111827"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                        <!-- Variété -->
+                        <Grid ColumnDefinitions="35,*">
+
+                            <Label Text="🌱"
+                               FontSize="20"/>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2">
+
+                                <Label Text="Variété"
+                                   FontSize="12"
+                                   TextColor="#6B7280"/>
+
+                                <Label x:Name="LBL_VARIETE"
+                                   Text="Cerise"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#111827"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                        <!-- Quantité -->
+                        <Grid ColumnDefinitions="35,*">
+
+                            <Label Text="⚖️"
+                               FontSize="20"/>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2">
+
+                                <Label Text="Quantité Disponible"
+                                   FontSize="12"
+                                   TextColor="#6B7280"/>
+
+                                <Label x:Name="LBL_QTE"
+                                   Text="520 KG"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#16A34A"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- ========================= -->
+                <!-- FORMULAIRE SORTIE -->
+                <!-- ========================= -->
+
+                <Border BackgroundColor="White"
+                    Padding="20"
+                    StrokeThickness="0"
+                    Shadow="{Shadow Brush=Black,Opacity=0.08,Radius=10}"
+                    StrokeShape="RoundRectangle 25">
+
+                    <VerticalStackLayout Spacing="18">
+
+                        <Label Text="🚚 Informations Sortie"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#111827"/>
+
+                        <!-- Quantité sortie -->
+                        <VerticalStackLayout Spacing="5">
+
+                            <Label Text="Quantité Sortie (KG)"
+                               FontAttributes="Bold"
+                               TextColor="#374151"/>
+
+                            <Entry x:Name="TXT_QTE_SORTIE"
+                               Placeholder="Ex : 120"
+                               Keyboard="Numeric"
+                               HeightRequest="55"
+                               BackgroundColor="#F3F4F6"
+                               TextColor="Black"/>
+
+                        </VerticalStackLayout>
+
+                        <!-- Destination -->
+                        <VerticalStackLayout Spacing="5">
+
+                            <Label Text="Destination"
+                               FontAttributes="Bold"
+                               TextColor="#374151"/>
+
+                            <Entry x:Name="TXT_DESTINATION"
+                               Placeholder="Client / Dépôt / Export"
+                               HeightRequest="55"
+                               BackgroundColor="#F3F4F6"
+                               TextColor="Black"/>
+
+                        </VerticalStackLayout>
+
+                        <!-- Transport -->
+                        <VerticalStackLayout Spacing="5">
+
+                            <Label Text="Transporteur"
+                               FontAttributes="Bold"
+                               TextColor="#374151"/>
+
+                            <Entry x:Name="TXT_TRANSPORT"
+                               Placeholder="Nom transporteur"
+                               HeightRequest="55"
+                               BackgroundColor="#F3F4F6"
+                               TextColor="Black"/>
+
+                        </VerticalStackLayout>
+
+                        <!-- Observation -->
+                        <VerticalStackLayout Spacing="5">
+
+                            <Label Text="Observation"
+                               FontAttributes="Bold"
+                               TextColor="#374151"/>
+
+                            <Editor x:Name="TXT_OBSERVATION"
+                                Placeholder="Observation sortie..."
+                                HeightRequest="120"
+                                AutoSize="TextChanges"
+                                BackgroundColor="#F3F4F6"
+                                TextColor="Black"/>
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- ========================= -->
+                <!-- ACTIONS -->
+                <!-- ========================= -->
+
+                <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="12">
+
+                    <!-- PRINT -->
+                    <Button Grid.Column="0"
+                        Text="🖨️ Étiquette"
+                        HeightRequest="60"
+                        CornerRadius="20"
+                        BackgroundColor="#374151"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
+
+                    <!-- VALIDER -->
+                    <Button Grid.Column="1" x:Name="BTNSORTIE" Clicked="BTNSORTIE_Clicked"
+                        Text="✅ Valider"
+                        HeightRequest="60"
+                        CornerRadius="20"
+                        BackgroundColor="#EA580C"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
+
+                </Grid>
+
+                <!-- SPACE -->
+                <BoxView HeightRequest="20"/>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.Categorie"
+             Title="Categorie"    BackgroundColor="#F5F6FA">
+
+
+
+    <!-- ROOT = GRID (IMPORTANT POUR SCROLL) -->
+    <Grid RowDefinitions="Auto,Auto,Auto,*"
+      Padding="15"
+      RowSpacing="10">
+
+        <!-- 🟢 HEADER -->
+        <Label Text="📦 Catégories"
+           FontSize="22"
+           FontAttributes="Bold"
+           Grid.Row="0"/>
+
+        <!-- ➕ FORMULAIRE AJOUT -->
+        <Border Grid.Row="1"
+            Stroke="#E0E0E0"
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 15"
+            Padding="15">
+
+            <VerticalStackLayout Spacing="10">
+
+                <!-- NOM CATEGORIE -->
+                <Entry Placeholder="Nom catégorie (ex: Fruits, Légumes)"
+                   x:Name="TXT_CATEGORIE"
+                   TextChanged="TXT_CATEGORIE_TextChanged"/>
+
+                <Label x:Name="NomError"
+                   TextColor="Red"
+                   IsVisible="False"/>
+
+                <!-- BUTTON -->
+                <Button Text="Ajouter catégorie"
+                    x:Name="VALIDER"
+                    Clicked="VALIDER_Clicked"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"/>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+        <!-- 🔎 FILTRE -->
+        <Border Grid.Row="2"
+            Stroke="#E0E0E0"
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 12"
+            Padding="10">
+
+            <VerticalStackLayout Spacing="10">
+
+                <Label Text="🔎 Recherche"
+                   FontAttributes="Bold"/>
+
+                <Entry x:Name="SearchEntry"
+                   Placeholder="Rechercher une catégorie..."
+                   TextChanged="SearchEntry_TextChanged"/>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+        <!-- 📋 LISTE -->
+        <CollectionView x:Name="CategorieList"
+                    Grid.Row="3">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <SwipeView>
+
+                        <!-- ✏️ MODIFIER -->
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Modifier"
+                                       BackgroundColor="Orange"
+                                       CommandParameter="{Binding .}"
+                                       Invoked="SwipeItem_Invoked"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <!-- 🗑 SUPPRIMER -->
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Supprimer"
+                                       BackgroundColor="Red"
+                                       CommandParameter="{Binding .}"
+                                       Invoked="SwipeItem_Invoked_1"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+
+                        <!-- CARD -->
+                        <Border Stroke="#E0E0E0"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="10"
+                            Margin="0,5">
+
+                            <VerticalStackLayout Spacing="5">
+
+                                <!-- ICON -->
+                                <Label Text="📦"
+                                   FontSize="30"
+                                   HorizontalOptions="Center"/>
+
+                                <!-- NOM -->
+                                <Label Text="{Binding Intitule}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   HorizontalOptions="Center"/>
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

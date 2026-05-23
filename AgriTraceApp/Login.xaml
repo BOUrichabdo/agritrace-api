@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.Login"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F3F4F6">
+
+    <Grid RowDefinitions="2.2*,3*">
+
+        <!-- ========================= -->
+        <!-- HEADER -->
+        <!-- ========================= -->
+
+        <Grid Grid.Row="0">
+
+            <!-- Background -->
+            <Border Background="#14532D"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 0,0,40,40">
+
+                <Grid>
+
+                    <!-- Overlay -->
+                    <BoxView Color="White"
+                             Opacity="0.05"/>
+
+                </Grid>
+
+            </Border>
+
+            <!-- Content -->
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12">
+
+                <!-- Logo -->
+                <Border BackgroundColor="#DCFCE7"
+                        WidthRequest="95"
+                        HeightRequest="95"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 50">
+
+                    <Image Source="logo.png"
+                           HeightRequest="60"
+                           WidthRequest="60"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+                </Border>
+
+                <!-- Title -->
+                <Label Text="AgriTrace"
+                       FontSize="34"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+
+                <Label Text="Plateforme intelligente de traçabilité agricole"
+                       FontSize="14"
+                       TextColor="#D1FAE5"
+                       HorizontalTextAlignment="Center"/>
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <!-- ========================= -->
+        <!-- LOGIN CARD -->
+        <!-- ========================= -->
+
+        <Border Grid.Row="1"
+                Margin="18,-35,18,18"
+                Padding="28"
+                BackgroundColor="White"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 35">
+
+            <Border.Shadow>
+                <Shadow Brush="#000000"
+                        Opacity="0.08"
+                        Radius="18"
+                        Offset="0,4"/>
+            </Border.Shadow>
+
+            <ScrollView>
+
+                <VerticalStackLayout Spacing="20">
+
+                    <!-- Title -->
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label Text="Connexion"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#111827"/>
+
+                        <Label Text="Connectez-vous pour accéder à votre espace"
+                               FontSize="13"
+                               TextColor="#6B7280"/>
+
+                    </VerticalStackLayout>
+
+                    <!-- Username -->
+                    <VerticalStackLayout Spacing="6">
+
+                        <Label Text="Utilisateur"
+                               FontAttributes="Bold"
+                               TextColor="#374151"/>
+
+                        <Border BackgroundColor="#F3F4F6"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 18">
+
+                            <Entry x:Name="TXT_USER"
+                                   Placeholder="Nom utilisateur"
+                                   HeightRequest="58"
+                                   Margin="15,0"
+                                   TextColor="Black"
+                                   PlaceholderColor="#9CA3AF"/>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- Password -->
+                    <VerticalStackLayout Spacing="6">
+
+                        <Label Text="Mot de passe"
+                               FontAttributes="Bold"
+                               TextColor="#374151"/>
+
+                        <Border BackgroundColor="#F3F4F6"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 18">
+
+                            <Entry x:Name="TXT_PASSWORD"
+                                   Placeholder="••••••••"
+                                   IsPassword="True"
+                                   HeightRequest="58"
+                                   Margin="15,0"
+                                   TextColor="Black"
+                                   PlaceholderColor="#9CA3AF"/>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- Button -->
+                    <Button Text="Se connecter" 
+                            x:Name="BTNCONNECTER"
+                            HeightRequest="60"
+                            CornerRadius="20"
+                            FontSize="17"
+                            FontAttributes="Bold"
+                            BackgroundColor="#16A34A"
+                            TextColor="White"
+                            Clicked="BTNCONNECTER_Clicked"/>
+
+                    <!-- Footer -->
+                    <VerticalStackLayout Spacing="3">
+
+                        <Label Text="AgriTrace ERP"
+                               FontAttributes="Bold"
+                               FontSize="13"
+                               HorizontalOptions="Center"
+                               TextColor="#374151"/>
+
+                        <Label Text="Version MVP 2026"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#9CA3AF"/>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+            </ScrollView>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>

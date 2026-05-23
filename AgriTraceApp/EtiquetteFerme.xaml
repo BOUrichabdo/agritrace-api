@@ -1,0 +1,189 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AgriTraceApp.EtiquetteFerme"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+    Title="Générer Étiquette"
+    >
+
+
+    <Grid RowDefinitions="Auto,*,Auto"
+          Padding="0"
+          RowSpacing="10">
+
+        <!-- ===================== -->
+        <!-- HEADER ÉTIQUETTE -->
+        <!-- ===================== -->
+
+
+
+
+
+
+
+
+        <!-- ===================== -->
+        <!-- CONTENU SCROLL -->
+        <!-- ===================== -->
+        <ScrollView Grid.Row="1">
+
+            <VerticalStackLayout Spacing="0">
+
+                <!-- FORMULAIRE -->
+                <Border BackgroundColor="White"
+                        Stroke="#E0E0E0"
+                        StrokeShape="RoundRectangle 15"
+                        Padding="0">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Picker x:Name="CMBAGRICULTEUR" Title="👨‍🌾 Agriculteur"  ItemDisplayBinding="{Binding Nom}" SelectedIndexChanged="CMBAGRICULTEUR_SelectedIndexChanged_2"/>
+                        <Picker x:Name="CMBFERME"  Title="🏡 Ferme" SelectedIndexChanged="CMBFERME_SelectedIndexChanged_2"  ItemDisplayBinding="{Binding NomFerme}"/>
+                        <Picker x:Name="CMBPARCELLE"  Title="📍 Parcelle" SelectedIndexChanged="CMBPARCELLE_SelectedIndexChanged_1"  ItemDisplayBinding="{Binding NomParcelle}"/>
+                        <Picker x:Name="CMBPRODUIT" Title="📦 Produit"  ItemDisplayBinding="{Binding Nom}" SelectedIndexChanged="CMBPRODUIT_SelectedIndexChanged_1"/>
+                        <Picker x:Name="CMBVARIETE"  Title="🌱 Variété"  ItemDisplayBinding="{Binding Intitule}"/>
+
+
+
+                        <Grid Grid.Row="0"
+                            ColumnDefinitions="*,*, auto"
+                            Padding="10,15,10,5"
+                            BackgroundColor="White">
+                            
+                            <Button Text="🔄 Générer Étiquette"
+                                    x:Name="BTN_GENERER"
+                                    Clicked="BTN_GENERER_Clicked"
+                                    BackgroundColor="#2E7D32"
+                                    TextColor="White"
+                                    HeightRequest="55"
+                                    FontAttributes="Bold"
+                                    CornerRadius="12"
+                                    Margin="0,10,0,0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"/>
+
+
+
+
+
+
+
+
+
+
+                            <!-- Trois points -->
+                            <ImageButton Grid.Column="2"
+                              BackgroundColor="Transparent"
+                              WidthRequest="20"
+                              HeightRequest="26"
+                              VerticalOptions="Center"
+                              Clicked="ImageButton_Clicked_1">
+
+                                <ImageButton.Source>
+                                    <FontImageSource Glyph="⋮"
+                       Size="26"
+                       Color="Black"/>
+                                </ImageButton.Source>
+
+                            </ImageButton>
+
+                        </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </VerticalStackLayout>
+
+
+
+                </Border>
+
+                <!-- ===================== -->
+                <!-- APERÇU ÉTIQUETTE -->
+                <!-- ===================== -->
+                <Border BackgroundColor="White"
+                        Stroke="#2E7D32"
+                        StrokeShape="RoundRectangle 15"
+                        Padding="15">
+
+                    <VerticalStackLayout Spacing="6">
+
+                        <Label Text="📄 APERÇU ÉTIQUETTE"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+
+                        <Label x:Name="LBL_AGRI" Text="👨‍🌾 Agriculteur : -" />
+                        <Label x:Name="LBL_FERME" Text="🏡 Ferme : -" />
+                        <Label x:Name="LBL_PARCELLE" Text="📍 Parcelle : -" />
+                        <Label x:Name="LBL_PRODUIT" Text="📦 Produit : -" />
+                        <Label x:Name="LBL_VARIETE" Text="🌱 Variété : -" />
+
+                        <BoxView HeightRequest="1" Color="Gray"/>
+
+                        <Label x:Name="LBL_CODE"
+                               Text="🔢 Code : "
+                               FontAttributes="Bold"/>
+
+                        <!-- QR CODE -->
+                        <Image x:Name="IMG_QR"
+                               HeightRequest="160"
+                               WidthRequest="160"
+                               HorizontalOptions="Center"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+        <!-- ===================== -->
+        <!-- BOUTONS FIXES -->
+        <!-- ===================== -->
+        <Grid Grid.Row="2"
+      ColumnDefinitions="*,*"
+      ColumnSpacing="5"
+      Padding="0,10,0,0">
+
+            <!-- 📤 WhatsApp -->
+            <Button Grid.Column="0"
+            Text="📤 WhatsApp"
+            BackgroundColor="#25D366"
+            x:Name="BtnWhats"      
+            Clicked="BtnWhats_Clicked"        
+            TextColor="White"
+            HeightRequest="50"
+            FontAttributes="Bold"
+            CornerRadius="10"/>
+
+            <!-- 🖨 Imprimer -->
+            <Button Grid.Column="1"
+            Text="🖨 Imprimer"
+            x:Name="Imprimer"  
+            Clicked="Imprimer_Clicked_1"        
+            BackgroundColor="Black"
+            TextColor="White"
+            HeightRequest="50"
+            FontAttributes="Bold"
+            CornerRadius="10"/>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>

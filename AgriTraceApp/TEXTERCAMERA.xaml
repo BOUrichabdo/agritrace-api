@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="AgriTraceApp.TEXTERCAMERA"
+             Title="Scan QR Code">
+
+    <Grid x:Name="MainGrid" RowDefinitions="Auto,*,Auto">
+
+        <!-- Bouton en haut -->
+        <Button x:Name="btnScan"
+                Text="📷 SCANNER QR CODE"
+                Margin="20"
+                Clicked="OnScanClicked"
+                HeightRequest="60"
+                FontSize="18"
+                BackgroundColor="#2196F3"
+                TextColor="White"/>
+
+        <!-- Conteneur pour la caméra (caché par défaut) -->
+        <Grid x:Name="CameraContainer"
+              Grid.Row="1"
+              IsVisible="False"
+              Margin="10">
+
+            <zxing:CameraBarcodeReaderView x:Name="cameraView"
+                                            BarcodesDetected="OnBarcodesDetected"/>
+        </Grid>
+
+        <!-- Champ Entry pour afficher le code QR scanné -->
+        <Frame Grid.Row="2"
+               Margin="20,10,20,20"
+               Padding="10"
+               BackgroundColor="#F0F0F0"
+               CornerRadius="10"
+               BorderColor="#2196F3"
+               HasShadow="True">
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="CODE QR SCANNÉ :"
+                       FontSize="14"
+                       TextColor="#666666"
+                       FontAttributes="Bold"/>
+
+                <Entry x:Name="txtQRCode"
+                       Placeholder="Aucun code scanné..."
+                       FontSize="16"
+                       BackgroundColor="White"
+                       IsReadOnly="True"
+                       TextColor="#333333"/>
+            </VerticalStackLayout>
+        </Frame>
+
+    </Grid>
+</ContentPage>
+
+
+
+
+
+<!--<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="AgriTraceApp.TEXTERCAMERA"
+             Title="Scan QR Code">
+
+    <Grid x:Name="MainGrid" RowDefinitions="Auto,*">
+
+        <Button x:Name="btnScan"
+                Text="📷 SCANNER QR CODE"
+                Margin="20"
+                Clicked="OnScanClicked"
+                HeightRequest="60"
+                FontSize="18"
+                BackgroundColor="#2196F3"
+                TextColor="White"/>
+
+        --><!-- Conteneur pour la caméra (caché par défaut) --><!--
+        <Grid x:Name="CameraContainer"
+              Grid.Row="1"
+              IsVisible="False">
+
+            <zxing:CameraBarcodeReaderView x:Name="cameraView"
+                                            BarcodesDetected="OnBarcodesDetected"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>-->

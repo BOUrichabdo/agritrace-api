@@ -1,0 +1,180 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AgriTraceApp.ListeEtiquettesPage"
+    BackgroundColor="#F5F7FA"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <!-- ========================= -->
+        <!-- HEADER -->
+        <!-- ========================= -->
+
+        <Grid Grid.Row="0"
+              ColumnDefinitions="40,*,40"
+              Padding="15,15,15,10"
+              BackgroundColor="White">
+
+            <!-- Retour -->
+            <ImageButton Source="back.png"
+                         BackgroundColor="Transparent"
+                         WidthRequest="26"
+                         HeightRequest="26"
+                         Clicked="ImageButton_Clicked"/>
+
+            <!-- Titre -->
+            <Label Grid.Column="1"
+                   Text="Réimpression Étiquettes"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   TextColor="#1E293B"/>
+
+            <!-- Menu -->
+            <ImageButton Grid.Column="2"
+                         BackgroundColor="Transparent">
+
+                <ImageButton.Source>
+                    <FontImageSource Glyph="⋮"
+                                     Size="28"
+                                     Color="Black"/>
+                </ImageButton.Source>
+
+            </ImageButton>
+
+        </Grid>
+
+        <!-- ========================= -->
+        <!-- RECHERCHE -->
+        <!-- ========================= -->
+
+        <VerticalStackLayout Grid.Row="1"
+                             Padding="15,5"
+                             Spacing="10">
+
+            <SearchBar Placeholder="Recherche code, agriculteur..."
+                       BackgroundColor="White"
+                       HeightRequest="50"
+                       FontSize="16"
+                       PlaceholderColor="Gray"
+                       SearchCommand="{Binding SearchCommand}"/>
+
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="10">
+
+                <Picker Title="👨‍🌾 Agriculteur"
+                        BackgroundColor="White"
+                        HeightRequest="50"/>
+
+                <Picker Grid.Column="1"
+                        Title="🏡 Ferme"
+                        BackgroundColor="White"
+                        HeightRequest="50"/>
+
+            </Grid>
+
+        </VerticalStackLayout>
+
+        <!-- ========================= -->
+        <!-- LISTE ETIQUETTES -->
+        <!-- ========================= -->
+
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding ListeEtiquettes}"
+                        SelectionMode="Single"
+                        Margin="15,0">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Border BackgroundColor="White"
+                            Stroke="#E5E7EB"
+                            StrokeThickness="1"
+                            Margin="0,0,0,12"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 20">
+
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                              ColumnDefinitions="*,Auto">
+
+                            <!-- Code -->
+                            <Label Text="{Binding CodeEtiquette}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#16A34A"/>
+
+                            <!-- Status -->
+                            <Border Grid.Column="1"
+                                    BackgroundColor="#DCFCE7"
+                                    Padding="10,5"
+                                    StrokeShape="RoundRectangle 15">
+
+                                <Label Text="Réceptionné"
+                                       FontSize="12"
+                                       TextColor="#166534"/>
+
+                            </Border>
+
+                            <!-- Agriculteur -->
+                            <Label Grid.Row="1"
+                                   Text="{Binding AgriculteurNom, StringFormat='👨‍🌾 {0}'}"
+                                   Margin="0,12,0,0"
+                                   FontSize="15"
+                                   TextColor="#374151"/>
+
+                            <!-- Ferme -->
+                            <Label Grid.Row="2"
+                                   Text="{Binding FermeNom, StringFormat='🏡 {0}'}"
+                                   Margin="0,6,0,0"
+                                   FontSize="15"
+                                   TextColor="#374151"/>
+
+                            <!-- Produit -->
+                            <Label Grid.Row="3"
+                                   Text="{Binding ProduitNom, StringFormat='📦 {0}'}"
+                                   Margin="0,6,0,0"
+                                   FontSize="15"
+                                   TextColor="#374151"/>
+
+                            <!-- Boutons -->
+                            <Grid Grid.Row="4"
+                                  Grid.ColumnSpan="2"
+                                  ColumnDefinitions="*,*"
+                                  Margin="0,15,0,0"
+                                  ColumnSpacing="10">
+
+                                <!-- Aperçu -->
+                                <Button Text="👁 Aperçu"
+                                        BackgroundColor="#F3F4F6"
+                                        TextColor="#111827"
+                                        HeightRequest="48"
+                                        CornerRadius="14"
+                                        FontAttributes="Bold"/>
+
+                                <!-- Réimprimer -->
+                                <Button Grid.Column="1"
+                                        Text="🖨 Réimprimer"
+                                        BackgroundColor="#16A34A"
+                                        TextColor="White"
+                                        HeightRequest="48"
+                                        CornerRadius="14"
+                                        FontAttributes="Bold"/>
+
+                            </Grid>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

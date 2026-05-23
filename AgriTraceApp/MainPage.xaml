@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.MainPage"
+             BackgroundColor="#F5F6FA" 
+             Title="Tracabilité Palettes">
+
+    <!--Structure verticalement-->
+    <Grid RowDefinitions="Auto,*">
+
+
+        <!-- 🟣 CONTENT -->
+        <ScrollView VerticalScrollBarVisibility="Always" Grid.Row="1">
+            <VerticalStackLayout Padding="15" Spacing="15">
+
+                <Grid Padding="15"
+RowSpacing="15"
+ColumnSpacing="15"
+ColumnDefinitions="*,*"
+RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                    <!-- 👨‍🌾 AGRICULTEURS -->
+                    <Border Grid.Row="0" Grid.Column="0"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_12"/>
+                        </Border.GestureRecognizers>
+
+                        <!--<Border.Shadow>
+                  <Shadow Brush="#000000" Opacity="0.1" Radius="10"/>
+              </Border.Shadow>-->
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="👨‍🌾" FontSize="30"/>
+                            <Label Text="Agriculteurs" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 🌾 FERMES -->
+                    <Border Grid.Row="0" Grid.Column="1"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="TapGestureRecognizer_Tapped_10"/>
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="🌾" FontSize="30"/>
+                            <Label Text="Fermes" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 📍 PARCELLES -->
+                    <Border Grid.Row="1" Grid.Column="0"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="BTNPARCELLE" Tapped="BTNPARCELLE_Tapped"/>
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="🗺️" FontSize="30"/>
+                            <Label Text="Parcelles" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 📦 PRODUITS -->
+                    <Border Grid.Row="1" Grid.Column="1"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_3"/>
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="📦" FontSize="30"/>
+                            <Label Text="Produits" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 🏷️ CATEGORIE -->
+                    <Border Grid.Row="2" Grid.Column="0"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4"/>
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="📦" FontSize="30"/>
+                            <Label Text="Catégorie" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 🏷️ ETIQUETTE FERME -->
+                    <Border Grid.Row="2" Grid.Column="1"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer  x:Name="SORTIE" Tapped="SORTIE_Tapped_2"/>
+                        </Border.GestureRecognizers>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="🏷️" FontSize="30"/>
+                            <Label Text="Étiquette ferme" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 📥 RECEPTION -->
+                    <Border Grid.Row="3" Grid.Column="1"
+          BackgroundColor="White"
+          Stroke="#E0E0E0"
+          StrokeThickness="1"
+          StrokeShape="RoundRectangle 15"
+          HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="RECPTION" Tapped="RECPTION_Tapped"/>
+                        </Border.GestureRecognizers>
+
+                        <Border.Shadow>
+                            <Shadow Brush="#000000" Opacity="0.1" Radius="10"/>
+                        </Border.Shadow>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Spacing="5">
+
+                            <Label Text="📥" FontSize="30"/>
+                            <Label Text="Réception" FontAttributes="Bold"/>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- 📤 SORTIE STOCK -->
+                    <Border Grid.Row="3" 
+  Grid.Column="0"
+  BackgroundColor="#FFFFFF"
+  Stroke="#E5E7EB"
+  StrokeThickness="1.2"
+  StrokeShape="RoundRectangle 22"
+  HeightRequest="135"
+  Padding="15">
+
+                        <!-- SHADOW -->
+                        <Border.Shadow>
+                            <Shadow Brush="#000000"
+          Opacity="0.08"
+          Radius="12"
+          Offset="0,4"/>
+                        </Border.Shadow>
+
+                        <!-- CLICK -->
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="Sortiestock" Tapped="Sortiestock_Tapped"/>
+                        </Border.GestureRecognizers>
+
+                        <!-- CONTENT -->
+                        <Grid RowDefinitions="Auto,Auto"
+    ColumnDefinitions="*">
+
+                            <VerticalStackLayout Spacing="8"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+
+                                <!-- ICON -->
+                                <Border BackgroundColor="#FEF3C7"
+              WidthRequest="55"
+              HeightRequest="55"
+              StrokeThickness="0"
+              StrokeShape="RoundRectangle 30"
+              HorizontalOptions="Center">
+
+                                    <Label Text="📤"
+                 FontSize="28"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center"/>
+                                </Border>
+
+                                <!-- TITLE -->
+                                <Label Text="Sortie Stock"
+             FontSize="16"
+             FontAttributes="Bold"
+             TextColor="#111827"
+             HorizontalTextAlignment="Center"/>
+
+                                <!-- SUBTITLE -->
+                                <Label Text="Expédition"
+             FontSize="12"
+             TextColor="#6B7280"
+             HorizontalTextAlignment="Center"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- 📤 VARIETE -->
+                    <Border Grid.Row="4" Grid.Column="0"
+BackgroundColor="White"
+Stroke="#E0E0E0"
+StrokeThickness="1"
+StrokeShape="RoundRectangle 15"
+HeightRequest="120">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_9"/>
+                        </Border.GestureRecognizers>
+
+                        <Border.Shadow>
+                            <Shadow Brush="#000000" Opacity="0.1" Radius="10"/>
+                        </Border.Shadow>
+
+                        <VerticalStackLayout HorizontalOptions="Center"
+                 VerticalOptions="Center"
+                 Spacing="5">
+
+                            <!-- Icône -->
+                            <Label Text="🌱" FontSize="30"/>
+
+                            <!-- Texte -->
+                            <Label Text="Variété"
+       FontAttributes="Bold"
+       FontSize="14"
+       HorizontalOptions="Center"/>
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+
+
+
+
+        </ScrollView>
+
+    </Grid>
+
+
+
+
+</ContentPage>
+
+

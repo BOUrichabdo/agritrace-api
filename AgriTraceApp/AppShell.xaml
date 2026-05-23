@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AgriTraceApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AgriTraceApp"
+    Title="AgriTraceApp">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+
+
+    <ShellContent
+    Route="agriculteurs"
+    ContentTemplate="{DataTemplate local:Agriculteur}" />
+
+    <ShellContent
+    Route="ferme"
+    ContentTemplate="{DataTemplate local:Ferme}" />
+
+     <ShellContent
+    Route="produit"
+    ContentTemplate="{DataTemplate local:Produit}" />
+
+
+    <ShellContent
+    Route="categorie"
+    ContentTemplate="{DataTemplate local:Categorie}" />
+
+
+    <ShellContent
+    Route="login"
+    ContentTemplate="{DataTemplate local:Login}" />
+
+
+    <ShellContent
+   Route="parcelle"
+   ContentTemplate="{DataTemplate local:Parcelle}" />
+
+
+
+
+    <ShellContent
+Route="variete"
+ContentTemplate="{DataTemplate local:Variete}" />
+
+
+
+    <ShellContent
+Route="etiquetteferme"
+ContentTemplate="{DataTemplate local:EtiquetteFerme}" />
+
+
+
+    <ShellContent
+Route="reception"
+ContentTemplate="{DataTemplate local:Reception}" />
+
+
+
+    <ShellContent
+Route="_sortie"
+ContentTemplate="{DataTemplate local:SORTIE}" />
+
+
+
+
+
+
+
+
+</Shell>

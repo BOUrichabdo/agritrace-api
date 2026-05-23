@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriTraceApp.Ferme"
+             Title="ferme">
+
+    <!-- ROOT = GRID (IMPORTANT POUR SCROLL) -->
+    <Grid RowDefinitions="Auto,Auto,Auto,*"  Padding="15"   RowSpacing="10">
+        <!-- HEADER -->
+        <Label Text="🌾 Ferme" FontSize="22"  FontAttributes="Bold"/>
+
+        <!-- ➕ FORMULAIRE AJOUT -->
+        <Border Grid.Row="1" Stroke="#E0E0E0"   BackgroundColor="White"  StrokeShape="RoundRectangle 15"  Padding="15">
+            <VerticalStackLayout Spacing="10">
+                <!-- Intitulé ferme -->
+                <Entry Placeholder="Intitulé de la ferme" x:Name="FEREMEENTRY" TextChanged="FEREMEENTRY_TextChanged"/>
+                <Label x:Name="FERMEERREUR"  TextColor="Red" IsVisible="False"/>
+
+
+                 <!--Agriculteur (Picker)-->
+                <Picker Title="👨‍🌾 Choisir Agriculteur"
+        x:Name="CMBOAGRI"
+        ItemDisplayBinding="{Binding Nom}" />
+
+
+                <Label x:Name="ERREURAGRI"  TextColor="Red" IsVisible="False"/>
+
+
+                <Button Text="Ajouter" x:Name="VALIDER"  Clicked="VALIDER_Clicked"  BackgroundColor="#2E7D32" TextColor="White"/>
+            </VerticalStackLayout>
+
+        </Border>
+
+
+        <!-- 🔎 FILTRE -->
+        <Border Grid.Row="2"  Stroke="#E0E0E0"  BackgroundColor="White"  StrokeShape="RoundRectangle 12"  Padding="10">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="🔎 Recherche"  FontAttributes="Bold"/>
+                <Entry x:Name="SearchEntry"   Placeholder="Rechercher un ferme..." TextChanged="SearchEntry_TextChanged_2"/>
+            </VerticalStackLayout>
+
+        </Border>
+
+
+
+        <!-- 📋 LISTE (SCROLL OK) -->
+        <CollectionView x:Name="ListeFerme"
+                Grid.Row="3">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <!-- 🔥 SWIPE CONTAINER -->
+                    <SwipeView>
+
+                        <!-- 🟠 MODIFIER (RIGHT) -->
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Modifier" x:Name="UPDATE"  BackgroundColor="Orange"  CommandParameter="{Binding .}"  Invoked="UPDATE_Invoked"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <!-- 🔴 SUPPRIMER (LEFT) -->
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Supprimer" x:Name="DELETE"   BackgroundColor="Red"  CommandParameter="{Binding .}" Invoked="DELETE_Invoked"  />
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+
+                        <!-- CONTENT -->
+                        <Border Stroke="#E0E0E0"  BackgroundColor="White" StrokeShape="RoundRectangle 10"    Padding="10">
+
+                            <VerticalStackLayout>
+                                <Label Text="🌾"  FontSize="30"  HorizontalOptions="Center"/>
+                                <Label Text="{Binding NomFerme}"   FontAttributes="Bold"  HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
