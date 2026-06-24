@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj": {}
+    "E:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj": {}
   },
   "projects": {
-    "F:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj": {
+    "E:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj",
+        "projectUniqueName": "E:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj",
         "projectName": "TracAgriApi",
-        "projectPath": "F:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj",
+        "projectPath": "E:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj",
         "packagesPath": "C:\\Users\\A.Bourich\\.nuget\\packages\\",
-        "outputPath": "F:\\Task\\AgriTrace\\TracAgriApi\\obj\\",
+        "outputPath": "E:\\Task\\AgriTrace\\TracAgriApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YcDh38p1AWE=",
+  "dgSpecHash": "sMVvljisU4Y=",
   "success": true,
-  "projectFilePath": "F:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj",
+  "projectFilePath": "E:\\Task\\AgriTrace\\TracAgriApi\\TracAgriApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\A.Bourich\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\A.Bourich\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.5\\microsoft.aspnetcore.authentication.jwtbearer.9.0.5.nupkg.sha512",
