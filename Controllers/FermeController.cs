@@ -33,6 +33,32 @@ namespace TracAgriApi.Controllers
                 })
                 .ToListAsync();
         }
+        // je vais modifier le get all pour qu'il prenne en compte le societeId
+
+        [HttpGet("societe/{societeId}")]
+        public async Task<ActionResult<List<FermeDto>>> GetBySocieteId(int societeId)
+        {
+            var fermes = await _context.Fermes
+                .Include(f => f.Agriculteur)
+                .Where(f => f.Agriculteur.SocieteId == societeId)
+                .Select(f => new FermeDto
+                {
+                    Id = f.Id,
+                    NomFerme = f.NomFerme,
+                    AgriculteurId = f.AgriculteurId,
+                    NomAgriculteur = f.Agriculteur.Nom
+                })
+                .ToListAsync();
+            return Ok(fermes);
+        }
+
+
+
+
+
+
+
+
 
         // GET BY ID
         [HttpGet("{id}")]
