@@ -20,6 +20,8 @@ namespace TracAgriApi.Controllers
         }
 
         // GET: api/ferme?societeId={societeId}
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FermeDto>>> GetFermes([FromQuery] int societeId)
         {
@@ -40,6 +42,8 @@ namespace TracAgriApi.Controllers
 
             return Ok(fermes);
         }
+
+
 
         // GET: api/ferme/5?societeId={societeId}
         [HttpGet("{id}")]
