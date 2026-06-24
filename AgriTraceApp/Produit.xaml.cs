@@ -43,7 +43,7 @@ public partial class Produit : ContentPage
 
         string text = TXT_PRODUIT.Text;
 
-        // première lettre majuscule
+        // première lettre majuscule de chaque partie de fabricatioon 
         string formatted =
             char.ToUpper(text[0]) + text.Substring(1);
 

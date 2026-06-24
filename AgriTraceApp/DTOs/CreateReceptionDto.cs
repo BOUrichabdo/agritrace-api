@@ -16,5 +16,8 @@ namespace AgriTraceApp.DTOs
         public string TypeProduit { get; set; } = string.Empty;
         public string Observation { get; set; } = string.Empty;
         public string Utilisateur { get; set; } = string.Empty;
+
+        // ✅ AJOUTER SocieteId
+        public int SocieteId { get; set; } = 1;
     }
 }

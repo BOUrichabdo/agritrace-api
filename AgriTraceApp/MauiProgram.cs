@@ -19,6 +19,8 @@ namespace AgriTraceApp
                       .UseUraniumUI()          // <-- Ajouter cette ligne
                        .UseUraniumUIMaterial()   // <-- Pour le thème Material
 
+
+
                       .UseBarcodeReader()
                       .ConfigureFonts(fonts =>
                       {

@@ -6,70 +6,81 @@
     xmlns:local="clr-namespace:AgriTraceApp"
     Title="AgriTraceApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- HOME -->
+    <FlyoutItem Title="Home">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
 
+    <!-- AGRICULTEURS -->
+    <FlyoutItem Title="Agriculteurs">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Agriculteur}"
+            Route="agriculteurs" />
+    </FlyoutItem>
 
+    <!-- FERME -->
+    <FlyoutItem Title="Ferme">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Ferme}"
+            Route="ferme" />
+    </FlyoutItem>
 
-    <ShellContent
-    Route="agriculteurs"
-    ContentTemplate="{DataTemplate local:Agriculteur}" />
+    <!-- PRODUIT -->
+    <FlyoutItem Title="Produit">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Produit}"
+            Route="produit" />
+    </FlyoutItem>
 
-    <ShellContent
-    Route="ferme"
-    ContentTemplate="{DataTemplate local:Ferme}" />
+    <!-- CATEGORIE -->
+    <FlyoutItem Title="Categorie">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Categorie}"
+            Route="categorie" />
+    </FlyoutItem>
 
-     <ShellContent
-    Route="produit"
-    ContentTemplate="{DataTemplate local:Produit}" />
+    <!-- LOGIN -->
+    <FlyoutItem Title="Login">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Login}"
+            Route="login" />
+    </FlyoutItem>
 
+    <!-- PARCELLE -->
+    <FlyoutItem Title="Parcelle">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Parcelle}"
+            Route="parcelle" />
+    </FlyoutItem>
 
-    <ShellContent
-    Route="categorie"
-    ContentTemplate="{DataTemplate local:Categorie}" />
+    <!-- VARIETE -->
+    <FlyoutItem Title="Variete">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Variete}"
+            Route="variete" />
+    </FlyoutItem>
 
+    <!-- ETIQUETTE FERME -->
+    <FlyoutItem Title="Etiquette Ferme">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:EtiquetteFerme}"
+            Route="etiquetteferme" />
+    </FlyoutItem>
 
-    <ShellContent
-    Route="login"
-    ContentTemplate="{DataTemplate local:Login}" />
+    <!-- RECEPTION -->
+    <FlyoutItem Title="Reception">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:Reception}"
+            Route="reception" />
+    </FlyoutItem>
 
-
-    <ShellContent
-   Route="parcelle"
-   ContentTemplate="{DataTemplate local:Parcelle}" />
-
-
-
-
-    <ShellContent
-Route="variete"
-ContentTemplate="{DataTemplate local:Variete}" />
-
-
-
-    <ShellContent
-Route="etiquetteferme"
-ContentTemplate="{DataTemplate local:EtiquetteFerme}" />
-
-
-
-    <ShellContent
-Route="reception"
-ContentTemplate="{DataTemplate local:Reception}" />
-
-
-
-    <ShellContent
-Route="_sortie"
-ContentTemplate="{DataTemplate local:SORTIE}" />
-
-
-
-
-
-
-
+    <!-- SORTIE -->
+    <FlyoutItem Title="Sortie">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:SORTIE}"
+            Route="sortie" />
+    </FlyoutItem>
 
 </Shell>

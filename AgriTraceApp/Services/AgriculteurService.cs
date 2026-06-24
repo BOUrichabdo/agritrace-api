@@ -1,4 +1,10 @@
-﻿using AgriTraceApp.Models;
+﻿
+
+
+
+
+
+using AgriTraceApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +20,28 @@ namespace AgriTraceApp.Services
 
         public AgriculteurService()
         {
+            // root 
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri(ApiConfig.BaseUrl)
             };
         }
 
+
         // =========================
-        // GET ALL
+        // GET ALL recuprere (toute les agris) par filtrage par ID societe
+        // =========================
+
+
+        public async Task<List<AgriculteurModel>> GetAgriculteurs(int societeId)
+        {
+            var result = await _httpClient
+                .GetFromJsonAsync<List<AgriculteurModel>>($"Agriculteur?societeId={societeId}");
+            return result ?? new List<AgriculteurModel>();
+        }
+
+        // =========================
+        // GET ALL recuprere (toute les agris)
         // =========================
 
         public async Task<List<AgriculteurModel>> GetAgriculteurs()
@@ -32,8 +52,18 @@ namespace AgriTraceApp.Services
             return result ?? new List<AgriculteurModel>();
         }
 
+
         // =========================
-        // GET BY ID
+        // GET BY ID recup Agri avec ID et ID societe 
+        // =========================
+
+        public async Task<AgriculteurModel?> GetAgriculteurById(int id, int societeId)
+        {
+            return await _httpClient
+                .GetFromJsonAsync<AgriculteurModel>($"Agriculteur/{id}?societeId={societeId}");
+        }
+        // =========================
+        // GET BY ID recup Agri avec ID 
         // =========================
 
         public async Task<AgriculteurModel?> GetAgriculteurById(int id)
@@ -43,7 +73,20 @@ namespace AgriTraceApp.Services
         }
 
         // =========================
-        // ADD
+        // ADD ajouter agri avec ID societe 
+        // =========================
+
+
+        public async Task AddAgriculteur(string nom, string adresse, string telephone, int societeId)
+        {
+            var dto = new { Nom = nom, Adresse = adresse, Telephone = telephone };
+            var response = await _httpClient
+                .PostAsJsonAsync($"Agriculteur?societeId={societeId}", dto);
+            response.EnsureSuccessStatusCode();
+        }
+
+        // =========================
+        // ADD ajouter agri
         // =========================
 
         public async Task AddAgriculteur(AgriculteurModel model)
@@ -65,6 +108,23 @@ namespace AgriTraceApp.Services
 
             response.EnsureSuccessStatusCode();
         }
+
+
+
+        // =========================
+        // DELETE  par ID et ID societe
+        // =========================
+
+
+        public async Task DeleteAgriculteur(int id, int societeId)
+        {
+            var response = await _httpClient
+                .DeleteAsync($"Agriculteur/{id}?societeId={societeId}");
+            response.EnsureSuccessStatusCode();
+        }
+
+
+
 
         // =========================
         // DELETE

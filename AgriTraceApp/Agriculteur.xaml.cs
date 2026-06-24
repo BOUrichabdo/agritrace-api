@@ -4,25 +4,30 @@ using System.Diagnostics.Metrics;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using AgriTraceApp.Services;
+using Microsoft.Maui.Controls;
 
 namespace AgriTraceApp;
 
-public partial class Agriculteur 
+public partial class Agriculteur : ContentPage
 {
     // varible pour gerer modification 
     private bool isEditMode = false;
+    // id agiculteur selectionné pour modification
     private int selectedId = 0;
+
+    private int societeId; 
 
     // filtrage 
     private List<AgriculteurModel> _agriculteur = new();
     private CancellationTokenSource? _cts;
-
     private AgriculteurService _service = new AgriculteurService();
 
     public Agriculteur()
 	{
 		InitializeComponent();
-	}
+        societeId = Preferences.Get("societeId", 0);
+
+    }
 
     protected override async void OnAppearing()
     {
@@ -31,15 +36,45 @@ public partial class Agriculteur
     }
     private async Task LoadData()
     {
+
+        if (societeId <= 0)
+        {
+            await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
+            return;
+        }
+
+        // Appel du service avec le societeId
+        _agriculteur = await _service.GetAgriculteurs(societeId);
+        AgriculteurList1.ItemsSource = _agriculteur;
+
+
+
+
+
+
+
+
+        //if (societeId <= 0)
+        //{
+        //    await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
+        //    // Optionnel : rediriger vers la page de connexion
+        //    return;
+        //}
+        //_agriculteur = await _service.GetAgriculteurs();
+        //AgriculteurList1.ItemsSource = _agriculteur;
+
+
+
+
         //var data = await _service.GetAgriculteurs();
         //AgriculteurList1.ItemsSource = data;
 
 
         // 🔥 stocker données dans la liste principale
-        _agriculteur = await _service.GetAgriculteurs();
+        //_agriculteur = await _service.GetAgriculteurs();
 
-        // 🔥 afficher
-        AgriculteurList1.ItemsSource = _agriculteur;
+        //// 🔥 afficher
+        //AgriculteurList1.ItemsSource = _agriculteur;
 
 
     }

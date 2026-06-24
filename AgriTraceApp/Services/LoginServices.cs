@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 namespace AgriTraceApp.Services
 {
 
-   public class LoginServices
+    public class LoginServices
     {
+        // routing
         private readonly HttpClient _httpClient;
         public LoginServices()
         {
@@ -42,13 +43,5 @@ namespace AgriTraceApp.Services
 
             return result;
         }
-
-
-
-
-
-
-
-
     }
 }

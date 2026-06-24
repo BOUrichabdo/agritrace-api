@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AgriTraceApp.Societe"
-             BackgroundColor="#F5F6FA">
+             BackgroundColor="#F3F4F6">
 
     <Grid RowDefinitions="180,*">
 
         <!-- ========================= -->
-        <!-- HEADER MODERNE -->
+        <!-- HEADER MODERNE (VERT BRAND) -->
         <!-- ========================= -->
-
         <Border Grid.Row="0"
-                Background="#1E3A8A"
                 StrokeThickness="0"
                 StrokeShape="RoundRectangle 0,0,40,40">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#14532D" Offset="0.0"/>
+                    <GradientStop Color="#16A34A" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
 
             <VerticalStackLayout Padding="25,50,25,20"
-                                 Spacing="6">
+                                 Spacing="6"
+                                 VerticalOptions="Center">
 
                 <Label Text="🏢 Créer votre société"
                        FontSize="26"
@@ -25,182 +31,258 @@
 
                 <Label Text="Configurez votre entreprise SaaS en quelques étapes"
                        FontSize="14"
-                       TextColor="#DBEAFE"/>
+                       TextColor="#DCFCE7"/>
 
             </VerticalStackLayout>
-
         </Border>
 
         <!-- ========================= -->
-        <!-- FORM -->
+        <!-- FORMULAIRE -->
         <!-- ========================= -->
-
         <ScrollView Grid.Row="1">
 
             <VerticalStackLayout Padding="20"
-                                 Spacing="18">
+                                 Spacing="20">
 
                 <!-- CARD IDENTITE -->
                 <Border BackgroundColor="White"
                         StrokeThickness="0"
-                        StrokeShape="RoundRectangle 25"
-                        Padding="18">
+                        StrokeShape="RoundRectangle 24"
+                        Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="#000000" Opacity="0.06" Radius="15" Offset="0,4"/>
+                    </Border.Shadow>
 
-                    <VerticalStackLayout Spacing="15">
+                    <VerticalStackLayout Spacing="16">
 
                         <Label Text="📌 Identité entreprise"
                                FontAttributes="Bold"
-                               FontSize="18"/>
+                               TextColor="#111827"
+                               FontSize="18"
+                               Margin="0,0,0,5"/>
 
-                        <Entry x:Name="TXT_NOM"
-                               Placeholder="Nom de la société"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Nom de la société -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Nom de la société *" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_NOM" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_NOM" Placeholder="Ex: AgriCorp S.A." TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_NOM" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_NOM_COMMERCIAL"
-                               Placeholder="Nom commercial"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Nom commercial -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Nom commercial" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_NOM_COMMERCIAL" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_NOM_COMMERCIAL" Placeholder="Ex: AgriCorp Distribution" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_NOM_COMMERCIAL" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_ICE"
-                               Placeholder="ICE (Identifiant entreprise)"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- ICE -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="ICE (15 chiffres)" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_ICE" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_ICE" Placeholder="Ex: 001234567890123" Keyboard="Numeric" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_ICE" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_MATRICULE"
-                               Placeholder="Matricule fiscal"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Matricule fiscal -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Matricule fiscal" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_MATRICULE" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_MATRICULE" Placeholder="Ex: MF-9876543" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_MATRICULE" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
                     </VerticalStackLayout>
-
                 </Border>
 
                 <!-- CARD CONTACT -->
                 <Border BackgroundColor="White"
                         StrokeThickness="0"
-                        StrokeShape="RoundRectangle 25"
-                        Padding="18">
+                        StrokeShape="RoundRectangle 24"
+                        Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="#000000" Opacity="0.06" Radius="15" Offset="0,4"/>
+                    </Border.Shadow>
 
-                    <VerticalStackLayout Spacing="15">
+                    <VerticalStackLayout Spacing="16">
 
                         <Label Text="📍 Informations de contact"
                                FontAttributes="Bold"
-                               FontSize="18"/>
+                               TextColor="#111827"
+                               FontSize="18"
+                               Margin="0,0,0,5"/>
 
-                        <Entry x:Name="TXT_ADRESSE"
-                               Placeholder="Adresse complète"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Adresse -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Adresse" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_ADRESSE" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_ADRESSE" Placeholder="Ex: Zone Industrielle, Lot 45" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_ADRESSE" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_VILLE"
-                               Placeholder="Ville"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Ville -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Ville" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_VILLE" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_VILLE" Placeholder="Ex: Agadir" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_VILLE" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_TELEPHONE"
-                               Placeholder="Téléphone"
-                               Keyboard="Telephone"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Téléphone -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Téléphone" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_TELEPHONE" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_TELEPHONE" Placeholder="Ex: +212600000000" Keyboard="Telephone" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_TELEPHONE" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_EMAIL"
-                               Placeholder="Email entreprise"
-                               Keyboard="Email"
-                               BackgroundColor="#F3F4F6"
-                               HeightRequest="55"/>
+                        <!-- Email -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Email entreprise" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_EMAIL" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_EMAIL" Placeholder="Ex: contact@agricorp.com" Keyboard="Email" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_EMAIL" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
                     </VerticalStackLayout>
-
                 </Border>
 
                 <!-- CARD SAAS INFO -->
                 <Border BackgroundColor="White"
                         StrokeThickness="0"
-                        StrokeShape="RoundRectangle 25"
-                        Padding="18">
+                        StrokeShape="RoundRectangle 24"
+                        Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="#000000" Opacity="0.06" Radius="15" Offset="0,4"/>
+                    </Border.Shadow>
 
-                    <VerticalStackLayout Spacing="12">
+                    <VerticalStackLayout Spacing="16">
 
                         <Label Text="⚙️ Configuration SaaS"
                                FontAttributes="Bold"
-                               FontSize="18"/>
+                               TextColor="#111827"
+                               FontSize="18"
+                               Margin="0,0,0,5"/>
 
-                        <Picker x:Name="CMB_PLAN"
-                                Title="Plan SaaS">
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                            <!-- Plan SaaS -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <Label Text="Plan SaaS *" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                                <Border x:Name="BORDER_PLAN" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                    <Picker x:Name="CMB_PLAN" Title="Choisir un plan" TextColor="Black" TitleColor="#9CA3AF" HeightRequest="50" Margin="12,0" SelectedIndexChanged="OnInputChanged">
+                                        <Picker.Items>
+                                            <x:String>Free</x:String>
+                                            <x:String>Starter</x:String>
+                                            <x:String>Pro</x:String>
+                                            <x:String>Enterprise</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                                <Label x:Name="LBL_ERROR_PLAN" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                            </VerticalStackLayout>
 
-                            <Picker.Items>
-                                <x:String>Free</x:String>
-                                <x:String>Starter</x:String>
-                                <x:String>Pro</x:String>
-                                <x:String>Enterprise</x:String>
-                            </Picker.Items>
-
-                        </Picker>
-
-                        <Picker x:Name="CMB_DEVISE"
-                                Title="Devise">
-
-                            <Picker.Items>
-                                <x:String>MAD</x:String>
-                                <x:String>EUR</x:String>
-                                <x:String>USD</x:String>
-                            </Picker.Items>
-
-                        </Picker>
+                            <!-- Devise -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label Text="Devise *" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                                <Border x:Name="BORDER_DEVISE" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                    <Picker x:Name="CMB_DEVISE" Title="Choisir la devise" TextColor="Black" TitleColor="#9CA3AF" HeightRequest="50" Margin="12,0" SelectedIndexChanged="OnInputChanged">
+                                        <Picker.Items>
+                                            <x:String>MAD</x:String>
+                                            <x:String>EUR</x:String>
+                                            <x:String>USD</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                                <Label x:Name="LBL_ERROR_DEVISE" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                            </VerticalStackLayout>
+                        </Grid>
 
                     </VerticalStackLayout>
-
                 </Border>
 
-
+                <!-- CARD COMPTE ADMIN -->
                 <Border BackgroundColor="White"
-        StrokeThickness="0"
-        StrokeShape="RoundRectangle 25"
-        Padding="18">
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24"
+                        Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="#000000" Opacity="0.06" Radius="15" Offset="0,4"/>
+                    </Border.Shadow>
 
-                    <VerticalStackLayout Spacing="15">
+                    <VerticalStackLayout Spacing="16">
 
                         <Label Text="👤 Compte administrateur"
-               FontAttributes="Bold"
-               FontSize="18"/>
+                               FontAttributes="Bold"
+                               TextColor="#111827"
+                               FontSize="18"
+                               Margin="0,0,0,5"/>
 
-                        <Entry x:Name="TXT_ADMIN_NOM"
-               Placeholder="Nom utilisateur"
-               BackgroundColor="#F3F4F6"
-               HeightRequest="55"/>
+                        <!-- Nom administrateur -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Nom d'utilisateur *" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_ADMIN_NOM" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_ADMIN_NOM" Placeholder="Ex: admin_agri" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_ADMIN_NOM" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_ADMIN_EMAIL"
-               Placeholder="Email administrateur"
-               Keyboard="Email"
-               BackgroundColor="#F3F4F6"
-               HeightRequest="55"/>
+                        <!-- Email administrateur -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Email administrateur *" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_ADMIN_EMAIL" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_ADMIN_EMAIL" Placeholder="Ex: admin@agricorp.com" Keyboard="Email" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_ADMIN_EMAIL" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-                        <Entry x:Name="TXT_ADMIN_PASSWORD"
-               Placeholder="Mot de passe"
-               IsPassword="True"
-               BackgroundColor="#F3F4F6"
-               HeightRequest="55"/>
+                        <!-- Mot de passe -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Mot de passe * (min. 6 caractères)" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_ADMIN_PASSWORD" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_ADMIN_PASSWORD" Placeholder="••••••••" IsPassword="True" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_ADMIN_PASSWORD" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
-
-                        <Entry x:Name="TXT_ADMIN_CONFIRMATION"
-Placeholder="Confirmer Mot de passe"
-IsPassword="True"
-BackgroundColor="#F3F4F6"
-HeightRequest="55"/>
+                        <!-- Confirmation de mot de passe -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Confirmer le mot de passe *" FontAttributes="Bold" TextColor="#374151" FontSize="13"/>
+                            <Border x:Name="BORDER_ADMIN_CONFIRMATION" BackgroundColor="#F9FAFB" Stroke="#E5E7EB" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="TXT_ADMIN_CONFIRMATION" Placeholder="••••••••" IsPassword="True" TextColor="Black" PlaceholderColor="#9CA3AF" HeightRequest="50" Margin="12,0" TextChanged="OnInputChanged"/>
+                            </Border>
+                            <Label x:Name="LBL_ERROR_ADMIN_CONFIRMATION" TextColor="#EF4444" FontSize="12" IsVisible="False" Margin="5,0"/>
+                        </VerticalStackLayout>
 
                     </VerticalStackLayout>
-
                 </Border>
+                
+                
+               
 
                 <!-- BUTTON -->
                 <Button Text="🚀 Créer la société"
                         HeightRequest="60"
                         CornerRadius="20"
-                        BackgroundColor="#1E3A8A"
+                        BackgroundColor="#16A34A"
                         TextColor="White"
-                        FontAttributes="Bold" x:Name="BTNVALIDER"
-                        Clicked="BTNVALIDER_Clicked_1"/>
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        x:Name="BTNVALIDER"
+                        Clicked="BTNVALIDER_Clicked_1"
+                        Margin="0,10,0,0">
+                    <Button.Shadow>
+                        <Shadow Brush="#16A34A" Opacity="0.3" Radius="10" Offset="0,4"/>
+                    </Button.Shadow>
+                </Button>
 
                 <BoxView HeightRequest="20"/>
 
@@ -208,6 +290,17 @@ HeightRequest="55"/>
 
         </ScrollView>
 
+        <!-- Indicateur de chargement -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+           Grid.Row="0"
+           Grid.RowSpan="2"
+           IsRunning="False"
+           IsVisible="False"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"/>
+
     </Grid>
+
+  
 
 </ContentPage>

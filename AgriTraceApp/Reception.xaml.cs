@@ -2,6 +2,7 @@
 using AgriTraceApp.Services;
 using Android.Widget;
 using Java.Util;
+using Microsoft.Maui.Graphics.Text;
 using System.Threading.Tasks;
 using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
@@ -21,7 +22,6 @@ public partial class Reception : ContentPage
 
 
     private int _paletteId;
-    //private ApiService _service = new ApiService();
     private readonly ReceptionService _service = new();
     private readonly EtiquetteFermeService _serviceetiquetteferme = new();
 
@@ -38,7 +38,7 @@ public partial class Reception : ContentPage
     {
         InitializeComponent();
 
-        SetSelectedMenu(0); // Accueil sélectionné par défaut
+        //SetSelectedMenu(0); // Accueil sélectionné par défaut
 
 
 
@@ -117,6 +117,11 @@ public partial class Reception : ContentPage
 
         TypeError.IsVisible = false;
 
+
+        ValiderReception.IsVisible = true;
+
+        BtnImprimer.IsVisible = false;
+
         // =========================
         // SCROLL TOP
         // =========================
@@ -129,12 +134,37 @@ public partial class Reception : ContentPage
 
 
 
-   
 
 
 
 
 
+    private bool ValidateForm()
+    {
+        bool isValid = true;
+
+        // RESET erreurs
+        PoidsError.IsVisible = false;
+        TemperatureError.IsVisible = false;
+
+        // 1. POIDS OBLIGATOIRE
+        if (string.IsNullOrWhiteSpace(TXT_POIDS.Text))
+        {
+            PoidsError.Text = "Le poids est obligatoire";
+            PoidsError.IsVisible = true;
+            isValid = false;
+        }
+
+        // 2. TEMPERATURE OBLIGATOIRE
+        if (string.IsNullOrWhiteSpace(TXT_TEMPERATURE.Text))
+        {
+            TemperatureError.Text = "La température est obligatoire";
+            TemperatureError.IsVisible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
 
 
 
@@ -142,6 +172,64 @@ public partial class Reception : ContentPage
     //Validation reception 
     private async void ValiderReception_Clicked(object sender, EventArgs e)
     {
+        // controle saisi 
+
+
+        LoadingIndicator.IsVisible = true;
+        LoadingIndicator.IsRunning = true;
+
+        if (!ValidateForm())
+        {
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+            return;
+
+
+        }
+
+           
+
+
+
+        string recap =
+     $"📦 Réception\n\n" +
+     $"🏷️ Etiquette : {etiquetteId}\n" +
+     $"⚖️ Poids brut : {TXT_POIDS.Text} KG\n" +
+     $"🌡️ Température : {TXT_TEMPERATURE.Text} °C\n" +
+     $"📋 État : {(CMBETAT.SelectedItem?.ToString() ?? "Non renseigné")}\n" +
+     $"🏭 Type : {(CMBTYPE.SelectedItem?.ToString() ?? "Non renseigné")}\n\n" +
+     $"Confirmez-vous cette réception ?";
+
+        bool confirmer = await DisplayAlert(
+            "Validation Réception",
+            recap,
+            "Confirmer",
+            "Annuler");
+
+        if (!confirmer)
+        {
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+            return;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // Vérifier que etiquetteId est un nombre valide
+        if (!int.TryParse(etiquetteId, out int etiquetteIdInt))
+        {
+            await DisplayAlert("Erreur", "ID etiquette invalide", "OK");
+            return;
+        }
         bool isValid = true;
         // reset erreurs
         PoidsError.IsVisible = false;
@@ -202,22 +290,24 @@ public partial class Reception : ContentPage
             var dto = new CreateReceptionDto
             {
                 EtiquetteFermeId = int.Parse(etiquetteId),
-
                 PoidsBrut = decimal.Parse(TXT_POIDS.Text),
-
                 Temperature = decimal.Parse(TXT_TEMPERATURE.Text),
-
                 EtatProduit = CMBETAT.SelectedItem.ToString(),
-
                 TypeProduit = CMBTYPE.SelectedItem.ToString(),
-
                 Observation = TXT_OBSERVATION.Text ?? "",
-
-                Utilisateur = "admin"
+                Utilisateur = "admin",
+                SocieteId = 1 // ✅ AJOUTER SocieteId
             };
             // consomation API create reception 
             var result =
                 await _service.CreateReception(dto);
+
+
+
+
+
+
+
 
             await DisplayAlert(
                 "Succès",
@@ -225,9 +315,13 @@ public partial class Reception : ContentPage
                 "OK");
 
 
-            BtnImprimer.IsVisible = true; 
 
 
+
+
+            BtnImprimer.IsVisible = true;
+
+            ValiderReception.IsVisible = false;
 
             // instance reception recetion service
             var service = new ReceptionService();
@@ -277,9 +371,16 @@ public partial class Reception : ContentPage
                 ex.Message,
                 "OK");
         }
+        finally
+        {
 
 
-  
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+        }
+
+
+
 
 
 
@@ -392,7 +493,7 @@ public partial class Reception : ContentPage
 
                 HorizontalOptions = LayoutOptions.Fill
             };
-            newCameraView.BarcodesDetected += NewCameraView_BarcodesDetected;
+            newCameraView.BarcodesDetected += NewCameraView_BarcodesDetected1; 
 
             // Vider le conteneur et ajouter la nouvelle caméra
             CameraContainer.Children.Clear();
@@ -406,6 +507,68 @@ public partial class Reception : ContentPage
             Console.WriteLine($"Erreur création caméra: {ex.Message}");
         }
     }
+
+    private async void NewCameraView_BarcodesDetected1(object? sender, BarcodeDetectionEventArgs e)
+    {
+        if (!_isScanning)
+            return;
+
+        var result = e.Results?.FirstOrDefault();
+
+        if (result == null || string.IsNullOrEmpty(result.Value))
+            return;
+
+        // Arrêter le scan
+        _isScanning = false;
+
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+
+            LoadingIndicator.IsVisible = true;
+            LoadingIndicator.IsRunning = true;
+
+            try
+            {
+                // Désactiver la détection
+                cameraView.IsDetecting = false;
+
+                // AFFICHER LE QR CODE DANS L'ENTRY
+                string qrCode = result.Value;
+                txtQRCode.Text = qrCode;
+
+                // Optionnel : Afficher une alerte en plus
+                //await DisplayAlert("QR Code Détecté", $"Code: {qrCode}", "OK");
+                // Cacher le conteneur de la caméra
+                CameraContainer.IsVisible = false;
+                // Vider le conteneur pour libérer les ressources
+                CameraContainer.Children.Clear();
+                // Réinitialiser le bouton
+                btnScan.Text = "📷 SCANNER QR CODE";
+                btnScan.IsEnabled = true;
+                // controle de text qr code 
+                if (string.IsNullOrWhiteSpace(txtQRCode.Text))
+                {
+                    await DisplayAlert("Erreur", "Veuillez scanner un QR code", "OK");
+                    return;
+                }
+                await LoadEtiquette(txtQRCode.Text.Trim());
+
+                // Optionnel : Vous pouvez maintenant utiliser ce QR code
+                // await TraiterQRCode(qrCode);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erreur", ex.Message, "OK");
+            }
+            finally
+            {
+
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+            }
+        });
+    }
+
     // detected qr code 
     private async void NewCameraView_BarcodesDetected(object? sender, BarcodeDetectionEventArgs e)
     {
@@ -422,6 +585,10 @@ public partial class Reception : ContentPage
 
         await MainThread.InvokeOnMainThreadAsync(async () =>
         {
+
+            LoadingIndicator.IsVisible = true;
+            LoadingIndicator.IsRunning = true;
+
             try
             {
                 // Désactiver la détection
@@ -432,7 +599,7 @@ public partial class Reception : ContentPage
                 txtQRCode.Text = qrCode;
 
                 // Optionnel : Afficher une alerte en plus
-                await DisplayAlert("QR Code Détecté", $"Code: {qrCode}", "OK");
+                //await DisplayAlert("QR Code Détecté", $"Code: {qrCode}", "OK");
 
                 // Cacher le conteneur de la caméra
                 CameraContainer.IsVisible = false;
@@ -444,6 +611,18 @@ public partial class Reception : ContentPage
                 btnScan.Text = "📷 SCANNER QR CODE";
                 btnScan.IsEnabled = true;
 
+
+
+                // controle de text qr code 
+                if (string.IsNullOrWhiteSpace(txtQRCode.Text))
+                {
+                    await DisplayAlert("Erreur", "Veuillez scanner un QR code", "OK");
+                    return;
+                }
+
+
+                await LoadEtiquette(txtQRCode.Text.Trim());
+
                 // Optionnel : Vous pouvez maintenant utiliser ce QR code
                 // await TraiterQRCode(qrCode);
             }
@@ -451,16 +630,22 @@ public partial class Reception : ContentPage
             {
                 await DisplayAlert("Erreur", ex.Message, "OK");
             }
+            finally
+            {
+
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+            }
         });
     }
     // Afficher camerre 
     private async void btnScan_Clicked(object sender, EventArgs e)
     {
+
         try
         {
             // Demander permission caméra
             var status = await Permissions.RequestAsync<Permissions.Camera>();
-
             if (status != PermissionStatus.Granted)
             {
                 await DisplayAlert("Erreur", "Permission caméra refusée", "OK");
@@ -470,18 +655,35 @@ public partial class Reception : ContentPage
             // Vider le champ Entry avant le scan
             txtQRCode.Text = string.Empty;
 
-            // Afficher le conteneur de la caméra
+            // IMPORTANT: Réinitialiser complètement le conteneur caméra
+            CameraContainer.Children.Clear();
+
+            // Créer une NOUVELLE instance de caméra
+            var newCameraView = new CameraBarcodeReaderView
+            {
+                CameraLocation = CameraLocation.Rear,
+                IsDetecting = true,
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.Fill
+            };
+
+            // Ajouter le gestionnaire d'événement (cameraView_BarcodesDetected_1)
+            newCameraView.BarcodesDetected += cameraView_BarcodesDetected_1;
+
+            // Ajouter au conteneur
+            CameraContainer.Children.Add(newCameraView);
+
+            // Mettre à jour la référence (important pour que le XAML fonctionne)
+            cameraView = newCameraView;
+
+            // Afficher le conteneur
             CameraContainer.IsVisible = true;
 
-            // Attendre un peu que l'UI se mette à jour
-            await Task.Delay(100);
+            // Attendre un peu pour que la caméra s'initialise
+            await Task.Delay(500);
 
-            // Recréer la caméra pour éviter l'écran noir
-            RecreateCameraView();
-
-            // Activer la détection
+            // Activer le flag de scan
             _isScanning = true;
-            cameraView.IsDetecting = true;
 
             // Désactiver le bouton pendant le scan
             btnScan.Text = "🔍 SCAN EN COURS...";
@@ -489,23 +691,86 @@ public partial class Reception : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erreur", ex.Message, "OK");
+            await DisplayAlert("Erreur", $"Erreur: {ex.Message}", "OK");
+            btnScan.Text = "📷 SCANNER QR CODE";
+            btnScan.IsEnabled = true;
         }
+        //try
+        //{
+        //    // Demander permission caméra
+        //    var status = await Permissions.RequestAsync<Permissions.Camera>();
+
+        //    if (status != PermissionStatus.Granted)
+        //    {
+        //        await DisplayAlert("Erreur", "Permission caméra refusée", "OK");
+        //        return;
+        //    }
+
+        //    // Vider le champ Entry avant le scan
+        //    txtQRCode.Text = string.Empty;
+
+        //    // Afficher le conteneur de la caméra
+        //    CameraContainer.IsVisible = true;
+
+        //    // Attendre un peu que l'UI se mette à jour
+        //    await Task.Delay(100);
+
+        //    // Recréer la caméra pour éviter l'écran noir
+        //    RecreateCameraView();
+
+        //    // Activer la détection
+        //    _isScanning = true;
+        //    cameraView.IsDetecting = true;
+
+        //    // Désactiver le bouton pendant le scan
+        //    btnScan.Text = "🔍 SCAN EN COURS...";
+        //    btnScan.IsEnabled = false;
+        //}
+        //catch (Exception ex)
+        //{
+        //    await DisplayAlert("Erreur", ex.Message, "OK");
+        //}
 
     }
-   // afficher information 
-    private  async void Sqcannebtn_Clicked(object sender, EventArgs e)
+    // afficher information 
+    private async void Sqcannebtn_Clicked(object sender, EventArgs e)
     {
 
-        // controle de text qr code 
-        if (string.IsNullOrWhiteSpace(txtQRCode.Text))
+        LoadingIndicator.IsVisible = true;
+        LoadingIndicator.IsRunning = true;
+        try
         {
-           await DisplayAlert("Erreur", "Veuillez scanner un QR code", "OK");
-            return;
+
+            // controle de text qr code 
+            if (string.IsNullOrWhiteSpace(txtQRCode.Text))
+            {
+                await DisplayAlert("Erreur", "Veuillez scanner un QR code", "OK");
+                return;
+            }
+
+
+            await LoadEtiquette(txtQRCode.Text.Trim());
+
+
+        }
+        catch (Exception ex)
+        {
+
+            await DisplayAlert(
+               "Erreur",
+               ex.Message,
+               "OK");
+
+
+        }
+        finally
+        {
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+
+
         }
 
-
-       await LoadEtiquette(txtQRCode.Text.Trim());
 
     }
 
@@ -548,7 +813,7 @@ public partial class Reception : ContentPage
 
         if (string.IsNullOrWhiteSpace(TXT_OBSERVATION.Text))
             return;
-            
+
         string text = TXT_OBSERVATION.Text;
 
         // première lettre majuscule
@@ -605,8 +870,121 @@ public partial class Reception : ContentPage
     private async void BtnImprimer_Clicked_1(object sender, EventArgs e)
     {
 
+        LoadingIndicator.IsVisible = true;
+        LoadingIndicator.IsRunning = true;
+
+        if (!ValidateForm())
+
+        {
+
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+            return;
+
+
+
+        }
+
+
+
+        string recap =
+     $"📦 Réception\n\n" +
+     $"🏷️ Etiquette : {etiquetteId}\n" +
+     $"⚖️ Poids brut : {TXT_POIDS.Text} KG\n" +
+     $"🌡️ Température : {TXT_TEMPERATURE.Text} °C\n" +
+     $"📋 État : {(CMBETAT.SelectedItem?.ToString() ?? "Non renseigné")}\n" +
+     $"🏭 Type : {(CMBTYPE.SelectedItem?.ToString() ?? "Non renseigné")}\n\n" +
+     $"Confirmez-vous cette réception ?";
+
+        bool confirmer = await DisplayAlert(
+            "Validation Réception",
+            recap,
+            "Confirmer",
+            "Annuler");
+
+
+        if (!confirmer)
+        {
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+            return;
+        }
+
+        // Vérifier que etiquetteId est un nombre valide
+        if (!int.TryParse(etiquetteId, out int etiquetteIdInt))
+        {
+            await DisplayAlert("Erreur", "ID etiquette invalide", "OK");
+            return;
+        }
+        bool isValid = true;
+        // reset erreurs
+        PoidsError.IsVisible = false;
+        TemperatureError.IsVisible = false;
+        EtatError.IsVisible = false;
+        TypeError.IsVisible = false;
+        // =========================
+        // POIDS
+        // =========================
+        if (string.IsNullOrWhiteSpace(TXT_POIDS.Text))
+        {
+            PoidsError.Text = "Poids obligatoire";
+            PoidsError.IsVisible = true;
+            isValid = false;
+        }
+
+        // =========================
+        // TEMPERATURE
+        // =========================
+
+        if (string.IsNullOrWhiteSpace(TXT_TEMPERATURE.Text))
+        {
+            TemperatureError.Text = "Température obligatoire";
+            TemperatureError.IsVisible = true;
+            isValid = false;
+        }
+
+        // =========================
+        // ETAT
+        // =========================
+
+        if (CMBETAT.SelectedItem == null)
+        {
+            EtatError.Text = "Choisir état produit";
+            EtatError.IsVisible = true;
+            isValid = false;
+        }
+
+        // =========================
+        // TYPE
+        // =========================
+
+        if (CMBTYPE.SelectedItem == null)
+        {
+            TypeError.Text = "Choisir type produit";
+            TypeError.IsVisible = true;
+            isValid = false;
+        }
+
+        // stop si erreur
+        if (!isValid)
+            return;
+
+
+
+
+
+
+
+
+
+
         try
         {
+
+
+
+
+
             if (_paletteId <= 0)
             {
                 await DisplayAlert("Erreur", "Aucune palette à imprimer", "OK");
@@ -624,7 +1002,7 @@ public partial class Reception : ContentPage
             }
 
             string fileName =
-                $"PAL_{_paletteId}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                $"PAL_{_paletteId}_{DateTime.UtcNow:yyyyMMddHHmmss}.pdf";
 
             string filePath =
                 Path.Combine(FileSystem.CacheDirectory, fileName);
@@ -642,44 +1020,84 @@ public partial class Reception : ContentPage
         {
             await DisplayAlert("Erreur", ex.Message, "OK");
         }
+        finally
+        {
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+        }
 
     }
 
-    private async Task BTNACTUALISER_Clicked(object sender, EventArgs e)
-    {
-
-   
-
-    }
 
 
 
 
 
- 
-
-   
 
 
 
-       
-    
-
-    private async void OnOverlayTapped(object sender, EventArgs e)
-    {
 
 
-        //DrawerOverlay.IsVisible = false;
-    }
+
+
+
+
+
+
 
 
     private async void BTNACTUALISER_Clicked_1(object sender, EventArgs e)
     {
-
         //DrawerOverlay.IsVisible = true;
+        LoadingIndicator.IsVisible = true;
+        LoadingIndicator.IsRunning = true;
+        try
+        {
+
+            await ResetForm();
+
+            ValiderReception.IsVisible = true;
+
+            //BtnImprimer.IsVisible = false;
 
 
-        await ResetForm();
+
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur", $"Impossible de charger les réceptions: {ex.Message}", "OK");
+
+
+
+        }
+        finally
+        {
+
+            LoadingIndicator.IsVisible = false;
+            LoadingIndicator.IsRunning = false;
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //// reset scan
         //txtQRCode.Text = "";
@@ -700,56 +1118,65 @@ public partial class Reception : ContentPage
         //// cacher bouton imprimer
         //BtnImprimer.IsVisible = false;
 
-        await DisplayAlert("Reset", "Formulaire réinitialisé", "OK");
+        //await DisplayAlert("Reset", "Formulaire réinitialisé", "OK");
 
     }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
 
-        SetSelectedMenu(0);
+        //SetSelectedMenu(0);
 
 
     }
 
     // historique 
-    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+    private async void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
     {
 
-        SetSelectedMenu(1);
+        //SetSelectedMenu(1);
+
+        await Navigation.PushAsync(new Historique());
+
 
     }
 
-    private void TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
+
+    // actualiser page 
+    private async Task TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
     {
-        SetSelectedMenu(2);
-        RefreshData();
+        ///*SetSelectedMenu*/(2);
+        //RefreshData();
+
+        await ResetForm();
+
+
 
     }
 
-    private void SetSelectedMenu(int index)
-    {
-        selectedMenuIndex = index;
+    //private void SetSelectedMenu(int index)
+    //{
+    //    selectedMenuIndex = index;
 
-        // Réinitialiser tous les styles
-        ResetMenuStyle(MenuAcceuil, IconAcceuil, LblAcceuil);
-        ResetMenuStyle(MenuHistorique, IconHistorique, LblHistorique);
-        ResetMenuStyle(MenuActualiser, IconActualiser, LblActualiser);
+    //    // Réinitialiser tous les styles
+    //    ResetMenuStyle(MenuAcceuil, IconAcceuil, LblAcceuil);
+    //    ResetMenuStyle(MenuHistorique, IconHistorique, LblHistorique);
+    //    ResetMenuStyle(MenuActualiser, IconActualiser, LblActualiser);
 
-        // Appliquer le style sélectionné
-        switch (index)
-        {
-            case 0:
-                SetActiveMenuStyle(MenuAcceuil, IconAcceuil, LblAcceuil);
-                break;
-            case 1:
-                SetActiveMenuStyle(MenuHistorique, IconHistorique, LblHistorique);
-                break;
-            case 2:
-                SetActiveMenuStyle(MenuActualiser, IconActualiser, LblActualiser);
-                break;
-        }
-    }
+    //    // Appliquer le style sélectionné
+    //    switch (index)
+    //    {
+    //        case 0:
+    //            SetActiveMenuStyle(MenuAcceuil, IconAcceuil, LblAcceuil);
+    //            break;
+    //        case 1:
+    //            SetActiveMenuStyle(MenuHistorique, IconHistorique, LblHistorique);
+    //            break;
+    //        case 2:
+    //            SetActiveMenuStyle(MenuActualiser, IconActualiser, LblActualiser);
+    //            break;
+    //    }
+    //}
     private void ResetMenuStyle(Grid menu, Label icon, Label text)
     {
         if (menu != null)
@@ -777,13 +1204,83 @@ public partial class Reception : ContentPage
     private async void RefreshData()
     {
         // Afficher un indicateur de chargement
-        await DisplayAlert("Actualisation", "Données actualisées avec succès", "OK");
+        //await DisplayAlert("Actualisation", "Données actualisées avec succès", "OK");
 
         // Votre logique d'actualisation ici
         // Recharger les données, vider les champs, etc.
 
         // Remettre le focus sur Accueil après 1 seconde
         await Task.Delay(1000);
-        SetSelectedMenu(0);
+        //SetSelectedMenu(0);
+    }
+
+    private async void TapGestureRecognizer_Tapped_3(object sender, TappedEventArgs e)
+    {
+
+        //SetSelectedMenu(2);
+        //RefreshData();
+
+        await ResetForm();
+
+    }
+
+
+    private async void cameraView_BarcodesDetected_1(object sender, BarcodeDetectionEventArgs e)
+    {
+
+        // Vérifier si on est en mode scan
+        if (!_isScanning)
+            return;
+
+        // Récupérer le premier code détecté
+        var result = e.Results?.FirstOrDefault();
+        if (result == null || string.IsNullOrEmpty(result.Value))
+            return;
+
+        // Désactiver immédiatement le scan pour éviter les doubles détections
+        _isScanning = false;
+
+        // Exécuter sur le thread UI
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            try
+            {
+                // Afficher le loading
+                LoadingIndicator.IsVisible = true;
+                LoadingIndicator.IsRunning = true;
+
+                // Désactiver la détection de la caméra
+                cameraView.IsDetecting = false;
+
+                // Récupérer le code QR
+                string qrCode = result.Value;
+                txtQRCode.Text = qrCode;
+
+                // Cacher la caméra
+                CameraContainer.IsVisible = false;
+
+                // Réinitialiser le bouton scan
+                btnScan.Text = "📷 SCANNER QR CODE";
+                btnScan.IsEnabled = true;
+
+                // Charger les informations de l'étiquette
+                if (!string.IsNullOrWhiteSpace(txtQRCode.Text))
+                {
+                    await LoadEtiquette(txtQRCode.Text.Trim());
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erreur", $"Erreur lors du scan: {ex.Message}", "OK");
+            }
+            finally
+            {
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+            }
+        });
+
+
+
     }
 }

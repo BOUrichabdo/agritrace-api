@@ -9,7 +9,7 @@
       RowSpacing="10">
 
         <!-- 🟢 HEADER -->
-        <Label Text="📦 Produits"
+        <Label Text = "📦 Produits"
            FontSize="22"
            FontAttributes="Bold"
            Grid.Row="0"/>

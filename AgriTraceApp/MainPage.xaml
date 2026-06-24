@@ -22,7 +22,7 @@ ColumnDefinitions="*,*"
 RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                     <!-- 👨‍🌾 AGRICULTEURS -->
                     <Border Grid.Row="0" Grid.Column="0"
-          BackgroundColor="White"
+          BackgroundColor="Black"
           Stroke="#E0E0E0"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
@@ -41,14 +41,14 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="👨‍🌾" FontSize="30"/>
-                            <Label Text="Agriculteurs" FontAttributes="Bold"/>
+                            <Label Text="Agriculteurs"   TextColor="White" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- 🌾 FERMES -->
                     <Border Grid.Row="0" Grid.Column="1"
-          BackgroundColor="White"
+          BackgroundColor="Black"
           Stroke="#E0E0E0"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
@@ -63,14 +63,14 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="🌾" FontSize="30"/>
-                            <Label Text="Fermes" FontAttributes="Bold"/>
+                            <Label Text="Fermes"   TextColor="White" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- 📍 PARCELLES -->
                     <Border Grid.Row="1" Grid.Column="0"
-          BackgroundColor="White"
+          BackgroundColor="Black"
           Stroke="#E0E0E0"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
@@ -85,14 +85,14 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="🗺️" FontSize="30"/>
-                            <Label Text="Parcelles" FontAttributes="Bold"/>
+                            <Label   TextColor="White" Text="Parcelles" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- 📦 PRODUITS -->
                     <Border Grid.Row="1" Grid.Column="1"
-          BackgroundColor="White"
+          BackgroundColor="Black"
           Stroke="#E0E0E0"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
@@ -107,15 +107,15 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="📦" FontSize="30"/>
-                            <Label Text="Produits" FontAttributes="Bold"/>
+                            <Label Text="Produits"   TextColor="White" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- 🏷️ CATEGORIE -->
                     <Border Grid.Row="2" Grid.Column="0"
-          BackgroundColor="White"
-          Stroke="#E0E0E0"
+          BackgroundColor="Black"
+          Stroke="Black"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
           HeightRequest="120">
@@ -129,15 +129,15 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="📦" FontSize="30"/>
-                            <Label Text="Catégorie" FontAttributes="Bold"/>
+                            <Label   TextColor="White" Text="Catégorie" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- 🏷️ ETIQUETTE FERME -->
                     <Border Grid.Row="2" Grid.Column="1"
-          BackgroundColor="White"
-          Stroke="#E0E0E0"
+          BackgroundColor="Black"
+          Stroke="Black"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
           HeightRequest="120">
@@ -151,15 +151,15 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="🏷️" FontSize="30"/>
-                            <Label Text="Étiquette ferme" FontAttributes="Bold"/>
+                            <Label Text="Étiquette ferme"   TextColor="White" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- 📥 RECEPTION -->
                     <Border Grid.Row="3" Grid.Column="1"
-          BackgroundColor="White"
-          Stroke="#E0E0E0"
+          BackgroundColor="Green"
+          Stroke="Black"
           StrokeThickness="1"
           StrokeShape="RoundRectangle 15"
           HeightRequest="120">
@@ -177,7 +177,7 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                            Spacing="5">
 
                             <Label Text="📥" FontSize="30"/>
-                            <Label Text="Réception" FontAttributes="Bold"/>
+                            <Label   TextColor="White" Text="Réception" FontAttributes="Bold"/>
 
                         </VerticalStackLayout>
                     </Border>
@@ -185,7 +185,7 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                     <!-- 📤 SORTIE STOCK -->
                     <Border Grid.Row="3" 
   Grid.Column="0"
-  BackgroundColor="#FFFFFF"
+  BackgroundColor="Red"
   Stroke="#E5E7EB"
   StrokeThickness="1.2"
   StrokeShape="RoundRectangle 22"
@@ -231,14 +231,10 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                                 <Label Text="Sortie Stock"
              FontSize="16"
              FontAttributes="Bold"
-             TextColor="#111827"
+             TextColor="White"
              HorizontalTextAlignment="Center"/>
 
-                                <!-- SUBTITLE -->
-                                <Label Text="Expédition"
-             FontSize="12"
-             TextColor="#6B7280"
-             HorizontalTextAlignment="Center"/>
+                         
 
                             </VerticalStackLayout>
 
@@ -248,8 +244,8 @@ RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 
                     <!-- 📤 VARIETE -->
                     <Border Grid.Row="4" Grid.Column="0"
-BackgroundColor="White"
-Stroke="#E0E0E0"
+BackgroundColor="Black"
+Stroke="Black"
 StrokeThickness="1"
 StrokeShape="RoundRectangle 15"
 HeightRequest="120">
@@ -270,7 +266,7 @@ HeightRequest="120">
                             <Label Text="🌱" FontSize="30"/>
 
                             <!-- Texte -->
-                            <Label Text="Variété"
+                            <Label Text="Variété"   TextColor="White"
        FontAttributes="Bold"
        FontSize="14"
        HorizontalOptions="Center"/>

@@ -76,21 +76,29 @@ namespace AgriTraceApp.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/Receptions");
+                var response = await _httpClient.GetAsync("Receptions");
+
+                // Afficher le status code
+                Console.WriteLine($"Status Code: {response.StatusCode}");
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                // Afficher la réponse brute
+                Console.WriteLine($"Réponse API: {json}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync();
                     var receptions = JsonSerializer.Deserialize<List<ReceptionResponseDto>>(json, new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     });
+
+                    Console.WriteLine($"Nombre de réceptions: {receptions?.Count ?? 0}");
                     return receptions ?? new List<ReceptionResponseDto>();
                 }
                 else
                 {
-                    var error = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Erreur API: {error}");
+                    throw new Exception($"Erreur API {response.StatusCode}: {json}");
                 }
             }
             catch (Exception ex)
@@ -99,7 +107,6 @@ namespace AgriTraceApp.Services
                 throw;
             }
         }
-
         // =========================
         // RÉCUPÉRER LES RÉCEPTIONS AVEC FILTRES
         // =========================

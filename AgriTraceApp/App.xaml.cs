@@ -7,27 +7,16 @@
             InitializeComponent();
 
             // PAGE PRINCIPALE AVEC NAVIGATION
-            //MainPage = new NavigationPage(new MainPage())
+            //MainPage = new NavigationPage(new Login());
             //{
             //    BarBackgroundColor = Colors.White,
             //    BarTextColor = Colors.Black
             //};
-
-            MainPage = new NavigationPage(new Historique());
-
-
+            //MainPage = new NavigationPage(new MainPage());
             //MainPage = new NavigationPage(new EtiquetteFerme());
-
-
-            //MainPage = new NavigationPage(new Reception());
-
-
-
+            //MainPage = new NavigationPage(new /*Reception*/());
+            MainPage = new NavigationPage(new Login());
             //MainPage = new NavigationPage(new ListeEtiquettesPage());
-
-
-
-
         }
 
         //protected override Window CreateWindow(IActivationState? activationState)

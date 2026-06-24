@@ -3,24 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              x:Class="AgriTraceApp.Historique"
-             Title="Historique des Réceptions"
+             Title=" 📋 Historique des Réceptions"
              BackgroundColor="#F5F7FA">
 
-    <Grid RowDefinitions="auto,auto,auto,*,auto"
-          Padding="12">
-
-        <!-- HEADER - TITRE UNIQUEMENT -->
-        <Grid Grid.Row="0"
-              Margin="0,0,0,16">
-            <Label Text="📋 Historique des Réceptions"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   TextColor="#1F2937"
-                   VerticalOptions="Center"/>
-        </Grid>
+    <Grid RowDefinitions="Auto,Auto,*"
+          Padding="10">
 
         <!-- PARTIE FILTRAGE (2 colonnes côte à côte) -->
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="0"
               ColumnDefinitions="*,*"
               ColumnSpacing="12"
               Margin="0,0,0,16">
@@ -30,145 +20,254 @@
                                       Title="Date de réception"
                                       BackgroundColor="White"
                                       MinimumDate="2024/01/01"
-                                      MaximumDate="2025/12/31"/>
+                                      MaximumDate="2900/12/31"/>
 
             <!-- Filtre par produit -->
             <material:PickerField x:Name="FiltreProduit"
                                   Title="Produit"
                                   BackgroundColor="White"/>
-
-
         </Grid>
 
-        <!-- TABLEAU + PAGINATION -->
-        <Grid Grid.Row="3"
-              RowDefinitions="auto,*,auto">
+        <!-- Carte de total KG -->
+        <Border Grid.Row="1"
+                Stroke="#E5E7EB"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="White"
+                Margin="0,0,0,16"
+                Padding="15">
 
-            <!-- En-tête du tableau -->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="0.7*,1.2*,1*,0.8*,0.8*,0.6*"
-                  BackgroundColor="#2196F3"
-                  Padding="12,10"
-                  ColumnSpacing="4"
-                  >
+            <Grid ColumnDefinitions="*,Auto,*,Auto,*,*"
+                  RowDefinitions="Auto"
+                  VerticalOptions="Center">
 
-                <Label Text="Code QR"
-                       TextColor="White"
+                <!-- Label Titre -->
+                <Label Grid.Column="0"
+                       Text="📊 Total Général :"
                        FontAttributes="Bold"
-                       FontSize="13"/>
-                <Label Text="Agriculteur"
-                       Grid.Column="1"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       FontSize="13"/>
-                <Label Text="Produit"
-                       Grid.Column="2"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       FontSize="13"/>
-                <Label Text="Poids (Kg)"
-                       Grid.Column="3"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       FontSize="13"/>
-                <Label Text="État"
-                       Grid.Column="4"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       FontSize="13"/>
-                <Label Text="Actions"
-                       Grid.Column="5"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       FontSize="13"
-                       HorizontalTextAlignment="Center"/>
-            </Grid>
-
-            <!-- ScrollView pour le contenu du tableau -->
-            <ScrollView Grid.Row="1"
-                        BackgroundColor="White">
-                <StackLayout>
-                    <!-- Liste dynamique des réceptions -->
-                    <StackLayout x:Name="ReceptionsList" Spacing="0"/>
-
-                    <!-- Message si aucune donnée -->
-                    <Label x:Name="LblEmptyMessage"
-                           Text="Aucune réception trouvée"
-                           FontSize="14"
-                           TextColor="#9CA3AF"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           IsVisible="False"
-                           Margin="0,50"/>
-                </StackLayout>
-            </ScrollView>
-
-            <!-- PAGINATION - Version avec numéro de page entre les boutons -->
-            <Grid Grid.Row="2"
-                  ColumnDefinitions="auto,auto,auto"
-                  Padding="0,12,0,12"
-                  BackgroundColor="#F5F7FA"
-                  HorizontalOptions="Center">
-
-                <!-- Bouton Précédent -->
-                <Button x:Name="BtnPrecedent"
-                        Text="◀"
-                        BackgroundColor="#E5E7EB"
-                        TextColor="#374151"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        WidthRequest="45"
-                        HeightRequest="36"
-                        CornerRadius="8"
-                        IsEnabled="False"
-                        Grid.Column="0"/>
-
-                <!-- Zone centrale : Numéro de page actuelle et pagination -->
-                <HorizontalStackLayout Grid.Column="1"
-                                       Spacing="12"
-                                       HorizontalOptions="Center"
+                       FontSize="14"
+                       TextColor="#374151"
                                        VerticalOptions="Center"
-                                       Margin="12,0,12,0">
+                                       LineBreakMode="NoWrap"/>
 
-                    <!-- Indicateur de page (texte principal) -->
-                    <Label x:Name="LblPageActuelle"
-                           Text="Page 1"
-                           FontSize="14"
-                           FontAttributes="Bold"
-                           TextColor="#2196F3"
-                           VerticalOptions="Center"/>
+                <!-- Valeur Total -->
+                <Label x:Name="LblTotalFiltreValue"
+                       Grid.Column="1"
+                       Text="0 Kg"
+                       FontAttributes="Bold"
+                       FontSize="18"
+                       TextColor="#2563EB"
+                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap"/>
 
-                    <Label Text="sur"
-                           FontSize="12"
-                           TextColor="#6B7280"
-                           VerticalOptions="Center"/>
+                <!-- Séparateur -->
+                <BoxView Grid.Column="2"
+                        Color="#E5E7EB"
+                        WidthRequest="1"
+                        HeightRequest="30"
+                        Margin="15,0"
+                        VerticalOptions="Center"/>
 
-                    <Label x:Name="LblTotalPages"
-                           Text="1"
-                           FontSize="14"
-                           FontAttributes="Bold"
-                           TextColor="#374151"
-                           VerticalOptions="Center"/>
+                <!-- Label Filtre Actif --><!--
+                <Label x:Name="LblTotalFiltreValue"
+                       Grid.Column="3"
+                       Text="Filtré :"
+                       FontAttributes="Bold"
+                       FontSize="12"
+                       TextColor="#6B7280"
+                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap"/>
 
-                </HorizontalStackLayout>
+                --><!-- Valeur Total Filtré --><!--
+                <Label x:Name="LblTotalFiltreValue"
+                       Grid.Column="4"
+                       Text="0 Kg"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#10B981"
+                       VerticalOptions="Center"
+                                       LineBreakMode="NoWrap"/>-->
+                
+                
+                
+                
 
-                <!-- Bouton Suivant -->
-                <Button x:Name="BtnSuivant"
-                        Text="▶"
-                        BackgroundColor="#E5E7EB"
-                        TextColor="#374151"
-                        FontSize="16"
-                        FontAttributes="Bold"
-                        WidthRequest="45"
-                        HeightRequest="36"
-                        CornerRadius="8"
-                        Grid.Column="2"/>
+                <!-- Bouton Rafraîchir -->
+                <Button x:Name="BtnRefresh"
+                        Grid.Column="5"
+                        Text="⟳"
+                        BackgroundColor="Transparent"
+                        TextColor="#2196F3"
+                        FontSize="20"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"
+                        Clicked="BtnRefresh_Clicked_1"
+                        HorizontalOptions="End"/>
             </Grid>
+        </Border>
+
+        <!-- Historique - Changement clé ici : Grid.Row="2" avec * -->
+        <Grid Grid.Row="2">
+            <CollectionView x:Name="ReceptionsList"
+                            VerticalOptions="Fill"
+                            ItemsLayout="VerticalList">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <!-- Swipe vers la droite -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem
+                                        Text=" 👁️ Détail"
+                                        BackgroundColor="#2196F3"
+                                        CommandParameter="{Binding .}"
+                                        Invoked="SwipeItem_Invoked_1"/>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <!-- Swipe vers la gauche -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem
+                                        Text="Imprimer"
+                                        BackgroundColor="Green"
+                                        CommandParameter="{Binding .}"
+                                        Invoked="SwipeItem_Invoked_2"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <!-- Carte -->
+                            <Border
+                                Stroke="#E5E7EB"
+                                StrokeShape="RoundRectangle 12"
+                                BackgroundColor="White"
+                                Margin="10,5"
+                                Padding="15">
+
+                                <Grid
+                                    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                                    ColumnDefinitions="120,*"
+                                    RowSpacing="8">
+
+                                    <!-- Agriculteur -->
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="Agriculteur :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Text="{Binding Agriculteur}"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Ferme -->
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Text="Ferme :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="1"
+                                           Grid.Column="1"
+                                           Text="{Binding Ferme}"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Produit -->
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="Produit :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="2"
+                                           Grid.Column="1"
+                                           Text="{Binding Produit}"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Variété -->
+                                    <Label Grid.Row="3"
+                                           Grid.Column="0"
+                                           Text="Variété :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="3"
+                                           Grid.Column="1"
+                                           Text="{Binding Variete}"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Etat -->
+                                    <Label Grid.Row="4"
+                                           Grid.Column="0"
+                                           Text="Etat :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="4"
+                                           Grid.Column="1"
+                                           Text="{Binding Etat}"
+                                           TextColor="Green"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Date -->
+                                    <Label Grid.Row="5"
+                                           Grid.Column="0"
+                                           Text="Date :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="5"
+                                           Grid.Column="1"
+                                           Text="{Binding DateReception, StringFormat='{0:dd/MM/yyyy}'}"
+                                           LineBreakMode="WordWrap"/>
+
+                                    <!-- Poids -->
+                                    <Label Grid.Row="6"
+                                           Grid.Column="0"
+                                           Text="Poids :"
+                                           FontAttributes="Bold"
+                                           TextColor="#374151"/>
+
+                                    <Label Grid.Row="6"
+                                           Grid.Column="1"
+                                           Text="{Binding PoidsBrut, StringFormat='{0:N0} Kg'}"
+                                           FontAttributes="Bold"
+                                           TextColor="#2563EB"
+                                           LineBreakMode="WordWrap"/>
+
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <!-- Message quand liste vide -->
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="50,20"
+                                 Spacing="10">
+                        <Label Text="📭"
+                               FontSize="50"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Aucune réception trouvée"
+                               FontSize="16"
+                               TextColor="#6B7280"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Modifiez les filtres pour voir les résultats"
+                               FontSize="14"
+                               TextColor="#9CA3AF"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+            </CollectionView>
         </Grid>
 
         <!-- Indicateur de chargement -->
         <ActivityIndicator x:Name="LoadingIndicator"
-                           Grid.Row="3"
+                           Grid.Row="0"
+                           Grid.RowSpan="3"
                            IsRunning="False"
                            IsVisible="False"
                            HorizontalOptions="Center"
