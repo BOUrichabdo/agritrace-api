@@ -46,9 +46,9 @@ public partial class EtiquetteFerme : ContentPage
     private async Task LoadData()
     {
         // 🔥 stocker données dans la liste agri
-        _agriculteurs = await _serviceagriculteur.GetAgriculteurs();
-        // 🔥 afficher
-        CMBAGRICULTEUR.ItemsSource = _agriculteurs;
+        //_agriculteurs = await _serviceagriculteur.GetAgriculteurs();
+        //// 🔥 afficher
+        //CMBAGRICULTEUR.ItemsSource = _agriculteurs;
     }
     // remplire parcelle a partir fereme 
     private async void CMBFERME_SelectedIndexChanged_2(object sender, EventArgs e)

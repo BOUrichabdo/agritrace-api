@@ -31,10 +31,15 @@ public partial class Parcelle : ContentPage
 
     private List<ParcelleModel> _parcelle = new();
     private CancellationTokenSource _cts;
+
+    private int societeId; 
+
     public Parcelle()
 	{
 		InitializeComponent();
-	}
+        societeId = Preferences.Get("societeId", 0);
+
+    }
 
     private async Task LoadData()
     {
@@ -46,7 +51,7 @@ public partial class Parcelle : ContentPage
 
 
         // 🔥 stocker données dans la liste principale
-        _parcelle = await _servicepareclle.GetParcelle();
+        _parcelle = await _servicepareclle.GetParcelle(societeId);
 
         // 🔥 afficher
         LISTEPARCELLE.ItemsSource = _parcelle;
@@ -86,7 +91,7 @@ public partial class Parcelle : ContentPage
 
     private async Task LoadFerme()
     {
-        _ferme = await _serviceferme.GetFermes();
+        _ferme = await _serviceferme.GetFermes(societeId);
 
         PICKERFERME.ItemsSource = _ferme;
     }

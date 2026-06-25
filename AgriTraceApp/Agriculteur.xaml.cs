@@ -1,10 +1,12 @@
 ﻿using AgriTraceApp.Models;
-using Microsoft.Extensions.Logging.Abstractions;
-using System.Diagnostics.Metrics;
+using AgriTraceApp.Services;
+using Android.Locations;
+using Android.Provider;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using AgriTraceApp.Services;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Maui.Controls;
+using System.Diagnostics.Metrics;
 
 namespace AgriTraceApp;
 
@@ -47,14 +49,7 @@ public partial class Agriculteur : ContentPage
         _agriculteur = await _service.GetAgriculteurs(societeId);
         AgriculteurList1.ItemsSource = _agriculteur;
 
-
-
-
-
-
-
-
-        //if (societeId <= 0)
+         //if (societeId <= 0)
         //{
         //    await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
         //    // Optionnel : rediriger vers la page de connexion
@@ -118,7 +113,7 @@ public partial class Agriculteur : ContentPage
 
         try
         {
-            await _service.DeleteAgriculteur(id);
+            await _service.DeleteAgriculteur(id, societeId);
 
             // snackbar succès
             var snackbar = Snackbar.Make(
@@ -211,6 +206,17 @@ public partial class Agriculteur : ContentPage
         TelError.IsVisible = false;
         AdrError.IsVisible = false;
 
+        // verifier ID societe 
+
+
+        if (societeId <= 0)
+        {
+            await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
+            return;
+        }
+
+
+
         // 🔴 NOM
         if (string.IsNullOrWhiteSpace(TXT_AGRICULTEUR.Text))
         {
@@ -254,11 +260,18 @@ public partial class Agriculteur : ContentPage
                 Id = selectedId,
                 Nom = TXT_AGRICULTEUR.Text,
                 Telephone = TELE.Text,
-                Adresse = ADRESSE.Text
+                Adresse = ADRESSE.Text,
+                SocieteId = societeId
+
             };
 
-            await _service.UpdateAgriculteur(agri);
-
+            await _service.UpdateAgriculteur(
+                selectedId,
+                TXT_AGRICULTEUR.Text,
+                ADRESSE.Text,
+                TELE.Text,
+                societeId
+            );
             await Snackbar.Make("Modifié avec succès ✏️").Show();
         }
         else
@@ -269,12 +282,17 @@ public partial class Agriculteur : ContentPage
                 {
                     Nom = TXT_AGRICULTEUR.Text.Trim(),
                     Telephone = TELE.Text.Trim(),
-                    Adresse = ADRESSE.Text.Trim()
+                    Adresse = ADRESSE.Text.Trim(),
+                    SocieteId = societeId
                 };
 
-                await _service.AddAgriculteur(agriculteur);
-
-                var snackbar = Snackbar.Make(
+                await _service.AddAgriculteur(
+                    
+                    TXT_AGRICULTEUR.Text,
+                    ADRESSE.Text,
+                    TELE.Text,
+                    societeId
+                ); var snackbar = Snackbar.Make(
                     "Agriculteur ajouté avec succès ✅",
                     duration: TimeSpan.FromSeconds(3),
                     visualOptions: new SnackbarOptions
@@ -284,6 +302,10 @@ public partial class Agriculteur : ContentPage
                     });
 
                 await snackbar.Show();
+
+
+
+
                 //// reset form
                 //TXT_AGRICULTEUR.Text = "";
                 //TELE.Text = "";
@@ -354,7 +376,7 @@ public partial class Agriculteur : ContentPage
 
         try
         {
-            await _service.DeleteAgriculteur(id);
+            await _service.DeleteAgriculteur(id , societeId);
 
             await LoadData();
 
@@ -414,7 +436,7 @@ public partial class Agriculteur : ContentPage
 
         if (!confirm) return;
 
-        await _service.DeleteAgriculteur(id);
+        await _service.DeleteAgriculteur(id , societeId);
         await LoadData();
 
         await Snackbar.Make("Supprimé ✅").Show();
@@ -424,21 +446,21 @@ public partial class Agriculteur : ContentPage
     private async void UPDATE_Invoked(object sender, EventArgs e)
     {
 
-        var item = sender as SwipeItem;
-        int id = (int)item.CommandParameter;
+        //var item = sender as SwipeItem;
+        //int id = (int)item.CommandParameter;
 
-        var agriculteur = (await _service.GetAgriculteurs())
-                            .FirstOrDefault(x => x.Id == id);
+        //var agriculteur = (await _service.GetAgriculteurs())
+        //                    .FirstOrDefault(x => x.Id == id);
 
-        if (agriculteur == null)
-            return;
+        //if (agriculteur == null)
+        //    return;
 
-        // exemple simple : remplir formulaire
-        TXT_AGRICULTEUR.Text = agriculteur.Nom;
-        TELE.Text = agriculteur.Telephone;
-        ADRESSE.Text = agriculteur.Adresse;
+        //// exemple simple : remplir formulaire
+        //TXT_AGRICULTEUR.Text = agriculteur.Nom;
+        //TELE.Text = agriculteur.Telephone;
+        //ADRESSE.Text = agriculteur.Adresse;
 
-        await Snackbar.Make("Mode modification ✏️").Show();
+        //await Snackbar.Make("Mode modification ✏️").Show();
     }
 
     private void UPDATE_Invoked_1(object sender, EventArgs e)
@@ -477,7 +499,7 @@ public partial class Agriculteur : ContentPage
         if (!confirm)
             return;
 
-        await _service.DeleteAgriculteur(agri.Id);
+        await _service.DeleteAgriculteur(agri.Id , societeId);
         await LoadData();
 
         //// afficher infos supprimées dans formulaire (comme tu veux)

@@ -1,9 +1,8 @@
-﻿using AgriTraceApp.Models;
+﻿
+using AgriTraceApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AgriTraceApp.Services
@@ -21,61 +20,156 @@ namespace AgriTraceApp.Services
         }
 
         // =========================
-        // GET ALL
+        // GET ALL (par société)
         // =========================
-
-        public async Task<List<FermeModele>> GetFermes()
+        public async Task<List<FermeModele>> GetFermes(int societeId)
         {
             var result = await _httpClient
-                .GetFromJsonAsync<List<FermeModele>>("Ferme");
-
+                .GetFromJsonAsync<List<FermeModele>>($"Ferme?societeId={societeId}");
             return result ?? new List<FermeModele>();
         }
 
         // =========================
-        // GET BY ID
+        // GET BY ID (par société)
         // =========================
-
-        public async Task<FermeModele?> GetFermeById(int id)
+        public async Task<FermeModele?> GetFermeById(int id, int societeId)
         {
             return await _httpClient
-                .GetFromJsonAsync<FermeModele>($"Ferme/{id}");
+                .GetFromJsonAsync<FermeModele>($"Ferme/{id}?societeId={societeId}");
         }
 
         // =========================
-        // ADD
+        // ADD (avec societeId en query)
         // =========================
+        //public async Task AddFerme(FermeModele model, int societeId)
+        //{
+        //    var response = await _httpClient
+        //        .PostAsJsonAsync($"Ferme?societeId={societeId}", model);
+        //    response.EnsureSuccessStatusCode();
+        //}
 
-        public async Task AddFerme(FermeModele model)
+        public async Task AddFerme(FermeModele model, int societeId)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Ferme?societeId={societeId}", model);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Erreur {response.StatusCode} : {errorContent}");
+            }
+        }
+
+        // =========================
+        // UPDATE (avec societeId)
+        // =========================
+        public async Task UpdateFerme(FermeModele model, int societeId)
         {
             var response = await _httpClient
-                .PostAsJsonAsync("Ferme", model);
-
+                .PutAsJsonAsync($"Ferme/{model.Id}?societeId={societeId}", model);
             response.EnsureSuccessStatusCode();
         }
 
         // =========================
-        // UPDATE
+        // DELETE (avec societeId)
         // =========================
-
-        public async Task UpdateFerme(FermeModele model)
+        public async Task DeleteFerme(int id, int societeId)
         {
             var response = await _httpClient
-                .PutAsJsonAsync($"Ferme/{model.Id}", model);
-
-            response.EnsureSuccessStatusCode();
-        }
-
-        // =========================
-        // DELETE
-        // =========================
-
-        public async Task DeleteFerme(int id)
-        {
-            var response = await _httpClient
-                .DeleteAsync($"Ferme/{id}");
-
+                .DeleteAsync($"Ferme/{id}?societeId={societeId}");
             response.EnsureSuccessStatusCode();
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//using AgriTraceApp.Models;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Net.Http.Json;
+//using System.Text;
+//using System.Threading.Tasks;
+
+//namespace AgriTraceApp.Services
+//{
+//    public class FermeService
+//    {
+//        private readonly HttpClient _httpClient;
+
+//        public FermeService()
+//        {
+//            _httpClient = new HttpClient
+//            {
+//                BaseAddress = new Uri(ApiConfig.BaseUrl)
+//            };
+//        }
+
+//        // =========================
+//        // GET ALL
+//        // =========================
+
+//        public async Task<List<FermeModele>> GetFermes()
+//        {
+//            var result = await _httpClient
+//                .GetFromJsonAsync<List<FermeModele>>("Ferme");
+
+//            return result ?? new List<FermeModele>();
+//        }
+
+//        // =========================
+//        // GET BY ID
+//        // =========================
+
+//        public async Task<FermeModele?> GetFermeById(int id)
+//        {
+//            return await _httpClient
+//                .GetFromJsonAsync<FermeModele>($"Ferme/{id}");
+//        }
+
+//        // =========================
+//        // ADD
+//        // =========================
+
+//        public async Task AddFerme(FermeModele model)
+//        {
+//            var response = await _httpClient
+//                .PostAsJsonAsync("Ferme", model);
+
+//            response.EnsureSuccessStatusCode();
+//        }
+
+//        // =========================
+//        // UPDATE
+//        // =========================
+
+//        public async Task UpdateFerme(FermeModele model)
+//        {
+//            var response = await _httpClient
+//                .PutAsJsonAsync($"Ferme/{model.Id}", model);
+
+//            response.EnsureSuccessStatusCode();
+//        }
+
+//        // =========================
+//        // DELETE
+//        // =========================
+
+//        public async Task DeleteFerme(int id)
+//        {
+//            var response = await _httpClient
+//                .DeleteAsync($"Ferme/{id}");
+
+//            response.EnsureSuccessStatusCode();
+//        }
+//    }
+//}

@@ -21,17 +21,27 @@ namespace AgriTraceApp.Services
         }
 
         // =========================
-        // GET ALL PARCELLES
+        // GET ALL PARCELLES par Id socuiete 
         // =========================
 
-        public async Task<List<ParcelleModel>> GetParcelle()
+         public async Task<List<ParcelleModel>> GetParcelle(int societeId)
         {
-            var result =
-                await _httpClient.GetFromJsonAsync<List<ParcelleModel>>
-                ("Parcelle");
-
+            var result = await _httpClient
+                .GetFromJsonAsync<List<ParcelleModel>>($"Parcelle?societeId={societeId}");
             return result ?? new List<ParcelleModel>();
         }
+
+        //public async Task<List<ParcelleModel>> GetParcelle(int societeId)
+        //{
+        //    var result =
+        //        await _httpClient.GetFromJsonAsync<List<ParcelleModel>>
+        //        ("Parcelle");
+
+        //    return result ?? new List<ParcelleModel>();
+        //}
+
+
+
 
         // =========================
         // AJOUTER PARCELLE
