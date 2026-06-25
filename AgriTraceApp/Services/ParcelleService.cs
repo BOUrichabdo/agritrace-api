@@ -31,6 +31,9 @@ namespace AgriTraceApp.Services
             return result ?? new List<ParcelleModel>();
         }
 
+
+
+
         //public async Task<List<ParcelleModel>> GetParcelle(int societeId)
         //{
         //    var result =
