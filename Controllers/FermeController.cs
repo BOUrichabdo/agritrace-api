@@ -87,7 +87,8 @@ namespace TracAgriApi.Controllers
             var ferme = new Ferme
             {
                 NomFerme = dto.NomFerme,
-                AgriculteurId = dto.AgriculteurId
+                AgriculteurId = dto.AgriculteurId,
+                SocieteId = societeId
                 // SocieteId est déduit via l'agriculteur
             };
 
@@ -96,6 +97,11 @@ namespace TracAgriApi.Controllers
 
             return CreatedAtAction(nameof(GetFerme), new { id = ferme.Id, societeId }, ferme);
         }
+
+
+
+
+
 
         // PUT: api/ferme/5?societeId={societeId}
         [HttpPut("{id}")]

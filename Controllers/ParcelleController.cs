@@ -30,6 +30,27 @@ public class ParcelleController : ControllerBase
             .ToListAsync();
     }
 
+    // recuprere les parcelle par ID societe
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<PracelleDto>>> GetAgriculteurs([FromQuery] int societeId)
+    {
+        if (societeId <= 0)
+            return BadRequest("SocieteId invalide.");
+
+        var parcelles = await _context.Parcelles
+            .Where(a => a.SocieteId == societeId)
+            .Select(a => new PracelleDto
+            {
+                Id = a.Id,
+                NomParcelle = a.NomParcelle,
+                FermeId = a.FermeId,
+                SocieteId = a.SocieteId,
+
+            })
+            .ToListAsync();
+
+        return Ok(parcelles);
+    }
     // POST
     [HttpPost]
     public async Task<IActionResult> Add(Parcelle p)
@@ -101,3 +122,5 @@ public class ParcelleController : ControllerBase
 
 
 }
+
+  

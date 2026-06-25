@@ -9,16 +9,6 @@ namespace TracAgriApi.DTOs
         public string Nom { get; set; } = string.Empty;
         public string Adresse { get; set; } = string.Empty;
         public string Telephone { get; set; } = string.Empty;
-
-
         public string Nomferme { get; set; } = string.Empty;
-
-
-
-
-
-
-
-
     }
 }
