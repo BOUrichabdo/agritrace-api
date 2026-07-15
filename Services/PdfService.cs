@@ -1,7 +1,6 @@
 ﻿
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 using TracAgriApi.DTOs;
 namespace TracAgriApi.Services
 {

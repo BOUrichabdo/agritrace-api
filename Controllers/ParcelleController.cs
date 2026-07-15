@@ -29,15 +29,15 @@ public class ParcelleController : ControllerBase
         var parcelles = await _context.Parcelles
             .Include(p => p.Ferme)
             .ThenInclude(f => f.Agriculteur)
-            .Where(p => p.SocieteId == societeId) 
-                                                                   
-                                                                    
+            .Where(p => p.SocieteId == societeId)
+
+
             .Select(p => new ParcelleDto
             {
                 Id = p.Id,
                 NomParcelle = p.NomParcelle,
                 FermeId = p.FermeId,
-                NomFerme = p.Ferme.NomFerme 
+                NomFerme = p.Ferme.NomFerme
             })
             .ToListAsync();
 

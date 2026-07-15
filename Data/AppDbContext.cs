@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using TracAgriApi.Models;
 
 namespace AgriTraceAPI.Data

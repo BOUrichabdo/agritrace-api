@@ -11,9 +11,9 @@
 
         public Produit? Produit { get; set; }
 
-        public decimal PoidsBrut { get; set; } 
+        public decimal PoidsBrut { get; set; }
 
-        
+
 
         public decimal QuantiteDisponible { get; set; }
 

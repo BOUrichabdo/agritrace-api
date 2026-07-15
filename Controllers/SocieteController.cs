@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TracAgriApi.DTOs;
-using TracAgriApi.Models;
 
 [Route("api/[controller]")]
 [ApiController]

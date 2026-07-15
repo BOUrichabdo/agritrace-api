@@ -2,9 +2,6 @@
 using AgriTraceAPI.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TracAgriApi.DTOs;
 using TracAgriApi.Models;
 
@@ -14,6 +11,7 @@ namespace TracAgriApi.Controllers
     [ApiController]
     public class AgriculteurController : ControllerBase
     {
+        // db context  BD 
         private readonly AppDbContext _context;
 
         public AgriculteurController(AppDbContext context)
@@ -21,13 +19,15 @@ namespace TracAgriApi.Controllers
             _context = context;
         }
 
+        // recuprere les agriculteur par ID Societe  ALL Agri where ID societe
         // GET: api/agriculteur?societeId={societeId}
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AgriculteurDto>>> GetAgriculteurs([FromQuery] int societeId)
         {
+            // verifier Id societe
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
-
+            // recuprere agriculteur avec ces info en base sur DTO agriculteur 
             var agriculteurs = await _context.Agriculteurs
                 .Where(a => a.SocieteId == societeId)
                 .Select(a => new AgriculteurDto
@@ -42,6 +42,9 @@ namespace TracAgriApi.Controllers
             return Ok(agriculteurs);
         }
 
+
+
+        // recuprere les agri par ID et ID societe 
         // GET: api/agriculteur/5?societeId={societeId}
         [HttpGet("{id}")]
         public async Task<ActionResult<AgriculteurDto>> GetAgriculteur(int id, [FromQuery] int societeId)
@@ -66,6 +69,11 @@ namespace TracAgriApi.Controllers
             return Ok(agriculteur);
         }
 
+
+
+
+
+        // La creation de agriculteur 
         // POST: api/agriculteur?societeId={societeId}
         [HttpPost]
         public async Task<ActionResult<Agriculteur>> PostAgriculteur(AgriculteurDto dto, [FromQuery] int societeId)
@@ -78,7 +86,7 @@ namespace TracAgriApi.Controllers
                 Nom = dto.Nom,
                 Adresse = dto.Adresse,
                 Telephone = dto.Telephone,
-                SocieteId = societeId   // 🔥 association automatique
+                SocieteId = societeId
             };
 
             _context.Agriculteurs.Add(agriculteur);
@@ -87,6 +95,10 @@ namespace TracAgriApi.Controllers
             return CreatedAtAction(nameof(GetAgriculteur), new { id = agriculteur.Id, societeId }, agriculteur);
         }
 
+
+
+
+        // Modifier agriculteur par ID agriculteur et ID Societe 
         // PUT: api/agriculteur/5?societeId={societeId}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAgriculteur(int id, AgriculteurDto dto, [FromQuery] int societeId)
@@ -125,6 +137,10 @@ namespace TracAgriApi.Controllers
             return NoContent();
         }
 
+
+
+
+        // supp Agri par ID et Id societe 
         // DELETE: api/agriculteur/5?societeId={societeId}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAgriculteur(int id, [FromQuery] int societeId)
@@ -144,6 +160,9 @@ namespace TracAgriApi.Controllers
             return NoContent();
         }
 
+
+
+        // verifier si agriculteur existe par ID
         private bool AgriculteurExists(int id)
         {
             return _context.Agriculteurs.Any(e => e.Id == id);

@@ -8,7 +8,7 @@
         public string Telephone { get; set; } = string.Empty;
 
 
-                public int SocieteId { get; set; }
+        public int SocieteId { get; set; }
 
         // liste fereme agriculteur
         public List<Ferme> Fermes { get; set; } = new();

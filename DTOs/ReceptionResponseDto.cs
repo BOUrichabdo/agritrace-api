@@ -11,7 +11,7 @@
         public decimal QuantiteDisponible { get; set; }
         public DateTime DateReception { get; set; }
         public decimal Temperature { get; set; }
-        public string Etat { get; set; } = string.Empty;        // Bon/Moyen/Mauvais
+        public string Etat { get; set; } = string.Empty;        // Bon/Moyen/Mauvais de  
         public string Type { get; set; } = string.Empty;        // Produit Fini/Matière Première
         public string Observation { get; set; } = string.Empty;
 

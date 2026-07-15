@@ -35,7 +35,7 @@
         // =========================
         // NAVIGATION
         // =========================
-                public int SocieteId { get; set; }
+        public int SocieteId { get; set; }
 
         public Agriculteur? Agriculteur { get; set; }
 

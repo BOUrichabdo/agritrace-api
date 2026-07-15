@@ -1,6 +1,4 @@
-﻿using TracAgriApi.Models;
-
-namespace TracAgriApi.DTOs
+﻿namespace TracAgriApi.DTOs
 {
     public class AgriculteurDto
     {

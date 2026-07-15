@@ -1,6 +1,6 @@
 ﻿namespace TracAgriApi.DTOs
 {
-    public class PaletteSortieDto  
+    public class PaletteSortieDto
     {
         public string CodePalette { get; set; } = string.Empty;
 

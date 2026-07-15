@@ -1,6 +1,4 @@
-﻿using TracAgriApi.Models;
-
-public class Societe
+﻿public class Societe
 {
     public int Id { get; set; }
     public string Nom { get; set; } = string.Empty;

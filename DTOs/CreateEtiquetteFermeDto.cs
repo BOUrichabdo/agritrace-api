@@ -13,10 +13,10 @@
 
         public int VarieteId { get; set; }
 
-        public string CodeEtiquette { get; set; } = string.Empty; 
+        public string CodeEtiquette { get; set; } = string.Empty;
 
 
 
-        
+
     }
 }

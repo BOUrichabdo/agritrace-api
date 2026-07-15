@@ -15,7 +15,7 @@ namespace TracAgriApi.Controllers
         // implimentation du service de stock pour la gestion des palettes
         private readonly IStockService _service;
 
-        public StocksController(AppDbContext context , IStockService service)
+        public StocksController(AppDbContext context, IStockService service)
         {
             _context = context;
 
