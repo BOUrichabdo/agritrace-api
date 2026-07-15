@@ -7,7 +7,7 @@ namespace AgriTraceApp;
 public partial class Societe : ContentPage
 {
 
-    private bool _isCreating = false; 
+    private bool _isCreating = false;
 
     public Societe()
     {
@@ -40,6 +40,8 @@ public partial class Societe : ContentPage
         label.IsVisible = true;
     }
 
+
+
     private void ClearFieldError(Border border, Label label)
     {
         border.Stroke = new SolidColorBrush(Color.FromArgb("#E5E7EB"));
@@ -50,7 +52,6 @@ public partial class Societe : ContentPage
     private bool ValidateForm()
     {
         bool isValid = true;
-
         // Email regex
         var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         // Phone regex (numbers, space, +, -, parenthese, length between 8 and 18)
@@ -197,7 +198,7 @@ public partial class Societe : ContentPage
             _isCreating = true;
             BTNVALIDER.IsEnabled = false;
             LoadingIndicator.IsRunning = true;
-            LoadingIndicator.IsVisible = true;
+            LoadingIndicator.IsVisible = true; 
 
             // Validation du formulaire
             if (!ValidateForm())

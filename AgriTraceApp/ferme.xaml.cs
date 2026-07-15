@@ -10,8 +10,11 @@ namespace AgriTraceApp;
 
 public partial class Ferme : ContentPage
 {
+    // mofification Mode
     private bool isEditMode = false;
+    // id select ferme pour modification
     private int selectedId = 0;
+    // initialiser service ferme et agri
     private FermeService _servicesferme = new FermeService();
     private AgriculteurService _serviceafriculteur = new AgriculteurService();
     private List<AgriculteurModel>? _agriculteurs;
@@ -28,6 +31,7 @@ public partial class Ferme : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
         if (societeId <= 0)
         {
             await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
@@ -93,7 +97,6 @@ public partial class Ferme : ContentPage
             FERMEERREUR.Text = "Nom obligatoire";
             FERMEERREUR.IsVisible = true;
             FEREMEENTRY.Focus();
-
             isValid = false;
         }
         var selectedAgri = CMBOAGRI.SelectedItem as AgriculteurModel;
@@ -169,15 +172,18 @@ public partial class Ferme : ContentPage
         FEREMEENTRY.Text = "";
 
         isEditMode = false;
+
         selectedId = 0;
 
-        CMBOAGRI.SelectedItem = null; // 🔥 reset picker
+        CMBOAGRI.SelectedItem = null;
 
 
         VALIDER.Text = "Ajouter";
+
         VALIDER.BackgroundColor = Color.FromArgb("#2E7D32");
 
         ERREURAGRI.IsVisible = false;
+
         FERMEERREUR.IsVisible = false;
     }
 

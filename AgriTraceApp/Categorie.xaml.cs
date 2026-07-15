@@ -21,9 +21,9 @@ public partial class Categorie : ContentPage
     private CategorieService _categorieservice = new CategorieService();
 
     public Categorie()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     private async Task LoadData()
     {
@@ -150,7 +150,7 @@ public partial class Categorie : ContentPage
 
         await _categorieservice.DeletCategorie(agri.Id);
 
-        
+
 
         await LoadData();
 
@@ -166,7 +166,7 @@ public partial class Categorie : ContentPage
     private void ClearForm()
     {
         TXT_CATEGORIE.Text = "";
-    
+
         isEditMode = false;
         selectedId = 0;
 
@@ -204,8 +204,8 @@ public partial class Categorie : ContentPage
             {
                 Id = selectedId,
                 Intitule = TXT_CATEGORIE.Text
-               
-                
+
+
             };
             await _categorieservice.UpdateCategorie(agri);
             await Snackbar.Make("Modifié avec succès ✏️").Show();
@@ -217,10 +217,10 @@ public partial class Categorie : ContentPage
                 var categorie = new ModeleCategorie
                 {
                     Intitule = TXT_CATEGORIE.Text.Trim()
-                    
-                    
+
+
                 };
-                    
+
                 await _categorieservice.AddCategorie(categorie);
 
                 var snackbar = Snackbar.Make(

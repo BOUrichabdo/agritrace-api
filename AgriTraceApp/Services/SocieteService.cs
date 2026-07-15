@@ -33,7 +33,7 @@ public class SocieteService
 
     public async Task<string> CreateSociete(CreateSocieteDto dto)
     {
-        var response = await _httpClient.PostAsJsonAsync("/api/societe", dto); 
+        var response = await _httpClient.PostAsJsonAsync("/api/societe", dto);
 
         var content = await response.Content.ReadAsStringAsync();
 

@@ -22,9 +22,9 @@ public partial class Produit : ContentPage
 
     private CancellationTokenSource _cts;
     public Produit()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override async void OnAppearing()
     {
@@ -331,18 +331,18 @@ public partial class Produit : ContentPage
     private void TXT_CATEGORIE_TextChanged(object sender, TextChangedEventArgs e)
     {
 
-       
+
 
     }
 
     private void CMBVARIETE_SelectedIndexChanged(object sender, EventArgs e)
     {
 
-        var variete  = CMBVARIETE.SelectedItem as ModeleVariete;
+        var variete = CMBVARIETE.SelectedItem as ModeleVariete;
 
         if (variete != null)
         {
-            TXT_CATEGORIE.Text =  variete.CategorieNom;
+            TXT_CATEGORIE.Text = variete.CategorieNom;
         }
 
     }

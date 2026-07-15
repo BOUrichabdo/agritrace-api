@@ -10,28 +10,28 @@
     <Grid RowDefinitions="*,Auto"
           Padding="0">
 
-        <ScrollView Grid.Row="0"  
-                    x:Name="MainScroll">
+        <ScrollView Grid.Row="0" x:Name="MainScroll">
+
 
             <VerticalStackLayout Padding="18"
                                  Spacing="10">
 
-                <!-- ========================= -->
-                <!-- SCAN QR -->
-                <!-- ========================= -->
-                <Border BackgroundColor="White"
+            <!-- ========================= -->
+            <!-- SCAN QR -->
+            <!-- ========================= -->
+            <Border BackgroundColor="White"
                         Padding="2"
                         StrokeThickness="0" 
                         Shadow="{Shadow Brush=Black,Opacity=0.08,Radius=10}"
                         StrokeShape="RoundRectangle 10">
 
-                    <VerticalStackLayout Spacing="0">
+                <VerticalStackLayout Spacing="0">
 
-                        <Grid x:Name="MainGrid" 
+                    <Grid x:Name="MainGrid" 
                               RowDefinitions="Auto,Auto,Auto">
 
-                            <!-- Bouton en haut -->
-                            <Button x:Name="btnScan"
+                        <!-- Bouton en haut -->
+                        <Button x:Name="btnScan"
                                     Text="📷 SCANNER QR CODE"
                                     Margin="2"
                                     Clicked="btnScan_Clicked"
@@ -40,23 +40,23 @@
                                     BackgroundColor="#2196F3"
                                     TextColor="White"/>
 
-                            <!-- Conteneur pour la caméra (caché par défaut) -->
-                            <Grid x:Name="CameraContainer"
+                        <!-- Conteneur pour la caméra (caché par défaut) -->
+                        <Grid x:Name="CameraContainer"
                                   Grid.Row="1"
                                   IsVisible="False"
                                   BackgroundColor="Black" 
                                   HeightRequest="250">
 
-                                <!-- CAMERA -->
-                                <zxing:CameraBarcodeReaderView
+                            <!-- CAMERA -->
+                            <zxing:CameraBarcodeReaderView
                                     x:Name="cameraView"
                                     BarcodesDetected="cameraView_BarcodesDetected_1"
                                     HorizontalOptions="Fill"
                                     VerticalOptions="Fill"/>
-                            </Grid>
+                        </Grid>
 
-                            <!-- Champ Entry pour afficher le code QR scanné -->
-                            <Frame Grid.Row="2"
+                        <!-- Champ Entry pour afficher le code QR scanné -->
+                        <Frame Grid.Row="2"
                                    Margin="20,10,20,20"
                                    Padding="1"
                                    BackgroundColor="#F0F0F0"
@@ -64,7 +64,7 @@
                                    BorderColor="#2196F3"
                                    HasShadow="True">
 
-                                <VerticalStackLayout Spacing="5">
+                            <VerticalStackLayout Spacing="5">
                                     <Label Text="CODE QR SCANNÉ :"
                                            FontSize="14"
                                            TextColor="#666666"
@@ -76,12 +76,12 @@
                                            BackgroundColor="White"
                                            IsReadOnly="True"
                                            TextColor="#333333"/>
-                                </VerticalStackLayout>
-                            </Frame>
+                            </VerticalStackLayout>
+                        </Frame>
 
-                        </Grid>
+                    </Grid>
 
-                        <Button Text="Afficher Information Étiquette"
+                    <Button Text="Afficher Information Étiquette"
                                 HeightRequest="55"
                                 CornerRadius="18"
                                 Clicked="Sqcannebtn_Clicked"
@@ -91,194 +91,194 @@
                                 TextColor="White"
                                 Margin="10"/>
 
-                    </VerticalStackLayout>
+                </VerticalStackLayout>
 
-                </Border>
+            </Border>
 
-                <!-- ========================= -->
-                <!-- INFOS ETIQUETTE -->
-                <!-- ========================= -->
-                <Border BackgroundColor="White"
+            <!-- ========================= -->
+            <!-- INFOS ETIQUETTE -->
+            <!-- ========================= -->
+            <Border BackgroundColor="White"
                         Padding="20"
                         StrokeThickness="0"
                         Shadow="{Shadow Brush=Black,Opacity=0.08,Radius=10}"
                         StrokeShape="RoundRectangle 25">
 
-                    <VerticalStackLayout Spacing="14">
+                <VerticalStackLayout Spacing="14">
 
-                        <Label Text="📄 Informations Étiquette"
+                    <Label Text="📄 Informations Étiquette"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="#111827"/>
 
-                        <!-- Agriculteur -->
-                        <Grid ColumnDefinitions="35,*">
-                            <Label Text="👨‍🌾" FontSize="20"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Agriculteur" FontSize="12" TextColor="#6B7280"/>
-                                <Label x:Name="lblagriculteur" 
+                    <!-- Agriculteur -->
+                    <Grid ColumnDefinitions="35,*">
+                        <Label Text="👨‍🌾" FontSize="20"/>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Agriculteur" FontSize="12" TextColor="#6B7280"/>
+                            <Label x:Name="lblagriculteur" 
                                        FontSize="16" 
                                        FontAttributes="Bold" 
                                        TextColor="#111827"
                                        Text="-"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                        </VerticalStackLayout>
+                    </Grid>
 
-                        <!-- Ferme -->
-                        <Grid ColumnDefinitions="35,*">
-                            <Label Text="🏡" FontSize="20"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Ferme" FontSize="12" TextColor="#6B7280"/>
-                                <Label x:Name="lblferme" 
+                    <!-- Ferme -->
+                    <Grid ColumnDefinitions="35,*">
+                        <Label Text="🏡" FontSize="20"/>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Ferme" FontSize="12" TextColor="#6B7280"/>
+                            <Label x:Name="lblferme" 
                                        FontSize="16" 
                                        FontAttributes="Bold" 
                                        TextColor="#111827"
                                        Text="-"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                        </VerticalStackLayout>
+                    </Grid>
 
-                        <!-- Produit -->
-                        <Grid ColumnDefinitions="35,*">
-                            <Label Text="📦" FontSize="20"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Produit" FontSize="12" TextColor="#6B7280"/>
-                                <Label x:Name="lblproduit" 
+                    <!-- Produit -->
+                    <Grid ColumnDefinitions="35,*">
+                        <Label Text="📦" FontSize="20"/>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Produit" FontSize="12" TextColor="#6B7280"/>
+                            <Label x:Name="lblproduit" 
                                        FontSize="16" 
                                        FontAttributes="Bold" 
                                        TextColor="#111827"
                                        Text="-"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                        </VerticalStackLayout>
+                    </Grid>
 
-                        <!-- Variété -->
-                        <Grid ColumnDefinitions="35,*">
-                            <Label Text="🌱" FontSize="20"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Variété" FontSize="12" TextColor="#6B7280"/>
-                                <Label x:Name="lblvariete" 
+                    <!-- Variété -->
+                    <Grid ColumnDefinitions="35,*">
+                        <Label Text="🌱" FontSize="20"/>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Variété" FontSize="12" TextColor="#6B7280"/>
+                            <Label x:Name="lblvariete" 
                                        FontSize="16" 
                                        FontAttributes="Bold" 
                                        TextColor="#111827"
                                        Text="-"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                        </VerticalStackLayout>
+                    </Grid>
 
-                    </VerticalStackLayout>
+                </VerticalStackLayout>
 
-                </Border>
+            </Border>
 
-                <!-- ========================= -->
-                <!-- SAISIE RECEPTION -->
-                <!-- ========================= -->
-                <Border BackgroundColor="White"
+            <!-- ========================= -->
+            <!-- SAISIE RECEPTION -->
+            <!-- ========================= -->
+            <Border BackgroundColor="White"
                         Padding="20"
                         StrokeThickness="0"
                         Shadow="{Shadow Brush=Black,Opacity=0.08,Radius=10}"
                         StrokeShape="RoundRectangle 25">
 
-                    <VerticalStackLayout Spacing="18">
+                <VerticalStackLayout Spacing="18">
 
-                        <Label Text="⚖️ Contrôle Réception"
+                    <Label Text="⚖️ Contrôle Réception"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="#111827"/>
 
-                        <!-- Poids -->
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Poids Brut (KG)" 
+                    <!-- Poids -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Poids Brut (KG)" 
                                    FontAttributes="Bold" 
                                    TextColor="#374151"/>
-                            <Entry x:Name="TXT_POIDS"
+                        <Entry x:Name="TXT_POIDS"
                                    Placeholder="Ex : 520"
                                    Keyboard="Numeric"
                                    HeightRequest="55"
                                    BackgroundColor="#F3F4F6"
                                    TextColor="Black"/>
-                            <Label x:Name="PoidsError"
+                        <Label x:Name="PoidsError"
                                    TextColor="Red"
                                    FontSize="12"
                                    IsVisible="False"/>
-                        </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-                        <!-- Température -->
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Température (°C)" 
+                    <!-- Température -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Température (°C)" 
                                    FontAttributes="Bold" 
                                    TextColor="#374151"/>
-                            <Entry x:Name="TXT_TEMPERATURE"
+                        <Entry x:Name="TXT_TEMPERATURE"
                                    Placeholder="Ex : 5"
                                    Keyboard="Numeric"
                                    HeightRequest="55"
                                    BackgroundColor="#F3F4F6"
                                    TextColor="Black"/>
-                            <Label x:Name="TemperatureError"
+                        <Label x:Name="TemperatureError"
                                    TextColor="Red"
                                    FontSize="12"
                                    IsVisible="False"/>
-                        </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-                        <!-- Etat -->
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="État Produit" 
+                    <!-- Etat -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="État Produit" 
                                    FontAttributes="Bold" 
                                    TextColor="#374151"/>
-                            <Picker x:Name="CMBETAT" 
+                        <Picker x:Name="CMBETAT" 
                                     Title="Sélectionner état">
-                                <Picker.Items>
-                                    <x:String>Bon</x:String>
-                                    <x:String>Moyen</x:String>
-                                    <x:String>Mauvais</x:String>
-                                </Picker.Items>
-                            </Picker>
-                            <Label x:Name="EtatError"
+                            <Picker.Items>
+                                <x:String>Bon</x:String>
+                                <x:String>Moyen</x:String>
+                                <x:String>Mauvais</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <Label x:Name="EtatError"
                                    TextColor="Red"
                                    FontSize="12"
                                    IsVisible="False"/>
-                        </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-                        <!-- Type -->
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Type Produit" 
+                    <!-- Type -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Type Produit" 
                                    FontAttributes="Bold" 
                                    TextColor="#374151"/>
-                            <Picker x:Name="CMBTYPE" 
+                        <Picker x:Name="CMBTYPE" 
                                     Title="Produit Fini / MP">
-                                <Picker.Items>
-                                    <x:String>Produit Fini</x:String>
-                                    <x:String>Matière Première</x:String>
-                                </Picker.Items>
-                            </Picker>
-                            <Label x:Name="TypeError"
+                            <Picker.Items>
+                                <x:String>Produit Fini</x:String>
+                                <x:String>Matière Première</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <Label x:Name="TypeError"
                                    TextColor="Red"
                                    FontSize="12"
                                    IsVisible="False"/>
-                        </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-                        <!-- Observation -->
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Observation" 
+                    <!-- Observation -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Observation" 
                                    FontAttributes="Bold" 
                                    TextColor="#374151"/>
-                            <Editor x:Name="TXT_OBSERVATION"
+                        <Editor x:Name="TXT_OBSERVATION"
                                     Placeholder="Observation réception..."
                                     AutoSize="TextChanges"
                                     HeightRequest="120"
                                     BackgroundColor="#F3F4F6"
                                     TextColor="Black"/>
-                        </VerticalStackLayout>
-
                     </VerticalStackLayout>
 
-                </Border>
+                </VerticalStackLayout>
 
-                <!-- ========================= -->
-                <!-- BTN VALIDER ET IMPRIMER -->
-                <!-- ========================= -->
-                <Grid ColumnDefinitions="*,*"
+            </Border>
+
+            <!-- ========================= -->
+            <!-- BTN VALIDER ET IMPRIMER -->
+            <!-- ========================= -->
+            <Grid ColumnDefinitions="*,*"
                       ColumnSpacing="15"
                       Margin="0,0,0,30">
 
-                    <Button Text="✅ VALIDER"
+                <Button Text="✅ VALIDER"
                             x:Name="ValiderReception"
                             HeightRequest="65"
                             CornerRadius="22"
@@ -289,7 +289,7 @@
                             TextColor="White"
                             Grid.Column="0"/>
 
-                    <Button Text="🖨️ IMPRIMER"
+                <Button Text="🖨️ IMPRIMER"
                             x:Name="BtnImprimer"
                             HeightRequest="65"
                             CornerRadius="22"
@@ -302,7 +302,7 @@
                             Grid.Column="1" 
                             IsVisible="True"/>
 
-                </Grid>
+            </Grid>
 
             </VerticalStackLayout>
 

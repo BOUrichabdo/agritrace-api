@@ -1,14 +1,12 @@
 ﻿
 using AgriTraceApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 
 namespace AgriTraceApp.Services
 {
     public class FermeService
     {
+        // root
         private readonly HttpClient _httpClient;
 
         public FermeService()
@@ -20,22 +18,21 @@ namespace AgriTraceApp.Services
         }
 
         // =========================
-        // GET ALL (par société)
+        // GET ALL (par société)  Recuprere les fermes par ID societe
         // =========================
         public async Task<List<FermeModele>> GetFermes(int societeId)
         {
-            var result = await _httpClient
-                .GetFromJsonAsync<List<FermeModele>>($"Ferme?societeId={societeId}");
+            var result = await _httpClient.GetFromJsonAsync<List<FermeModele>>($"Ferme?societeId={societeId}");
             return result ?? new List<FermeModele>();
         }
 
         // =========================
-        // GET BY ID (par société)
+        // GET BY ID (par société) recuprere une ferme par ID et ID societe
         // =========================
         public async Task<FermeModele?> GetFermeById(int id, int societeId)
         {
-            return await _httpClient
-                .GetFromJsonAsync<FermeModele>($"Ferme/{id}?societeId={societeId}");
+            return await _httpClient.GetFromJsonAsync<FermeModele>($"Ferme/{id}?societeId={societeId}");
+
         }
 
         // =========================
@@ -48,6 +45,7 @@ namespace AgriTraceApp.Services
         //    response.EnsureSuccessStatusCode();
         //}
 
+        // ajouter Ferme avec gestion d'erreur détaillée
         public async Task AddFerme(FermeModele model, int societeId)
         {
             var response = await _httpClient.PostAsJsonAsync($"Ferme?societeId={societeId}", model);
@@ -59,7 +57,7 @@ namespace AgriTraceApp.Services
         }
 
         // =========================
-        // UPDATE (avec societeId)
+        // UPDATE (avec societeId) modification d'une ferme avec gestion d'erreur détaillée
         // =========================
         public async Task UpdateFerme(FermeModele model, int societeId)
         {
@@ -69,12 +67,12 @@ namespace AgriTraceApp.Services
         }
 
         // =========================
-        // DELETE (avec societeId)
+        // DELETE (avec societeId)  Suppression d'une ferme
         // =========================
         public async Task DeleteFerme(int id, int societeId)
         {
-            var response = await _httpClient
-                .DeleteAsync($"Ferme/{id}?societeId={societeId}");
+            var response = await _httpClient.DeleteAsync($"Ferme/{id}?societeId={societeId}");
+
             response.EnsureSuccessStatusCode();
         }
     }

@@ -1,15 +1,11 @@
 ﻿using AgriTraceApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgriTraceApp.Services
 {
     public class ProduitService
     {
+        // root
         private readonly HttpClient _httpClient;
 
         public ProduitService()
@@ -99,7 +95,7 @@ namespace AgriTraceApp.Services
             }
             catch
             {
-                return new List<ProduitModel>();
+                return new List<ProduitModel>(); ;
             }
         }
 

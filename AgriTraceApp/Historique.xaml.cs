@@ -2,7 +2,6 @@
 using AgriTraceApp.Models;
 using AgriTraceApp.Services;
 using System.Globalization;
-using static AndroidX.Camera.Core.CameraState;
 
 namespace AgriTraceApp;
 
@@ -23,8 +22,8 @@ public partial class Historique : ContentPage
     private const int ITEMS_PAR_PAGE = 8;
     private int totalPages = 1;
     public Historique()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         _service = new ProduitService();
         _receptionService = new ReceptionService();
@@ -45,7 +44,7 @@ public partial class Historique : ContentPage
 
         // f,iltrage 
 
-        FiltreDate.PropertyChanged += OnFiltreChanged; 
+        FiltreDate.PropertyChanged += OnFiltreChanged;
         FiltreProduit.SelectedValueChanged += OnFiltreChanged;
 
 
@@ -591,7 +590,7 @@ public partial class Historique : ContentPage
         {
 
 
-            bool confirmer =  await DisplayAlert("Impression Réception",
+            bool confirmer = await DisplayAlert("Impression Réception",
                       $"📦 Code QR: {reception.CodeQR ?? reception.CodePalette}\n\n" +
                       $"👨‍🌾 Agriculteur: {reception.Agriculteur ?? "-"}\n" +
                       $"🏡 Ferme: {reception.Ferme ?? "-"}\n\n" +
@@ -602,9 +601,9 @@ public partial class Historique : ContentPage
                       $"📁 Type: {reception.Type ?? "-"}\n" +
                       $"📅 Date: {reception.DateReception:dd/MM/yyyy}\n\n" +
                       $"📝 Observation: {reception.Observation ?? "Aucune"}",
-                      "Confirmer" ,
+                      "Confirmer",
                       "Annuler");
- 
+
 
 
             if (!confirmer)

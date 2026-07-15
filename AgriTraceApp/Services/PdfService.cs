@@ -1,8 +1,6 @@
 ﻿
 using AgriTraceApp.DTOs;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 
 public class PdfService
 {

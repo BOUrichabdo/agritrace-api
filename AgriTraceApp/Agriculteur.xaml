@@ -28,6 +28,7 @@
                 <Label x:Name="NomError" TextColor="Red" IsVisible="False"/>
 
                 <Entry Placeholder="Téléphone" x:Name="TELE"/>
+                
                 <Label x:Name="TelError" TextColor="Red" IsVisible="False"/>
 
                 <Entry Placeholder="Adresse" x:Name="ADRESSE" TextChanged="ADRESSE_TextChanged"/>

@@ -1,17 +1,13 @@
 ﻿
 
 using AgriTraceApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgriTraceApp.Services
 {
     public class AgriculteurService
     {
+        // root
         private readonly HttpClient _httpClient;
 
         public AgriculteurService()
@@ -27,28 +23,13 @@ namespace AgriTraceApp.Services
         // =========================
         // GET ALL recuprere (toute les agris) par filtrage par ID societe
         // =========================
-
-
+        // recupere les agriculteurs par ID societe
         public async Task<List<AgriculteurModel>> GetAgriculteurs(int societeId)
         {
             var result = await _httpClient
                 .GetFromJsonAsync<List<AgriculteurModel>>($"Agriculteur?societeId={societeId}");
             return result ?? new List<AgriculteurModel>();
         }
-
-        // =========================
-        // GET ALL recuprere (toute les agris)
-        // =========================
-
-        //public async Task<List<AgriculteurModel>> GetAgriculteurs()
-        //{
-        //    var result = await _httpClient
-        //        .GetFromJsonAsync<List<AgriculteurModel>>("Agriculteur");
-
-        //    return result ?? new List<AgriculteurModel>();
-        //}
-
-
         // =========================
         // GET BY ID recup Agri avec ID et ID societe 
         // =========================
@@ -60,7 +41,11 @@ namespace AgriTraceApp.Services
         }
         // =========================
         // GET BY ID recup Agri avec ID 
-        // =========================
+        // ============
+
+
+
+
 
         public async Task<AgriculteurModel?> GetAgriculteurById(int id)
         {
@@ -111,7 +96,7 @@ namespace AgriTraceApp.Services
         // =========================
 
 
-        public async Task DeleteAgriculteur(int id,int societeId)
+        public async Task DeleteAgriculteur(int id, int societeId)
         {
             var response = await _httpClient
                 .DeleteAsync($"Agriculteur/{id}?societeId={societeId}");
@@ -151,5 +136,9 @@ namespace AgriTraceApp.Services
                 return new List<FermeModele>();
             }
         }
+
+
+
+
     }
 }

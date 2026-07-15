@@ -1,10 +1,5 @@
 ﻿using AgriTraceApp.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgriTraceApp.Services
 {
@@ -99,7 +94,7 @@ namespace AgriTraceApp.Services
 
 
 
-            return await _httpClient.GetByteArrayAsync($"api/Printer/print/{id}"); 
+            return await _httpClient.GetByteArrayAsync($"api/Printer/print/{id}");
         }
     }
 }

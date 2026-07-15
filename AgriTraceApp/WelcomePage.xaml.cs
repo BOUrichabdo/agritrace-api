@@ -2,10 +2,10 @@ namespace AgriTraceApp;
 
 public partial class WelcomePage : ContentPage
 {
-	public WelcomePage()
-	{
-		InitializeComponent();
-	}
+    public WelcomePage()
+    {
+        InitializeComponent();
+    }
 
     private async void BTNLOGIN_Clicked(object sender, EventArgs e)
     {

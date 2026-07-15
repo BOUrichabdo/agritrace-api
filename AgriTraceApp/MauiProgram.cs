@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
 
 namespace AgriTraceApp

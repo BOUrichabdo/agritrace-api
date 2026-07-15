@@ -15,28 +15,19 @@ public partial class Parcelle : ContentPage
 
     // instance service 
     //private ApiService _service = new ApiService();
-
-    
-    
     private ParcelleService _servicepareclle = new ParcelleService();
-
     private FermeService _serviceferme = new FermeService();
-
-    
-
-
-
     // objet Model agriculteur 
     private List<FermeModele>? _ferme;
 
     private List<ParcelleModel> _parcelle = new();
     private CancellationTokenSource _cts;
 
-    private int societeId; 
+    private int societeId;
 
     public Parcelle()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         societeId = Preferences.Get("societeId", 0);
 
     }
@@ -64,38 +55,26 @@ public partial class Parcelle : ContentPage
     private void ClearForm()
     {
         ENTRYPARCELLE.Text = "";
-
         isEditMode = false;
         selectedId = 0;
-
-        PICKERFERME.SelectedItem = null; // 🔥 reset picker
-
-
+        PICKERFERME.SelectedItem = null;
         VALIDER.Text = "Ajouter";
         VALIDER.BackgroundColor = Color.FromArgb("#2E7D32");
-
         ERREURFERME.IsVisible = false;
-
         ERREURPARCELLE.IsVisible = false;
-
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
         await LoadData();
-
-
     }
-
-
     private async Task LoadFerme()
     {
         _ferme = await _serviceferme.GetFermes(societeId);
 
         PICKERFERME.ItemsSource = _ferme;
     }
-
     private void ENTRYNAMEPARCELLE_TextChanged(object sender, TextChangedEventArgs e)
     {
 
@@ -117,10 +96,8 @@ public partial class Parcelle : ContentPage
 
 
     }
-
     private void ENTRYPARCELLE_TextChanged(object sender, TextChangedEventArgs e)
     {
-
         if (string.IsNullOrWhiteSpace(ENTRYPARCELLE.Text))
             return;
 
@@ -137,7 +114,6 @@ public partial class Parcelle : ContentPage
         }
 
     }
-
     private async void VALIDER_Clicked(object sender, EventArgs e)
     {
 
@@ -145,13 +121,12 @@ public partial class Parcelle : ContentPage
         bool isValid = true;
         // RESET ERRORS
         ERREURFERME.IsVisible = false;
-
         ERREURPARCELLE.IsVisible = false;
 
         // combo agriculteur
 
 
-        // 🔴 NOM
+
         if (string.IsNullOrWhiteSpace(ENTRYPARCELLE.Text))
         {
             ERREURPARCELLE.Text = "Nom obligatoire";
@@ -197,7 +172,7 @@ public partial class Parcelle : ContentPage
 
                 };
 
-                await _servicepareclle.Addparcelle(Ferme);
+                await _servicepareclle.Addparcelle(Ferme, societeId);
                 var snackbar = Snackbar.Make("Parcelle ajouté avec succès ✅", duration: TimeSpan.FromSeconds(3),
                     visualOptions: new SnackbarOptions
                     {
@@ -227,7 +202,6 @@ public partial class Parcelle : ContentPage
         await LoadData();
 
     }
-
     private async void SearchEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
 
@@ -273,7 +247,6 @@ public partial class Parcelle : ContentPage
         }
 
     }
-
     private void UPDATE_Invoked(object sender, EventArgs e)
     {
         var swipe = sender as SwipeItem;
@@ -299,7 +272,6 @@ public partial class Parcelle : ContentPage
         VALIDER.BackgroundColor = Colors.Orange;
 
     }
-
     private async void DELETE_Invoked(object sender, EventArgs e)
     {
 

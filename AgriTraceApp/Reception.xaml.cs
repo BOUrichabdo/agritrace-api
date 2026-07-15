@@ -1,9 +1,6 @@
 ﻿using AgriTraceApp.DTOs;
 using AgriTraceApp.Services;
-using Android.Widget;
-using Java.Util;
 using Microsoft.Maui.Graphics.Text;
-using System.Threading.Tasks;
 using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
 
@@ -63,7 +60,7 @@ public partial class Reception : ContentPage
         // RESET PICKERS
         // =========================
 
-        CMBETAT.SelectedItem = null;
+        CMBETAT.SelectedItem  = null;
 
         CMBTYPE.SelectedItem = null;
 
@@ -187,7 +184,6 @@ public partial class Reception : ContentPage
 
         }
 
-           
 
 
 
@@ -493,7 +489,7 @@ public partial class Reception : ContentPage
 
                 HorizontalOptions = LayoutOptions.Fill
             };
-            newCameraView.BarcodesDetected += NewCameraView_BarcodesDetected1; 
+            newCameraView.BarcodesDetected += NewCameraView_BarcodesDetected1;
 
             // Vider le conteneur et ajouter la nouvelle caméra
             CameraContainer.Children.Clear();
@@ -872,7 +868,7 @@ public partial class Reception : ContentPage
 
         LoadingIndicator.IsVisible = true;
         LoadingIndicator.IsRunning = true;
-
+        //LoadingIndicator.IsRunning = false;
         if (!ValidateForm())
 
         {

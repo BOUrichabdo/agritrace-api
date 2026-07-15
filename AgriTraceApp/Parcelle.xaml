@@ -30,7 +30,8 @@
                 <Label x:Name="ERREURFERME"  TextColor="Red" IsVisible="False"/>
 
 
-                <Button Text="Ajouter" x:Name="VALIDER"  Clicked="VALIDER_Clicked"  BackgroundColor="#2E7D32" TextColor="White"/>
+                <Button Text="Ajouter" x:Name = "VALIDER"  Clicked="VALIDER_Clicked"  BackgroundColor="#2E7D32" TextColor="White"/>
+                
             </VerticalStackLayout>
 
         </Border>
@@ -45,7 +46,7 @@
 
         </Border>
 
-
+            
 
         <!-- 📋 LISTE (SCROLL OK) -->
         <CollectionView x:Name="LISTEPARCELLE"

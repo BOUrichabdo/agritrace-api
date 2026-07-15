@@ -128,7 +128,7 @@ public partial class TEXTERCAMERA : ContentPage
         });
     }
 
-  
+
 }
 
 

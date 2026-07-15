@@ -1,55 +1,54 @@
 ﻿using AgriTraceApp.Models;
 using AgriTraceApp.Services;
-using Android.Locations;
-using Android.Provider;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Maui.Controls;
-using System.Diagnostics.Metrics;
+using Xamarin.KotlinX.Coroutines;
 
 namespace AgriTraceApp;
 
 public partial class Agriculteur : ContentPage
 {
-    // varible pour gerer modification 
+    // varible pour gerer modification Modification Mode
     private bool isEditMode = false;
-    // id agiculteur selectionné pour modification
+    // id agiculteur selectionné pour modification  ID agriculteur 
     private int selectedId = 0;
-
-    private int societeId; 
-
+    // societe ID 
+    private int societeId;
     // filtrage 
     private List<AgriculteurModel> _agriculteur = new();
     private CancellationTokenSource? _cts;
     private AgriculteurService _service = new AgriculteurService();
 
     public Agriculteur()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
+        // recuprere Id societe depuis Preferences
         societeId = Preferences.Get("societeId", 0);
 
     }
-
+    // load data when page appears
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        // remplire la liste des agriculteurs
         await LoadData();
     }
+    // methode remplire la liste des agriculteurs avec filtrage par societeId
     private async Task LoadData()
     {
-
-        if (societeId <= 0)
+        // verification Id siciete 
+        if (societeId <= 0) 
         {
             await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
             return;
         }
 
-        // Appel du service avec le societeId
+        // Appel du service avec le societeId  
         _agriculteur = await _service.GetAgriculteurs(societeId);
+        // afficher la liste des agriculteurs dans la ListView
         AgriculteurList1.ItemsSource = _agriculteur;
 
-         //if (societeId <= 0)
+        //if (societeId <= 0)
         //{
         //    await DisplayAlert("Erreur", "Session invalide. Veuillez vous reconnecter.", "OK");
         //    // Optionnel : rediriger vers la page de connexion
@@ -74,10 +73,7 @@ public partial class Agriculteur : ContentPage
 
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
-    {
 
-    }
 
     private void BTNMODIFIER_Clicked(object sender, EventArgs e)
     {
@@ -287,7 +283,7 @@ public partial class Agriculteur : ContentPage
                 };
 
                 await _service.AddAgriculteur(
-                    
+
                     TXT_AGRICULTEUR.Text,
                     ADRESSE.Text,
                     TELE.Text,
@@ -341,11 +337,12 @@ public partial class Agriculteur : ContentPage
 
 
 
-        
+
 
 
     }
 
+    // actualiser form saisi agriculteur 
     private void ClearForm()
     {
         TXT_AGRICULTEUR.Text = "";
@@ -359,9 +356,10 @@ public partial class Agriculteur : ContentPage
         VALIDER.BackgroundColor = Color.FromArgb("#2E7D32");
     }
 
+    // suppression agriculteur avec confirmation
     private async void SwipeItem_Invoked(object sender, EventArgs e)
     {
-
+        // recuprere swipe 
         var swipeItem = sender as SwipeItem;
         int id = (int)swipeItem.CommandParameter;
 
@@ -376,15 +374,13 @@ public partial class Agriculteur : ContentPage
 
         try
         {
-            await _service.DeleteAgriculteur(id , societeId);
-
+            // Supprimer l'agriculteur via le service
+            await _service.DeleteAgriculteur(id, societeId);
+            // remplire la liste des agriculteurs après suppression
             await LoadData();
-
-
-
-            var snackbar = Snackbar.Make(
-          "Supprimé avec succès ✅",
-          duration: TimeSpan.FromSeconds(3),
+            // message de confirmation
+            var snackbar = Snackbar.Make("Supprimé avec succès ✅", duration: TimeSpan.FromSeconds(3),
+          // options visuel du snackbar
           visualOptions: new SnackbarOptions
           {
               BackgroundColor = Colors.Red,
@@ -395,8 +391,6 @@ public partial class Agriculteur : ContentPage
         }
         catch
         {
-    
-
             var snackbar = Snackbar.Make(
    "Erreur suppression ❌",
    duration: TimeSpan.FromSeconds(3),
@@ -411,57 +405,25 @@ public partial class Agriculteur : ContentPage
 
     }
 
-    private void SwipeItem_Invoked_1(object sender, EventArgs e)
-    {
 
-    }
 
-    private void SwipeItem_Invoked_2(object sender, EventArgs e)
-    {
-
-    }
-
-    private void Gauche_Invoked(object sender, EventArgs e)
-    {
-
-    }
 
     private async void DELETE_Invoked(object sender, EventArgs e)
     {
-
+        // recuperer l'item swipe
         var item = sender as SwipeItem;
         int id = (int)item.CommandParameter;
-
         bool confirm = await DisplayAlert("Confirmation", "Supprimer ?", "Oui", "Non");
-
         if (!confirm) return;
-
-        await _service.DeleteAgriculteur(id , societeId);
+        // suppression Agriculteur via le service avec ID et societeId
+        await _service.DeleteAgriculteur(id, societeId);
+        // remplire la liste des agriculteurs après suppression
         await LoadData();
-
+        // message de confirmation
         await Snackbar.Make("Supprimé ✅").Show();
 
     }
 
-    private async void UPDATE_Invoked(object sender, EventArgs e)
-    {
-
-        //var item = sender as SwipeItem;
-        //int id = (int)item.CommandParameter;
-
-        //var agriculteur = (await _service.GetAgriculteurs())
-        //                    .FirstOrDefault(x => x.Id == id);
-
-        //if (agriculteur == null)
-        //    return;
-
-        //// exemple simple : remplir formulaire
-        //TXT_AGRICULTEUR.Text = agriculteur.Nom;
-        //TELE.Text = agriculteur.Telephone;
-        //ADRESSE.Text = agriculteur.Adresse;
-
-        //await Snackbar.Make("Mode modification ✏️").Show();
-    }
 
     private void UPDATE_Invoked_1(object sender, EventArgs e)
     {
@@ -483,7 +445,6 @@ public partial class Agriculteur : ContentPage
         VALIDER.BackgroundColor = Colors.Orange;
 
     }
-
     private async void DELETE_Invoked_1(object sender, EventArgs e)
     {
 
@@ -499,7 +460,7 @@ public partial class Agriculteur : ContentPage
         if (!confirm)
             return;
 
-        await _service.DeleteAgriculteur(agri.Id , societeId);
+        await _service.DeleteAgriculteur(agri.Id, societeId);
         await LoadData();
 
         //// afficher infos supprimées dans formulaire (comme tu veux)

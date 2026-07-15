@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace AgriTraceApp
+﻿namespace AgriTraceApp
 {
     public partial class MainPage : ContentPage
     {
@@ -42,7 +40,7 @@ namespace AgriTraceApp
 
             //await Shell.Current.GoToAsync("///produit");
 
-            await Navigation.PushAsync( new Produit());
+            await Navigation.PushAsync(new Produit());
 
         }
         // affichage categorie
@@ -55,7 +53,7 @@ namespace AgriTraceApp
 
 
         }
-        private  void TapGestureRecognizer_Tapped_5(object sender, TappedEventArgs e)
+        private void TapGestureRecognizer_Tapped_5(object sender, TappedEventArgs e)
         {
 
         }
@@ -63,7 +61,7 @@ namespace AgriTraceApp
         {
 
         }
-        private  void TapGestureRecognizer_Tapped_7(object sender, TappedEventArgs e)
+        private void TapGestureRecognizer_Tapped_7(object sender, TappedEventArgs e)
         {
 
 

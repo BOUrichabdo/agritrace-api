@@ -9,9 +9,9 @@ public partial class Login : ContentPage
     private bool _isPasswordVisible = false;
 
     public Login()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     private async void BTNCONNECTER_Clicked(object sender, EventArgs e)
     {
@@ -61,7 +61,7 @@ public partial class Login : ContentPage
 
 
             }
-         
+
         }
         catch (Exception ex)
         {

@@ -16,7 +16,7 @@
                 <Entry Placeholder="Intitulé de la ferme" x:Name="FEREMEENTRY" TextChanged="FEREMEENTRY_TextChanged"/>
                 <Label x:Name="FERMEERREUR"  TextColor="Red" IsVisible="False"/>
 
-
+                
                  <!--Agriculteur (Picker)-->
                 <Picker Title="👨‍🌾 Choisir Agriculteur"
         x:Name="CMBOAGRI"

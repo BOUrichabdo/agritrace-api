@@ -29,9 +29,9 @@ public partial class Variete : ContentPage
 
     // instance service 
     public Variete()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     private async Task LoadData()
     {
@@ -181,7 +181,7 @@ public partial class Variete : ContentPage
         await LoadData();
     }
 
-    
+
 
     private async void SearchEntry_TextChanged(object sender, TextChangedEventArgs e)
     {

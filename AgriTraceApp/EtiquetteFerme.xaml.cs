@@ -1,12 +1,6 @@
 ﻿using AgriTraceApp.DTOs;
 using AgriTraceApp.Models;
 using AgriTraceApp.Services;
-using SkiaSharp;
-using System.Threading.Tasks;
-using ZXing;
-using ZXing.Common;
-using ZXing.QrCode;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AgriTraceApp;
 
@@ -401,7 +395,7 @@ public partial class EtiquetteFerme : ContentPage
         // DTO INSERTION create etioquette fereme 
         // =========================
 
-      
+
 
 
 
@@ -439,7 +433,7 @@ public partial class EtiquetteFerme : ContentPage
 
             return;
         }
-      
+
 
 
         // =========================
@@ -527,7 +521,7 @@ public partial class EtiquetteFerme : ContentPage
        "Actions",
        "Annuler",
        null,
-       
+
        "🧹 Réinitialiser tout"
    );
 

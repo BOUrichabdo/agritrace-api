@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AgriTraceApp.Models
+﻿namespace AgriTraceApp.Models
 {
     public class ProduitModel
     {
@@ -20,7 +14,7 @@ namespace AgriTraceApp.Models
 
         // 🌱 Variété
         public int VarieteId { get; set; }
-        
+
         public string? VarieteNom { get; set; }
 
         // 📦 Catégorie

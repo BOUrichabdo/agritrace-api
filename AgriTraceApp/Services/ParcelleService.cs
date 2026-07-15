@@ -1,10 +1,5 @@
 ﻿using AgriTraceApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgriTraceApp.Services
 {
@@ -16,24 +11,21 @@ namespace AgriTraceApp.Services
         {
             _httpClient = new HttpClient();
 
-            _httpClient.BaseAddress =
-                new Uri(ApiConfig.BaseUrl);
+            _httpClient.BaseAddress = new Uri(ApiConfig.BaseUrl);
+
         }
 
         // =========================
         // GET ALL PARCELLES par Id socuiete 
         // =========================
 
-         public async Task<List<ParcelleModel>> GetParcelle(int societeId)
+
+        public async Task<List<ParcelleModel>> GetParcelle(int societeId)
         {
             var result = await _httpClient
                 .GetFromJsonAsync<List<ParcelleModel>>($"Parcelle?societeId={societeId}");
             return result ?? new List<ParcelleModel>();
         }
-
-
-
-
         //public async Task<List<ParcelleModel>> GetParcelle(int societeId)
         //{
         //    var result =
@@ -50,15 +42,31 @@ namespace AgriTraceApp.Services
         // AJOUTER PARCELLE
         // =========================
 
-        public async Task Addparcelle(ParcelleModel model)
+        public async Task Addparcelle(ParcelleModel model, int societeId)
         {
-            var response =
-                await _httpClient.PostAsJsonAsync(
-                    "Parcelle",
-                    model);
+            var response = await _httpClient
+               .PostAsJsonAsync($"Parcelle?societeId={societeId}", model);
 
             response.EnsureSuccessStatusCode();
         }
+
+
+
+        // comment realiser cette partie pour ajouter un agriculteur avec societeId
+        //public async Task Addparcelle(string nom, string adresse, string telephone, int societeId)
+        //{
+        //    var dto = new { Nom = nom, Adresse = adresse, Telephone = telephone };
+        //    var response = await _httpClient
+        //        .PostAsJsonAsync($"Agriculteur?societeId={societeId}", dto);
+        //    response.EnsureSuccessStatusCode();
+        //}
+
+
+
+
+
+
+
 
         // =========================
         // MODIFIER PARCELLE
