@@ -26,11 +26,16 @@ public partial class Variete : ContentPage
     private List<ModeleVariete> _variete = new();
     private CancellationTokenSource _cts;
 
+    private int _societeId;
+
 
     // instance service 
     public Variete()
     {
         InitializeComponent();
+
+        _societeId = Preferences.Get("societeId", 0);
+
     }
 
     private async Task LoadData()
@@ -43,7 +48,7 @@ public partial class Variete : ContentPage
 
 
         // 🔥 stocker données dans la liste principale
-        _variete = await _servicevariete.GetVarietes();
+        _variete = await _servicevariete.GetVarietes(_societeId);
 
         // 🔥 afficher
         VarieteList.ItemsSource = _variete;
@@ -60,7 +65,7 @@ public partial class Variete : ContentPage
         isEditMode = false;
         selectedId = 0;
 
-        CMBOCATEGORIE.SelectedItem = null; // 🔥 reset picker
+        CMBOCATEGORIE.SelectedItem = null; 
 
 
         VALIDER.Text = "Ajouter";
@@ -87,7 +92,7 @@ public partial class Variete : ContentPage
 
     private async Task LoadCategories()
     {
-        _categorie = await _servicecategorie.GetCategorie();
+        _categorie = await _servicecategorie.GetCategorie(_societeId);
 
         CMBOCATEGORIE.ItemsSource = _categorie;
     }
@@ -136,7 +141,7 @@ public partial class Variete : ContentPage
                 Intitule = TXT_VARIETE.Text,
                 CategorieId = selectedAgri.Id
             };
-            await _servicevariete.UpdateVariete(agri);
+            await _servicevariete.UpdateVariete(agri , _societeId);
             await Snackbar.Make("Modifié avec succès ✏️").Show();
         }
         // insertion mode 
@@ -151,7 +156,7 @@ public partial class Variete : ContentPage
 
                 };
 
-                await _servicevariete.AddVariete(Ferme);
+                await _servicevariete.AddVariete(Ferme, _societeId);
                 var snackbar = Snackbar.Make("Variété ajouté avec succès ✅", duration: TimeSpan.FromSeconds(3),
                     visualOptions: new SnackbarOptions
                     {
@@ -270,7 +275,7 @@ public partial class Variete : ContentPage
         if (!confirm)
             return;
 
-        await _servicevariete.DeleteVariete(agri.Id);
+        await _servicevariete.DeleteVariete(agri.Id, _societeId);
         await LoadData();
 
         //// afficher infos supprimées dans formulaire (comme tu veux)

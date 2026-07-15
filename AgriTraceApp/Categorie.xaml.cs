@@ -12,6 +12,8 @@ public partial class Categorie : ContentPage
     private bool isEditMode = false;
     private int selectedId = 0;
 
+    private int _societeId;
+
     // filtrage 
     private List<ModeleCategorie> _categorie = new();
     private CancellationTokenSource _cts;
@@ -23,6 +25,9 @@ public partial class Categorie : ContentPage
     public Categorie()
     {
         InitializeComponent();
+
+        _societeId = Preferences.Get("societeId", 0);
+
     }
 
     private async Task LoadData()
@@ -32,7 +37,7 @@ public partial class Categorie : ContentPage
 
 
         // 🔥 stocker données dans la liste principale
-        _categorie = await _categorieservice.GetCategorie();
+        _categorie = await _categorieservice.GetCategorie(_societeId);
 
         // 🔥 afficher
         CategorieList.ItemsSource = _categorie;
@@ -148,7 +153,7 @@ public partial class Categorie : ContentPage
         if (!confirm)
             return;
 
-        await _categorieservice.DeletCategorie(agri.Id);
+        await _categorieservice.DeletCategorie(agri.Id , _societeId);
 
 
 
@@ -207,7 +212,7 @@ public partial class Categorie : ContentPage
 
 
             };
-            await _categorieservice.UpdateCategorie(agri);
+            await _categorieservice.UpdateCategorie(agri, _societeId);
             await Snackbar.Make("Modifié avec succès ✏️").Show();
         }
         else
@@ -221,7 +226,7 @@ public partial class Categorie : ContentPage
 
                 };
 
-                await _categorieservice.AddCategorie(categorie);
+                await _categorieservice.AddCategorie(categorie, _societeId);
 
                 var snackbar = Snackbar.Make(
                     "Catégorie ajouté avec succès ✅",
