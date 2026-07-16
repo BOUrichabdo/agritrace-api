@@ -105,7 +105,8 @@ namespace TracAgriApi.Controllers
             {
                 Nom = dto.Nom,
                 ParcelleId = dto.ParcelleId,
-                VarieteId = dto.VarieteId
+                VarieteId = dto.VarieteId,
+                SocieteId = societeId
             };
 
             _context.Produites.Add(produit);
