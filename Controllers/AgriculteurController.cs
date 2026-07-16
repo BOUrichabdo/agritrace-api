@@ -167,7 +167,38 @@ namespace TracAgriApi.Controllers
         {
             return _context.Agriculteurs.Any(e => e.Id == id);
         }
+
+
+        // GET: api/Ferme/byAgriculteur/{agriculteurId}?societeId={societeId}
+        [HttpGet("byAgriculteur/{agriculteurId}")]
+        public async Task<ActionResult<IEnumerable<FermeDto>>> GetByAgriculteur(
+            int agriculteurId,
+            [FromQuery] int societeId)
+        {
+            if (societeId <= 0)
+                return BadRequest("SocieteId invalide.");
+
+            // Vérifier que l'agriculteur existe et appartient à la société
+            var agriculteur = await _context.Agriculteurs
+                .FirstOrDefaultAsync(a => a.Id == agriculteurId && a.SocieteId == societeId);
+            if (agriculteur == null)
+                return NotFound("Agriculteur non trouvé ou non autorisé.");
+
+            var data = await _context.Fermes
+                .Where(f => f.AgriculteurId == agriculteurId)
+                .Select(f => new FermeDto
+                {
+                    Id = f.Id,
+                    NomFerme = f.NomFerme,
+                    AgriculteurId = f.AgriculteurId
+                })
+                .ToListAsync();
+
+            return Ok(data);
+        }
+
     }
+    
 }
 
 
@@ -276,6 +307,9 @@ namespace TracAgriApi.Controllers
 
 //            return Ok(existing);
 //        }
+
+
+
 
 
 //        [HttpGet("byAgriculteur/{agriculteurId}")]
