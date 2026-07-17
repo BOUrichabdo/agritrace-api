@@ -211,18 +211,20 @@ namespace TracAgriApi.Controllers
         }
 
         // GET: api/Produits/byparcelle/{parcelleId}?societeId={societeId}
+        // GET: api/Produits/byparcelle/{parcelleId}?societeId={societeId}
         [HttpGet("byparcelle/{parcelleId}")]
-        public async Task<ActionResult<IEnumerable<ProduitDto>>> GetProduitByParcelle(int parcelleId, [FromQuery] int societeId)
+        public async Task<ActionResult<IEnumerable<ProduitDto>>> GetProduitByParcelle(
+            int parcelleId,
+            [FromQuery] int societeId)
         {
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
-            // Vérifier que la parcelle appartient à la société
-            var parcelle = await _context.Parcelles
-                .Include(p => p.SocieteId)
-                .FirstOrDefaultAsync(p => p.Id == parcelleId && p.SocieteId == societeId);
+            // Vérifier que la parcelle existe et appartient à la société (propriété directe SocieteId)
+            var parcelleValide = await _context.Parcelles
+                .AnyAsync(p => p.Id == parcelleId && p.SocieteId == societeId);
 
-            if (parcelle == null)
+            if (!parcelleValide)
                 return NotFound("Parcelle non trouvée ou non autorisée.");
 
             var data = await _context.Produites
@@ -238,6 +240,9 @@ namespace TracAgriApi.Controllers
 
             return Ok(data);
         }
+
+
+
 
         // GET: api/Produits/byvariete/{varieteId}?societeId={societeId}
         [HttpGet("byvariete/{varieteId}")]
