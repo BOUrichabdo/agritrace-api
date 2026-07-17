@@ -56,7 +56,8 @@ namespace TracAgriApi.Services
                     VarieteId = etiquette.VarieteId,
                     QuantiteDisponible = Math.Round(reception.PoidsBrut, 2),
                     DateEntree = DateTime.UtcNow,
-                    EtatStock = "Disponible"
+                    EtatStock = "Disponible",
+                    SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
                 };
 
                 _context.Stocks.Add(stock);
@@ -73,7 +74,8 @@ namespace TracAgriApi.Services
                     StatutStock = "EN_STOCK",
                     DateCreation = DateTime.UtcNow,
                     Emplacement = "RECEPTION",
-                    ReceptionId = reception.Id
+                    ReceptionId = reception.Id,
+                    SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
                 };
 
                 _context.Palettes.Add(palette);

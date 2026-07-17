@@ -11,7 +11,6 @@ namespace TracAgriApi.Controllers
     public class EtiquetteFermeController : ControllerBase
     {
         private readonly AppDbContext _context;
-
         public EtiquetteFermeController(AppDbContext context)
         {
             _context = context;
@@ -240,7 +239,7 @@ namespace TracAgriApi.Controllers
 
 
 
-
+ 
 
 
 

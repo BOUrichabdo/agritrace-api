@@ -19,8 +19,6 @@ namespace TracAgriApi.Controllers
             _service = service;
             _dbContext = dbContext;
         }
-
-
         // ReceptionsController.cs - Ajoutez du logging
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateReceptionDto dto)
@@ -56,6 +54,7 @@ namespace TracAgriApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllReceptions()
         {
+            
             var receptions = await _dbContext.Receptions
                 .Include(r => r.EtiquetteFerme)
                     .ThenInclude(e => e.Agriculteur)
@@ -96,6 +95,7 @@ namespace TracAgriApi.Controllers
 
             return Ok(receptions);
         }
+
 
 
     }
