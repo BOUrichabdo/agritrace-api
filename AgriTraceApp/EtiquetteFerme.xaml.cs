@@ -24,9 +24,14 @@ public partial class EtiquetteFerme : ContentPage
     private EtiquetteDto? _etiquette;
     // code etiquette 
     private string qrText = string.Empty;
+
+    private int _societeId;
     public EtiquetteFerme()
     {
         InitializeComponent();
+
+        _societeId = Preferences.Get("societeId", 0);
+
     }
 
     protected override async void OnAppearing()
@@ -39,10 +44,10 @@ public partial class EtiquetteFerme : ContentPage
     // remplire information agriculteur dans le combo box
     private async Task LoadData()
     {
-        // 🔥 stocker données dans la liste agri
-        //_agriculteurs = await _serviceagriculteur.GetAgriculteurs();
-        //// 🔥 afficher
-        //CMBAGRICULTEUR.ItemsSource = _agriculteurs;
+         //🔥 stocker données dans la liste agri
+        _agriculteurs = await _serviceagriculteur.GetAgriculteurs(_societeId);
+        // 🔥 afficher
+        CMBAGRICULTEUR.ItemsSource = _agriculteurs;
     }
     // remplire parcelle a partir fereme 
     private async void CMBFERME_SelectedIndexChanged_2(object sender, EventArgs e)
@@ -60,20 +65,28 @@ public partial class EtiquetteFerme : ContentPage
         var _parcelle = CMBPARCELLE.SelectedItem as ParcelleModel;
         if (_parcelle == null) return;
         LBL_PARCELLE.Text = $"📍 Parcelle : {_parcelle.NomParcelle}";
-        _produit = await _serviceproduit.GetProduitByParcelle(_parcelle.Id);
+        _produit = await _serviceproduit.GetProduitByParcelle(_parcelle.Id , _societeId);
         CMBPRODUIT.ItemsSource = _produit;
         CMBPRODUIT.SelectedItem = null;
     }
     // remplire les ferem aprtir agriculteur
     private async void CMBAGRICULTEUR_SelectedIndexChanged_2(object sender, EventArgs e)
     {
+
         var agri = CMBAGRICULTEUR.SelectedItem as AgriculteurModel;
         LBL_AGRI.Text = $"👨‍🌾 Agriculteur : {agri?.Nom}";
         if (agri == null) return;
-        _fermes = await _serviceagriculteur.GetFermesByAgriculteur(agri.Id);
+        _fermes = await _serviceagriculteur.GetFermesByAgriculteur(agri.Id, _societeId);
         CMBFERME.ItemsSource = _fermes;
         CMBFERME.SelectedItem = null;
         CMBPARCELLE.ItemsSource = null;
+        //var agri = CMBAGRICULTEUR.SelectedItem as AgriculteurModel;
+        //LBL_AGRI.Text = $"👨‍🌾 Agriculteur : {agri?.Nom}";
+        //if (agri == null) return;
+        //_fermes = await _serviceagriculteur.GetFermesByAgriculteur(agri.Id);
+        //CMBFERME.ItemsSource = _fermes;
+        //CMBFERME.SelectedItem = null;
+        //CMBPARCELLE.ItemsSource = null;
 
     }
 
@@ -89,7 +102,7 @@ public partial class EtiquetteFerme : ContentPage
         // 🔢 code produit
         //LBL_CODE.Text = $"🔢 Code : PRD-{produit.Id}";
         // recup variete du produit
-        var variete = await _serviceproduit.GetVarieteByProduit(produit.VarieteId);
+        var variete = await _serviceproduit.GetVarieteByProduit(produit.VarieteId, _societeId);
         // verifier info variete
         if (variete != null)
         {
@@ -416,7 +429,7 @@ public partial class EtiquetteFerme : ContentPage
         // =========================
 
         _etiquette =
-            await _serviceetiquetteferme.GenererEtiquette(dto);
+            await _serviceetiquetteferme.GenererEtiquette(dto , _societeId);
 
 
 

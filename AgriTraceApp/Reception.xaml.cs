@@ -31,11 +31,16 @@ public partial class Reception : ContentPage
     string type;
 
     string observation;
+    private int _societeId;
     public Reception()
     {
         InitializeComponent();
 
         //SetSelectedMenu(0); // Accueil sélectionné par défaut
+
+
+
+        _societeId = Preferences.Get("societeId", 0);
 
 
 
@@ -424,13 +429,13 @@ public partial class Reception : ContentPage
     }
 
     // remplire info etiq
-    private async Task LoadEtiquette(string code)
+    private async Task LoadEtiquette(string code , int _idsociete)
     {
         try
         {
             var etiquette =
                 await _serviceetiquetteferme
-                .GetEtiquetteByCode(code);
+                .GetEtiquetteByCode(code , _idsociete);
 
             if (etiquette == null)
             {
@@ -547,7 +552,7 @@ public partial class Reception : ContentPage
                     await DisplayAlert("Erreur", "Veuillez scanner un QR code", "OK");
                     return;
                 }
-                await LoadEtiquette(txtQRCode.Text.Trim());
+                await LoadEtiquette(txtQRCode.Text.Trim(), _societeId);
 
                 // Optionnel : Vous pouvez maintenant utiliser ce QR code
                 // await TraiterQRCode(qrCode);
@@ -617,7 +622,7 @@ public partial class Reception : ContentPage
                 }
 
 
-                await LoadEtiquette(txtQRCode.Text.Trim());
+                await LoadEtiquette(txtQRCode.Text.Trim(), _societeId);
 
                 // Optionnel : Vous pouvez maintenant utiliser ce QR code
                 // await TraiterQRCode(qrCode);
@@ -745,7 +750,7 @@ public partial class Reception : ContentPage
             }
 
 
-            await LoadEtiquette(txtQRCode.Text.Trim());
+            await LoadEtiquette(txtQRCode.Text.Trim(), _societeId);
 
 
         }
@@ -1262,7 +1267,7 @@ public partial class Reception : ContentPage
                 // Charger les informations de l'étiquette
                 if (!string.IsNullOrWhiteSpace(txtQRCode.Text))
                 {
-                    await LoadEtiquette(txtQRCode.Text.Trim());
+                    await LoadEtiquette(txtQRCode.Text.Trim(), _societeId);
                 }
             }
             catch (Exception ex)

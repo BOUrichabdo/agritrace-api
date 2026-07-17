@@ -104,6 +104,26 @@ namespace AgriTraceApp.Services
         }
 
 
+        // recupere les ferme associer agriculteur par ID agriculteur Id societe
+
+        // Service AgriculteurService
+        public async Task<List<FermeModele>> GetFermesByAgriculteur(int agriculteurId, int societeId)
+        {
+            try
+            {
+                var data = await _httpClient
+                    .GetFromJsonAsync<List<FermeModele>>(
+                        $"Agriculteur/byAgriculteur/{agriculteurId}?societeId={societeId}"); // Note: le route est "Ferme", pas "Agriculteur"
+
+                return data ?? new List<FermeModele>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<FermeModele>();
+            }
+        }
+
 
 
         // =========================
@@ -120,22 +140,22 @@ namespace AgriTraceApp.Services
 
         // GET FERMES BY AGRICULTEUR
         // =========================
-        public async Task<List<FermeModele>> GetFermesByAgriculteur(int agriculteurId)
-        {
-            try
-            {
-                var data = await _httpClient
-                    .GetFromJsonAsync<List<FermeModele>>(
-                        $"Agriculteur/byAgriculteur/{agriculteurId}");
+        //public async Task<List<FermeModele>> GetFermesByAgriculteur(int agriculteurId)
+        //{
+        //    try
+        //    {
+        //        var data = await _httpClient
+        //            .GetFromJsonAsync<List<FermeModele>>(
+        //                $"Agriculteur/byAgriculteur/{agriculteurId}");
 
-                return data ?? new List<FermeModele>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return new List<FermeModele>();
-            }
-        }
+        //        return data ?? new List<FermeModele>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        return new List<FermeModele>();
+        //    }
+        //}
 
 
 

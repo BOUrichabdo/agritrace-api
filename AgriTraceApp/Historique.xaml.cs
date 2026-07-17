@@ -21,6 +21,8 @@ public partial class Historique : ContentPage
     private int pageActuelle = 1;
     private const int ITEMS_PAR_PAGE = 8;
     private int totalPages = 1;
+
+    private int _societeId;
     public Historique()
     {
         InitializeComponent();
@@ -46,6 +48,9 @@ public partial class Historique : ContentPage
 
         FiltreDate.PropertyChanged += OnFiltreChanged;
         FiltreProduit.SelectedValueChanged += OnFiltreChanged;
+
+        _societeId = Preferences.Get("societeId", 0);
+
 
 
     }
@@ -296,12 +301,11 @@ public partial class Historique : ContentPage
             LoadingIndicator.IsRunning = true;
 
             // Récupérer les produits
-            _produit = await _service.Getproduit();
-
+            _produit = await _service.GetProduit(_societeId);
             // Vider et remplir le PickerField
             FiltreProduit.Items.Clear();
-
-            // Ajouter l'option "Tous" par défaut
+             // Ajouter l'option "Tous" par défaut
+            FiltreProduit.Items.Add("Tous");
             FiltreProduit.Items.Add("Tous");
 
             // Ajouter les produits

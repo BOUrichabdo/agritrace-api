@@ -99,17 +99,12 @@ public partial class Variete : ContentPage
 
     private async void VALIDER_Clicked(object sender, EventArgs e)
     {
-
         // controle de saisie 
         bool isValid = true;
         // RESET ERRORS
         CategorieError.IsVisible = false;
-
         NomError.IsVisible = false;
-
         // combo agriculteur
-
-
         // 🔴 NOM
         if (string.IsNullOrWhiteSpace(TXT_VARIETE.Text))
         {
