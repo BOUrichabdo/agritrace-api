@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TracAgriApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260720150135_AddParcellesNavigation")]
+    [Migration("20260720202535_AddParcellesNavigation")]
     partial class AddParcellesNavigation
     {
         /// <inheritdoc />
