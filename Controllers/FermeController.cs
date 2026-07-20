@@ -142,20 +142,51 @@ namespace TracAgriApi.Controllers
             return NoContent();
         }
 
+
+
+
         // DELETE: api/ferme/5?societeId={societeId}
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteFerme(int id, [FromQuery] int societeId)
+        //{
+        //    if (societeId <= 0)
+        //        return BadRequest("SocieteId invalide.");
+        //    var ferme = await _context.Fermes
+        //        .Include(f => f.Agriculteur)
+        //        .FirstOrDefaultAsync(f => f.Id == id && f.Agriculteur.SocieteId == societeId);
+
+        //    if (ferme == null)
+        //        return NotFound("Ferme non trouvée ou non autorisée.");
+
+        //    _context.Fermes.Remove(ferme);
+        //    await _context.SaveChangesAsync();
+
+        //    return NoContent();
+        //}
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFerme(int id, [FromQuery] int societeId)
         {
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
+            // Charger la ferme avec ses parcelles (et éventuellement d'autres dépendances)
             var ferme = await _context.Fermes
                 .Include(f => f.Agriculteur)
+                .Include(f => f.Parcelles)      // 👈 Important : charger les parcelles
                 .FirstOrDefaultAsync(f => f.Id == id && f.Agriculteur.SocieteId == societeId);
 
             if (ferme == null)
                 return NotFound("Ferme non trouvée ou non autorisée.");
 
+            // Vérifier s'il y a des parcelles liées
+            if (ferme.Parcelles != null && ferme.Parcelles.Any())
+            {
+                return Conflict($"Impossible de supprimer cette ferme car elle possède {ferme.Parcelles.Count} parcelle(s) associée(s). Supprimez d'abord les parcelles.");
+            }
+
+            // Pas de parcelles => on peut supprimer
             _context.Fermes.Remove(ferme);
             await _context.SaveChangesAsync();
 

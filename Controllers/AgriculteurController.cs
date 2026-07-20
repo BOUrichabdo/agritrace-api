@@ -151,33 +151,23 @@ namespace TracAgriApi.Controllers
 
             // Charger l'agriculteur avec ses fermes
             var agriculteur = await _context.Agriculteurs
-                .Include(a => a.Fermes)  // 👈 important !
+                .Include(a => a.Fermes)  
                 .FirstOrDefaultAsync(a => a.Id == id && a.SocieteId == societeId);
+
 
             if (agriculteur == null)
                 return NotFound("Agriculteur non trouvé ou non autorisé.");
-
             // Vérifier s'il a des fermes
             if (agriculteur.Fermes != null && agriculteur.Fermes.Any())
             {
                 return Conflict($"Impossible de supprimer cet agriculteur car il possède {agriculteur.Fermes.Count} ferme(s) associée(s). Supprimez d'abord les fermes.");
             }
-
             // Pas de fermes => on peut supprimer
             _context.Agriculteurs.Remove(agriculteur);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
-
-
-
-
-
-
-
-
-
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteAgriculteur(int id, [FromQuery] int societeId)
         //{
@@ -203,10 +193,6 @@ namespace TracAgriApi.Controllers
         {
             return _context.Agriculteurs.Any(e => e.Id == id);
         }
-
-
-        
-
     }
     
 }
