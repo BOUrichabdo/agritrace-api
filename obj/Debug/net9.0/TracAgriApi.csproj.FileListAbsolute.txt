@@ -359,7 +359,6 @@ E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.build.json
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.build.json.cache
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.development.json
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgri.10735082.Up2Date
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.dll
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\refint\TracAgriApi.dll
