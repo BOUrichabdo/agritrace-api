@@ -171,23 +171,25 @@ namespace TracAgriApi.Controllers
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
-            // Charger la ferme avec ses parcelles (et éventuellement d'autres dépendances)
-            var ferme = await _context.Fermes
+            // Récupérer la ferme ET vérifier si elle a des parcelles en une seule requête
+            var fermeData = await _context.Fermes
                 .Include(f => f.Agriculteur)
-                .Include(f => f.Parcelles)      // 👈 Important : charger les parcelles
-                .FirstOrDefaultAsync(f => f.Id == id && f.Agriculteur.SocieteId == societeId);
+                .Where(f => f.Id == id && f.Agriculteur.SocieteId == societeId)
+                .Select(f => new
+                {
+                    Ferme = f,
+                    HasParcelles = _context.Parcelles.Any(p => p.FermeId == f.Id)
+                })
+                .FirstOrDefaultAsync();
 
-            if (ferme == null)
+            if (fermeData == null)
                 return NotFound("Ferme non trouvée ou non autorisée.");
 
-            // Vérifier s'il y a des parcelles liées
-            if (ferme.Parcelles != null && ferme.Parcelles.Any())
-            {
-                return Conflict($"Impossible de supprimer cette ferme car elle possède {ferme.Parcelles.Count} parcelle(s) associée(s). Supprimez d'abord les parcelles.");
-            }
+            if (fermeData.HasParcelles)
+                return Conflict("Impossible de supprimer cette ferme car elle possède des parcelles associées. Supprimez d'abord les parcelles.");
 
-            // Pas de parcelles => on peut supprimer
-            _context.Fermes.Remove(ferme);
+            // Supprimer la ferme
+            _context.Fermes.Remove(fermeData.Ferme);
             await _context.SaveChangesAsync();
 
             return NoContent();

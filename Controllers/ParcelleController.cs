@@ -147,25 +147,61 @@ public class ParcelleController : ControllerBase
     }
 
     // DELETE: api/parcelle/5?societeId={societeId}
+
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteParcelle(int id, [FromQuery] int societeId)
     {
         if (societeId <= 0)
             return BadRequest("SocieteId invalide.");
 
+        // 1. Vérifier que la parcelle existe et appartient à la société
         var parcelle = await _context.Parcelles
             .Include(p => p.Ferme)
-            .ThenInclude(f => f.Agriculteur)
+                .ThenInclude(f => f.Agriculteur)
             .FirstOrDefaultAsync(p => p.Id == id && p.Ferme.Agriculteur.SocieteId == societeId);
 
         if (parcelle == null)
             return NotFound("Parcelle non trouvée ou non autorisée.");
 
+        // 2. Vérifier les dépendances (étiquettes)
+        bool hasEtiquettes = await _context.EtiquetteFermes.AnyAsync(e => e.ParcelleId == id);
+        if (hasEtiquettes)
+            return Conflict("Impossible de supprimer cette parcelle car elle possède des étiquettes associées. Supprimez d'abord les étiquettes.");
+
+        // 3. Vérifier les dépendances (produits)
+        bool hasProduits = await _context.Produites.AnyAsync(p => p.ParcelleId == id);
+        if (hasProduits)
+            return Conflict("Impossible de supprimer cette parcelle car elle possède des produits associés. Supprimez d'abord les produits.");
+
+        // 4. Supprimer la parcelle
         _context.Parcelles.Remove(parcelle);
         await _context.SaveChangesAsync();
 
         return NoContent();
     }
+
+
+
+    //[HttpDelete("{id}")]
+    //public async Task<IActionResult> DeleteParcelle(int id, [FromQuery] int societeId)
+    //{
+    //    if (societeId <= 0)
+    //        return BadRequest("SocieteId invalide.");
+
+    //    var parcelle = await _context.Parcelles
+    //        .Include(p => p.Ferme)
+    //        .ThenInclude(f => f.Agriculteur)
+    //        .FirstOrDefaultAsync(p => p.Id == id && p.Ferme.Agriculteur.SocieteId == societeId);
+
+    //    if (parcelle == null)
+    //        return NotFound("Parcelle non trouvée ou non autorisée.");
+
+    //    _context.Parcelles.Remove(parcelle);
+    //    await _context.SaveChangesAsync();
+
+    //    return NoContent();
+    //}
 
     // GET: api/parcelle/byferme/{fermeId}?societeId={societeId}
     [HttpGet("byferme/{fermeId}")]
