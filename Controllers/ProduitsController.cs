@@ -193,21 +193,88 @@ namespace TracAgriApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int societeId)
         {
+
+
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
+
+
+
+
+            // 1. Vérifier que la parcelle existe et appartient à la société
             var produit = await _context.Produites
                 .Include(p => p.Parcelle)
-                    
+
                 .FirstOrDefaultAsync(p => p.Id == id && p.SocieteId == societeId);
+
+
+
 
             if (produit == null)
                 return NotFound("Produit non trouvé ou non autorisé.");
+
+
+
+
+            // vérifier les dépendances (stocks)
+
+            bool HasStock = await _context.Stocks.AnyAsync(e => e.ProduitId == id);
+            if (HasStock)
+                return Conflict("Impossible de supprimer ce produit car elle possède des produit en stock associées.");
+
+
+
+
+            // v&erifier les dépendances (palettes)
+            bool Haspalette = await _context.Palettes.AnyAsync(e => e.ProduitId == id);
+            if (Haspalette)
+                return Conflict("Impossible de supprimer ce produit car elle possède des produit palette en stock associées.");
+
+
+
+            // v&erifier les dépendances (Etiquette ferme)
+            bool Hasetiquetteferme = await _context.EtiquetteFermes.AnyAsync(e => e.ProduitId == id);
+            if (Hasetiquetteferme)
+                return Conflict("Impossible de supprimer ce produit car elle possède des produit étiquette ferme en stock associées.");
+
+
 
             _context.Produites.Remove(produit);
             await _context.SaveChangesAsync();
 
             return NoContent();
+
+            // 2. Vérifier les dépendances (étiquettes)
+           
+
+
+
+
+      
+
+
+
+
+
+            //if (societeId <= 0)
+            //    return BadRequest("SocieteId invalide.");
+
+            //var produit = await _context.Produites
+            //    .Include(p => p.Parcelle)
+
+            //    .FirstOrDefaultAsync(p => p.Id == id && p.SocieteId == societeId);
+
+
+
+
+            //if (produit == null)
+            //    return NotFound("Produit non trouvé ou non autorisé.");
+
+            //_context.Produites.Remove(produit);
+            //await _context.SaveChangesAsync();
+
+            //return NoContent();
         }
 
         // GET: api/Produits/byparcelle/{parcelleId}?societeId={societeId}
@@ -251,12 +318,20 @@ namespace TracAgriApi.Controllers
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
+
+
+
             var variete = await _context.Varietes
                 .Include(v => v.Categorie)
                 .FirstOrDefaultAsync(v => v.Id == varieteId && v.Categorie.SocieteId == societeId);
 
+
+
+
             if (variete == null)
                 return NotFound("Variété non trouvée ou non autorisée.");
+
+
 
             var dto = new VarieteDto
             {
@@ -268,6 +343,12 @@ namespace TracAgriApi.Controllers
 
             return Ok(dto);
         }
+
+
+
+
+
+
     }
 }
 

@@ -16,6 +16,7 @@
         public string Observation { get; set; } = string.Empty;
 
         // Informations étiquette ferme
+
         public string CodeQR { get; set; } = string.Empty;
         public string Agriculteur { get; set; } = string.Empty;
         public string Ferme { get; set; } = string.Empty;

@@ -100,19 +100,62 @@ namespace TracAgriApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int societeId)
         {
+
+            // gestion depondan de categorie
+
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
-            var categorie = await _context.Categories
-                .FirstOrDefaultAsync(c => c.Id == id && c.SocieteId == societeId);
 
-            if (categorie == null)
-                return NotFound("Catégorie non trouvée ou non autorisée.");
 
-            _context.Categories.Remove(categorie);
+            // Charger l'agriculteur avec ses fermes
+            var Categori = await _context.Categories
+                .Include(a => a.Varietes)
+                .FirstOrDefaultAsync(a => a.Id == id && a.SocieteId == societeId);
+
+
+
+
+
+            if (Categori == null)
+                return NotFound("Catégorie non trouvé ou non autorisé.");
+            // Vérifier s'il a des fermes
+
+
+
+            if (Categori.Varietes != null && Categori.Varietes.Any())
+            {
+                return Conflict($"Impossible de supprimer cet Catégorie car il possède {Categori.Varietes.Count} variété(s) associée(s). Supprimez d'abord les variétés.");
+            }
+
+
+
+            // Pas de categoris => on peut supprimer
+            _context.Categories.Remove(Categori);
             await _context.SaveChangesAsync();
 
-            return NoContent(); // ou Ok()
+            return NoContent();
+
+
+
+
+
+
+
+
+            //if (societeId <= 0)
+            //    return BadRequest("SocieteId invalide.");
+
+            //var categorie = await _context.Categories
+            //    .FirstOrDefaultAsync(c => c.Id == id && c.SocieteId == societeId);
+
+            //if (categorie == null)
+            //    return NotFound("Catégorie non trouvée ou non autorisée.");
+
+            //_context.Categories.Remove(categorie);
+            //await _context.SaveChangesAsync();
+
+            //return NoContent(); // ou Ok()
         }
     }
 }

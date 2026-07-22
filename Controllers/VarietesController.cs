@@ -145,9 +145,11 @@ namespace TracAgriApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int societeId)
         {
+
             if (societeId <= 0)
                 return BadRequest("SocieteId invalide.");
 
+            // 1. Vérifier que la parcelle existe et appartient à la société
             var variete = await _context.Varietes
                 .Include(v => v.Categorie)
                 .FirstOrDefaultAsync(v => v.Id == id && v.Categorie.SocieteId == societeId);
@@ -155,10 +157,57 @@ namespace TracAgriApi.Controllers
             if (variete == null)
                 return NotFound("Variété non trouvée ou non autorisée.");
 
+                
+
+            // 2. Vérifier les dépendances (étiquettes)
+            bool hasEtiquettes = await _context.EtiquetteFermes.AnyAsync(e => e.VarieteId == id);
+            if (hasEtiquettes)
+                return Conflict("Impossible de supprimer cette Variété car elle possède des étiquettes associées. Supprimez d'abord les étiquettes.");
+
+
+
+
+
+
+            // 3. Vérifier les dépendances (produits)
+            bool hasProduits = await _context.Produites.AnyAsync(p => p.VarieteId == id);
+            if (hasProduits)
+                return Conflict("Impossible de supprimer cette Variété car elle possède des produits associés. Supprimez d'abord les produits.");
+
+            // verification
+
+            qsf
+
+
+
+            // 4. Supprimer la parcelle
             _context.Varietes.Remove(variete);
             await _context.SaveChangesAsync();
 
             return NoContent();
+
+
+
+
+
+
+
+
+
+            //if (societeId <= 0)
+            //    return BadRequest("SocieteId invalide.");
+
+            //var variete = await _context.Varietes
+            //    .Include(v => v.Categorie)
+            //    .FirstOrDefaultAsync(v => v.Id == id && v.Categorie.SocieteId == societeId);
+
+            //if (variete == null)
+            //    return NotFound("Variété non trouvée ou non autorisée.");
+
+            //_context.Varietes.Remove(variete);
+            //await _context.SaveChangesAsync();
+
+            //return NoContent();
         }
     }
 }
