@@ -22,7 +22,7 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ListenAnyIP(int.Parse(port));
 });
 
-// ---------------- DATABASE ----------------
+// ---------------- DATABASE  verification cette partie de code  ----------------
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -90,6 +90,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<QrService>();
 builder.Services.AddScoped<PdfService>();
 builder.Services.AddScoped<IReceptionService, ReceptionService>();
+
+builder.Services.AddScoped<IStockService, StockService>(); // ou le nom exact de votre classe d'implémentation
 
 
 // ==========================================
