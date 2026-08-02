@@ -23,18 +23,18 @@ namespace TracAgriApi.Services
 
         public async Task<ReceptionResponseDto> CreateReceptionAsync(CreateReceptionDto dto)
         {
-            // 1. Récupérer l'étiquette avec ses relations (inclure Ferme)
+            // 1. Récupération de l'étiquette avec ses relations
             var etiquette = await _context.EtiquetteFermes
                 .Include(x => x.Produit)
                 .Include(x => x.Agriculteur)
                 .Include(x => x.Variete)
-                .Include(x => x.Ferme)   // indispensable
+                .Include(x => x.Ferme)
                 .FirstOrDefaultAsync(x => x.Id == dto.EtiquetteFermeId);
 
             if (etiquette == null)
                 throw new Exception($"Étiquette {dto.EtiquetteFermeId} introuvable");
 
-            // 2. Créer la réception
+            // 2. Création des entités
             var reception = new Reception
             {
                 EtiquetteFermeId = dto.EtiquetteFermeId,
@@ -48,7 +48,6 @@ namespace TracAgriApi.Services
                 SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
             };
 
-            // 3. Créer la palette (liée à la réception)
             var palette = new Palette
             {
                 CodePalette = $"PAL-{DateTime.Now:yyyyMMddHHmmss}",
@@ -60,10 +59,9 @@ namespace TracAgriApi.Services
                 DateCreation = DateTime.UtcNow,
                 Emplacement = "RECEPTION",
                 SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1,
-                Reception = reception   // lien de navigation
+                Reception = reception
             };
 
-            // 4. Créer le stock (lié à la réception)
             var stock = new Stock
             {
                 ProduitId = etiquette.ProduitId,
@@ -72,18 +70,18 @@ namespace TracAgriApi.Services
                 DateEntree = DateTime.UtcNow,
                 EtatStock = "Disponible",
                 SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1,
-                Reception = reception   // lien de navigation
+                Reception = reception
             };
 
-            // 5. Ajouter toutes les entités
+            // 3. Ajout
             _context.Receptions.Add(reception);
             _context.Palettes.Add(palette);
             _context.Stocks.Add(stock);
 
-            // 6. UN SEUL appel SaveChangesAsync (transaction automatique)
+            // 4. UN SEUL SaveChanges - transaction automatique
             await _context.SaveChangesAsync();
 
-            // 7. Construire la réponse
+            // 5. Retour
             return new ReceptionResponseDto
             {
                 ReceptionId = reception.Id,
@@ -103,7 +101,6 @@ namespace TracAgriApi.Services
                 CodeQR = etiquette.CodeEtiquette ?? string.Empty
             };
         }
-
 
 
 
