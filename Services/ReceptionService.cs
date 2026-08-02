@@ -23,101 +23,91 @@ namespace TracAgriApi.Services
 
         public async Task<ReceptionResponseDto> CreateReceptionAsync(CreateReceptionDto dto)
         {
-            var strategy = _context.Database.CreateExecutionStrategy();
+            // 1. Récupérer l'étiquette avec ses relations (inclure Ferme)
+            var etiquette = await _context.EtiquetteFermes
+                .Include(x => x.Produit)
+                .Include(x => x.Agriculteur)
+                .Include(x => x.Variete)
+                .Include(x => x.Ferme)   // indispensable
+                .FirstOrDefaultAsync(x => x.Id == dto.EtiquetteFermeId);
 
-            return await strategy.ExecuteInTransactionAsync<ReceptionResponseDto>(
-                async (ct) =>
-                {
-                    try
-                    {
-                        var etiquette = await _context.EtiquetteFermes
-                            .Include(x => x.Produit)
-                            .Include(x => x.Agriculteur)
-                            .Include(x => x.Variete)
-                            .Include(x => x.Ferme)
-                            .FirstOrDefaultAsync(x => x.Id == dto.EtiquetteFermeId, ct);
+            if (etiquette == null)
+                throw new Exception($"Étiquette {dto.EtiquetteFermeId} introuvable");
 
-                        if (etiquette == null)
-                            throw new Exception($"Etiquette {dto.EtiquetteFermeId} introuvable");
+            // 2. Créer la réception
+            var reception = new Reception
+            {
+                EtiquetteFermeId = dto.EtiquetteFermeId,
+                PoidsBrut = Math.Round(dto.PoidsBrut, 2),
+                Temperature = Math.Round(dto.Temperature, 2),
+                EtatProduit = dto.EtatProduit,
+                TypeProduit = dto.TypeProduit,
+                Observation = dto.Observation ?? string.Empty,
+                Utilisateur = dto.Utilisateur ?? "admin",
+                DateReception = DateTime.UtcNow,
+                SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
+            };
 
-                        var reception = new Reception
-                        {
-                            EtiquetteFermeId = dto.EtiquetteFermeId,
-                            PoidsBrut = Math.Round(dto.PoidsBrut, 2),
-                            Temperature = Math.Round(dto.Temperature, 2),
-                            EtatProduit = dto.EtatProduit,
-                            TypeProduit = dto.TypeProduit,
-                            Observation = dto.Observation ?? string.Empty,
-                            Utilisateur = dto.Utilisateur ?? "admin",
-                            DateReception = DateTime.UtcNow,
-                            SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
-                        };
+            // 3. Créer la palette (liée à la réception)
+            var palette = new Palette
+            {
+                CodePalette = $"PAL-{DateTime.Now:yyyyMMddHHmmss}",
+                ProduitId = etiquette.ProduitId,
+                PoidsBrut = Math.Round(dto.PoidsBrut, 2),
+                QuantiteDisponible = Math.Round(dto.PoidsBrut, 2),
+                EtatPalette = dto.EtatProduit,
+                StatutStock = "EN_STOCK",
+                DateCreation = DateTime.UtcNow,
+                Emplacement = "RECEPTION",
+                SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1,
+                Reception = reception   // lien de navigation
+            };
 
-                        _context.Receptions.Add(reception);
-                        await _context.SaveChangesAsync(ct);
+            // 4. Créer le stock (lié à la réception)
+            var stock = new Stock
+            {
+                ProduitId = etiquette.ProduitId,
+                VarieteId = etiquette.VarieteId,
+                QuantiteDisponible = Math.Round(reception.PoidsBrut, 2),
+                DateEntree = DateTime.UtcNow,
+                EtatStock = "Disponible",
+                SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1,
+                Reception = reception   // lien de navigation
+            };
 
-                        var palette = new Palette
-                        {
-                            CodePalette = $"PAL-{DateTime.Now:yyyyMMddHHmmss}",
-                            ProduitId = etiquette.ProduitId,
-                            PoidsBrut = Math.Round(dto.PoidsBrut, 2),
-                            QuantiteDisponible = Math.Round(dto.PoidsBrut, 2),
-                            EtatPalette = dto.EtatProduit,
-                            StatutStock = "EN_STOCK",
-                            DateCreation = DateTime.UtcNow,
-                            Emplacement = "RECEPTION",
-                            ReceptionId = reception.Id,
-                            SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
-                        };
+            // 5. Ajouter toutes les entités
+            _context.Receptions.Add(reception);
+            _context.Palettes.Add(palette);
+            _context.Stocks.Add(stock);
 
-                        var stock = new Stock
-                        {
-                            ReceptionId = reception.Id,
-                            ProduitId = etiquette.ProduitId,
-                            VarieteId = etiquette.VarieteId,
-                            QuantiteDisponible = Math.Round(reception.PoidsBrut, 2),
-                            DateEntree = DateTime.UtcNow,
-                            EtatStock = "Disponible",
-                            SocieteId = dto.SocieteId > 0 ? dto.SocieteId : 1
-                        };
+            // 6. UN SEUL appel SaveChangesAsync (transaction automatique)
+            await _context.SaveChangesAsync();
 
-                        _context.Stocks.Add(stock);
-                        _context.Palettes.Add(palette);
-                        await _context.SaveChangesAsync(ct);
-
-                        reception.PaletteId = palette.Id;
-                        await _context.SaveChangesAsync(ct);
-
-                        return new ReceptionResponseDto
-                        {
-                            ReceptionId = reception.Id,
-                            PaletteId = palette.Id,
-                            CodePalette = palette.CodePalette,
-                            PoidsBrut = palette.PoidsBrut,
-                            QuantiteDisponible = palette.QuantiteDisponible,
-                            DateReception = reception.DateReception,
-                            Temperature = reception.Temperature,
-                            Etat = reception.EtatProduit,
-                            Type = reception.TypeProduit,
-                            Observation = reception.Observation,
-                            Produit = etiquette.Produit?.Nom ?? string.Empty,
-                            Agriculteur = etiquette.Agriculteur?.Nom ?? string.Empty,
-                            Ferme = etiquette.Ferme?.NomFerme ?? string.Empty,
-                            Variete = etiquette.Variete?.Intitule ?? string.Empty,
-                            CodeQR = etiquette.CodeEtiquette ?? string.Empty
-                        };
-                    }
-                    catch (Exception ex)
-                    {
-                        // Loggez l'exception ici (serilog, console, etc.)
-                        Console.WriteLine($"Erreur dans CreateReceptionAsync : {ex}");
-                        throw;
-                    }
-                },
-                (ct) => Task.FromResult(true),
-                CancellationToken.None
-            );
+            // 7. Construire la réponse
+            return new ReceptionResponseDto
+            {
+                ReceptionId = reception.Id,
+                PaletteId = palette.Id,
+                CodePalette = palette.CodePalette,
+                PoidsBrut = palette.PoidsBrut,
+                QuantiteDisponible = palette.QuantiteDisponible,
+                DateReception = reception.DateReception,
+                Temperature = reception.Temperature,
+                Etat = reception.EtatProduit,
+                Type = reception.TypeProduit,
+                Observation = reception.Observation,
+                Produit = etiquette.Produit?.Nom ?? string.Empty,
+                Agriculteur = etiquette.Agriculteur?.Nom ?? string.Empty,
+                Ferme = etiquette.Ferme?.NomFerme ?? string.Empty,
+                Variete = etiquette.Variete?.Intitule ?? string.Empty,
+                CodeQR = etiquette.CodeEtiquette ?? string.Empty
+            };
         }
+
+
+
+
+
         //public async Task<ReceptionResponseDto> CreateReceptionAsync(CreateReceptionDto dto)
         //{
         //    using var transaction = await _context.Database.BeginTransactionAsync();
