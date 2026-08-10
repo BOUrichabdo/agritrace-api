@@ -40,6 +40,12 @@ public class StockService : IStockService
         // 4. déduction stock
         stock.QuantiteDisponible -= dto.QuantiteSortie;
 
+        var societeId = stock?.SocieteId ?? reception.SocieteId;
+
+        if (societeId == 0)
+            throw new Exception("Impossible de déterminer SocieteId pour la sortie");
+
+
         // 5. créer sortie
         var sortie = new SortieStock
         {
@@ -48,7 +54,7 @@ public class StockService : IStockService
             DateSortie = DateTime.Now,
             Utilisateur = dto.Utilisateur,
             Observation = dto.Observation,
-            SocieteId = stock.SocieteId
+            SocieteId = societeId
         };
 
         _context.SortieStocks.Add(sortie);
