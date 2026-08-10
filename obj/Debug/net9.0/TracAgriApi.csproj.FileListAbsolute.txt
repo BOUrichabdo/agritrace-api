@@ -365,4 +365,3 @@ E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\refint\TracAgriApi.dll
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.pdb
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.genruntimeconfig.cache
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\ref\TracAgriApi.dll
-E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
