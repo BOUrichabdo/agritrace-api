@@ -31,10 +31,21 @@ namespace TracAgriApi.Controllers
             }
             catch (Exception ex)
             {
+               
+
+                var inner = ex.InnerException;
+                while (inner?.InnerException != null)
+                    inner = inner.InnerException;
+
+                var errorMessage = inner?.Message ?? ex.Message;
+
                 return BadRequest(new
                 {
-                    message = ex.Message
+                    message = errorMessage,
+                    full = ex.ToString()   // optionnel, pour avoir tout le stack trace
                 });
+
+            
             }
         }
     }
