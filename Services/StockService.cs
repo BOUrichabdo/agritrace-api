@@ -51,7 +51,7 @@ public class StockService : IStockService
         {
             ReceptionId = reception.Id,
             QuantiteSortie = dto.QuantiteSortie,
-            DateSortie = DateTime.Now,
+            DateSortie = DateTime.UtcNow,
             Utilisateur = dto.Utilisateur,
             Observation = dto.Observation,
             SocieteId = societeId
