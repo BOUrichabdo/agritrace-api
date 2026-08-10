@@ -47,7 +47,8 @@ public class StockService : IStockService
             QuantiteSortie = dto.QuantiteSortie,
             DateSortie = DateTime.Now,
             Utilisateur = dto.Utilisateur,
-            Observation = dto.Observation
+            Observation = dto.Observation,
+            SocieteId = stock.SocieteId
         };
 
         _context.SortieStocks.Add(sortie);
