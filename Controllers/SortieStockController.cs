@@ -8,9 +8,7 @@ namespace TracAgriApi.Controllers
     [ApiController]
     public class SortieStockController : ControllerBase
     {
-
         private readonly IStockService _service;
-
         public SortieStockController(IStockService service)
         {
             _service = service;
