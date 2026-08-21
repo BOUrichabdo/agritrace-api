@@ -367,6 +367,7 @@ E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\TracAgriApi.genruntimeconfig.cach
 E:\Task\AgriTrace\TracAgriApi\obj\Debug\net9.0\ref\TracAgriApi.dll
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\appsettings.Development.json
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\appsettings.json
+G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.staticwebassets.runtime.json
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.staticwebassets.endpoints.json
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\LatoFont\Lato-Black.ttf
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\LatoFont\Lato-BlackItalic.ttf
@@ -387,7 +388,6 @@ G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\LatoFont\Lato-SemiBoldItalic.ttf
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\LatoFont\Lato-Thin.ttf
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\LatoFont\Lato-ThinItalic.ttf
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\LatoFont\OFL.txt
-G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.staticwebassets.runtime.json
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.exe
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.deps.json
 G:\Task\AgriTrace\TracAgriApi\bin\Debug\net9.0\TracAgriApi.runtimeconfig.json
