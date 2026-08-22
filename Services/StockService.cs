@@ -194,6 +194,7 @@ public class StockService : IStockService
 
         return new PaletteSortieDto
         {
+            Id = palette.Id,
             CodePalette = palette.CodePalette,
 
             Produit = palette.Produit != null

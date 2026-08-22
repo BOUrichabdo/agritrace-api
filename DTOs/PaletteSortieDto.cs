@@ -2,6 +2,9 @@
 {
     public class PaletteSortieDto
     {
+
+        public int Id { get; set; } 
+
         public string CodePalette { get; set; } = string.Empty;
 
         public string Produit { get; set; } = string.Empty;
